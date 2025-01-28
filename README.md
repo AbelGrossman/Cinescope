@@ -10,7 +10,7 @@ Fonctionnalité 3: Afficher page d’un film, avec les détails: affiche, date, 
 
 Fonctionnalité 4: Option de connexion login mdp (session cookies, pas besoin de BDD)
 
-Fonctionnalité 5: Possibilité de liker des films / faire des playlists
+Fonctionnalité 5: Possibilité de liker des films, les noter, les ajouter à une watchlist, faire des playlists
 
 
 ### API : https://developer.themoviedb.org/reference/list-create
