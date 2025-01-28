@@ -1,3 +1,36 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
+import { AboutComponent } from './components/about/about.component';
+import { AccountComponent } from './components/account/account.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { LoginComponent } from './components/login/login.component';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
+import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
+import { ResultsComponent } from './components/results/results.component';
+import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
+import { WatchlistComponent } from './components/watchlist/watchlist.component';
 
-export const routes: Routes = [];
+export const appRoutes: Routes = [
+    {path: '', component: HomeComponent }, 
+    {path: 'app-about', component: AboutComponent }, 
+    {path: 'app-account', component: AccountComponent },
+    {path: 'app-contact', component : ContactComponent},
+    {path: 'app-favorites', component: FavoritesComponent},
+    {path: 'app-footer', component: FooterComponent},
+    {path: 'app-header', component: HeaderComponent},
+    {path: 'app-home', component: HomeComponent},
+    {path: 'app-login', component: LoginComponent},
+    {path: 'app-movie-card', component: MovieCardComponent},
+    {path: 'app-movie-details', component: MovieDetailsComponent},
+    {path: 'app-movie-ratings', component: MovieRatingsComponent},
+    {path: 'app-results', component: ResultsComponent},
+    {path: 'app-sign-up', component: SignUpComponent},
+    {path: 'app-user-ratings', component: UserRatingsComponent},
+    {path: 'app-watchlist', component: WatchlistComponent},
+    {path: '**', redirectTo: '' } 
+];
