@@ -11,7 +11,6 @@ import { MovieCardComponent } from './components/movie-card/movie-card.component
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
 import { ResultsComponent } from './components/results/results.component';
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 
@@ -29,7 +28,6 @@ export const appRoutes: Routes = [
     {path: 'app-movie-details', component: MovieDetailsComponent},
     {path: 'app-movie-ratings', component: MovieRatingsComponent},
     {path: 'app-results', component: ResultsComponent},
-    {path: 'app-sign-up', component: SignUpComponent},
     {path: 'app-user-ratings', component: UserRatingsComponent},
     {path: 'app-watchlist', component: WatchlistComponent},
     {path: '**', redirectTo: '' } 
