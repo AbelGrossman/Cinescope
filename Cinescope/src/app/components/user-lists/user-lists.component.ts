@@ -1,12 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+
+
 
 @Component({
   selector: 'app-user-lists',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './user-lists.component.html',
   styleUrl: './user-lists.component.scss'
 })
-export class UserListsComponent {
+export class UserListsComponent implements OnInit {
+  private authService = inject(AuthService);
+  userLists: any[] = [];
+  newListName = '';
+  newListDescription = '';
 
+  ngOnInit() {
+    this.loadUserLists();
+  }
+
+  loadUserLists() {
+    this.authService.getUserLists().subscribe(
+      (response) => {
+        this.userLists = response.results || [];
+      },
+      (error) => {
+        console.error("Erreur lors de la récupération des listes :", error);
+      }
+    );
+  }
+
+  createList() {
+    if (this.newListName.trim()) {
+      this.authService.createList(this.newListName, this.newListDescription).subscribe(() => {
+        this.newListName = '';
+        this.newListDescription = '';
+        this.loadUserLists();
+      });
+    }
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +22,7 @@ export class MovieDetailsComponent implements OnInit {
       const movieId = Number(params.get('id'));
       if (movieId) {
         this.fetchMovieDetails(movieId);
+        this.fetchUserLists();
       }
     });
   }
@@ -49,17 +50,16 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
   
-
   fetchUserLists() {
     this.authService.getUserLists().subscribe((data) => {
-      this.userLists = data.results || []; // ✅ Store the lists in `userLists`
+      this.userLists = data.results || [];
     });
   }
 
   addToWatchlist() {
     if (this.movie) {
       this.authService.addToWatchlist(this.movie.id).subscribe(() => {
-        alert(`${this.movie.title} added to watchlist!`);
+        alert(`${this.movie.title} a été ajouté à la watchlist.`);
       });
     }
   }
@@ -67,7 +67,7 @@ export class MovieDetailsComponent implements OnInit {
   rateMovie() {
     if (this.movie) {
       this.authService.rateMovie(this.movie.id, this.rating).subscribe(() => {
-        alert(`You rated ${this.movie.title} with ${this.rating} stars!`);
+        alert(`Vous avez noté ${this.movie.title} avec ${this.rating} étoiles.`);
       });
     }
   }
@@ -75,9 +75,8 @@ export class MovieDetailsComponent implements OnInit {
   addToCustomList(listId: number) {
     if (this.movie) {
       this.authService.addToCustomList(listId, this.movie.id).subscribe(() => {
-        alert(`${this.movie.title} added to your list!`);
+        alert(`${this.movie.title} a été ajouté à la liste.`);
       });
     }
   }
 }
-

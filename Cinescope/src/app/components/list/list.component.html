@@ -1,0 +1,21 @@
+<div class="container mt-4">
+    <h2>Films de la liste</h2>
+
+    <div *ngIf="listMovies.length > 0; else noMovies">
+        <div class="row">
+            <div class="col-md-3 mb-4" *ngFor="let movie of listMovies">
+                <div class="card h-100">
+                    <img class="card-img-top" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie.title }}</h5>
+                        <button class="btn btn-danger" (click)="removeMovie(movie.id)">Retirer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noMovies>
+        <p>Aucun film ajouté.</p>
+    </ng-template>
+</div>

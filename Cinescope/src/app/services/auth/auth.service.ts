@@ -158,26 +158,6 @@ export class AuthService {
     );
   }
 
-  addToCustomList(listId: number, movieId: number): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/list/${listId}/add_item`,
-      { media_id: movieId },
-      {
-        params: { api_key: this.apiKey, session_id: this.sessionId },
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-      }
-    );
-  }
-
-  getUserLists(): Observable<any> {
-    return this.http.get(
-      `${this.apiUrl}/account/${this.accountId}/lists`,
-      {
-        params: { api_key: this.apiKey, session_id: this.sessionId }
-      }
-    );
-  }
-
   getFavorites(): Observable<any> {
     const accountId = localStorage.getItem('account_id');
     const sessionId = localStorage.getItem('session_id');
@@ -251,6 +231,67 @@ export class AuthService {
     );
   }
   
+
+  /**
+   * 1️⃣ Créer une nouvelle liste
+   */
+  createList(name: string, description: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/list?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+      {
+        name: name,
+        description: description,
+        language: "fr"
+      },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    );
+  }
+
+  /**
+   * 2️⃣ Récupérer les listes de l'utilisateur
+   */
+  getUserLists(): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/account/${this.accountId}/lists?api_key=${this.apiKey}&session_id=${this.sessionId}`
+    );
+  }
+
+  /**
+   * 3️⃣ Récupérer les films d'une liste
+   */
+  getListMovies(listId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/list/${listId}?api_key=${this.apiKey}`);
+  }
+
+  /**
+   * 4️⃣ Ajouter un film à une liste personnalisée
+   */
+  addToCustomList(listId: number, movieId: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/list/${listId}/add_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+      { media_id: movieId },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    );
+  }
+
+  /**
+   * 5️⃣ Supprimer un film d'une liste personnalisée
+   */
+  removeFromCustomList(listId: number, movieId: number): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/list/${listId}/remove_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+      { media_id: movieId },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    );
+  }
+
+
   
 
   

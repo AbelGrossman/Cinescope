@@ -1,5 +1,24 @@
 <div class="container mt-4">
     <h2>Your Custom Lists</h2>
     <p>Here are all lists you've created.</p>
-  </div>
-  
+
+    <div class="mb-3">
+        <input [(ngModel)]="newListName" class="form-control mb-2" placeholder="Nom de la liste">
+        <input [(ngModel)]="newListDescription" class="form-control mb-2" placeholder="Description de la liste">
+        <button class="btn btn-primary" (click)="createList()">Créer une liste</button>
+    </div>
+
+
+    <div *ngIf="userLists.length > 0; else noLists">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                *ngFor="let list of userLists">
+                <a [routerLink]="['/list', list.id]">{{ list.name }}</a>
+            </li>
+        </ul>
+    </div>
+
+    <ng-template #noLists>
+        <p>Aucune liste créée.</p>
+    </ng-template>
+</div>

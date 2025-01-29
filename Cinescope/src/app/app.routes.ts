@@ -14,6 +14,8 @@ import { ResultsComponent } from './components/results/results.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { UserListsComponent } from './components/user-lists/user-lists.component';
+import { ListComponent } from './components/list/list.component';
+
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent },
@@ -27,6 +29,7 @@ export const appRoutes: Routes = [
     {path: 'app-movie-details', component: MovieDetailsComponent},
     {path: 'app-movie-ratings', component: MovieRatingsComponent},
     {path: 'app-results', component: ResultsComponent},
+    { path: 'list/:id', component: ListComponent },
     { 
         path: 'app-account', 
         component: AccountComponent,
