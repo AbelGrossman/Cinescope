@@ -1,5 +1,22 @@
 <div class="container mt-4">
     <h2>Your Watchlist</h2>
     <p>Here are all the movies you've added to your watchlist.</p>
+      <div *ngIf="watchlistMovies.length > 0; else noWatchlist">
+          <div class="row">
+              <div class="col-md-3 mb-4" *ngFor="let movie of watchlistMovies">
+                  <div class="card h-100">
+                      <img class="card-img-top" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ movie.title }}</h5>
+                          <button class="btn btn-danger" (click)="removeFromWatchlist(movie.id)">Retirer de la Watchlist</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  
+      <ng-template #noWatchlist>
+          <p>Aucun film ajouté à votre watchlist.</p>
+      </ng-template>
   </div>
   

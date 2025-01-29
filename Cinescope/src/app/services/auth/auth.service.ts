@@ -123,19 +123,27 @@ export class AuthService {
   
   
   addToWatchlist(movieId: number): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+  
     return this.http.post(
-      `${this.apiUrl}/account/${this.accountId}/watchlist`,
+      `${this.apiUrl}/account/${accountId}/watchlist?api_key=${this.apiKey}&session_id=${sessionId}`,
       {
         media_type: 'movie',
         media_id: movieId,
         watchlist: true
       },
       {
-        params: { api_key: this.apiKey, session_id: this.sessionId },
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       }
     );
   }
+  
 
   rateMovie(movieId: number, rating: number): Observable<any> {
     return this.http.post(
@@ -206,6 +214,43 @@ export class AuthService {
       }
     );
   }
+
+  getWatchlist(): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+  
+    return this.http.get(
+      `${this.apiUrl}/account/${accountId}/watchlist/movies?api_key=${this.apiKey}&session_id=${sessionId}`
+    );
+  }
+  
+  removeFromWatchlist(movieId: number): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+  
+    return this.http.post(
+      `${this.apiUrl}/account/${accountId}/watchlist?api_key=${this.apiKey}&session_id=${sessionId}`,
+      {
+        media_type: 'movie',
+        media_id: movieId,
+        watchlist: false
+      },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    );
+  }
+  
   
 
   
