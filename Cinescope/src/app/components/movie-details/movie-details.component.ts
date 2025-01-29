@@ -38,11 +38,17 @@ export class MovieDetailsComponent implements OnInit {
   
   addToFavorites() {
     if (this.movie) {
-      this.authService.addToFavorites(this.movie.id).subscribe(() => {
-        alert(`${this.movie.title} added to favorites!`);
-      });
+      this.authService.addToFavorites(this.movie.id).subscribe(
+        () => {
+          alert(`${this.movie.title} a été ajouté aux favoris.`);
+        },
+        (error) => {
+          console.error('Erreur lors de l’ajout aux favoris :', error);
+        }
+      );
     }
   }
+  
 
   fetchUserLists() {
     this.authService.getUserLists().subscribe((data) => {

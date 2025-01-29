@@ -33,14 +33,6 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    const requestToken = localStorage.getItem('request_token');
-    if (requestToken && !this.authService.isLoggedIn()) {
-      this.authService.createSession(requestToken).subscribe((response) => {
-        if (response.session_id) {
-          this.authService.storeSessionId(response.session_id);
-          console.log('Session ID stored:', response.session_id);
-        }
-      });
-    }
+    this.authService.handleAuthCallback();
   }
 }
