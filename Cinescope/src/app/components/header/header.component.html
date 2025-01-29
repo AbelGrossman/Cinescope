@@ -1,28 +1,29 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-3">
-        <a class="navbar-brand"  href="#!"><img class="brand-logo" src="assets/video-camera.png" alt="logo" aria-hidden="true"></a>
+        <a class="navbar-brand" href="#!">
+            <img class="brand-logo" src="assets/video-camera.png" alt="logo">
+        </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="search-bar"><input type="text" class="form-control" placeholder="Start Scoping" aria-label="Search"></li>
+                <li class="search-bar">
+                    <input type="text" [(ngModel)]="searchQuery" 
+                           class="form-control" placeholder="Start Scoping"
+                           (keyup.enter)="searchMovies()">
+                </li>
             </ul>
         </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" [routerLink]="''">Home</a></li>
                 <li class="nav-item" *ngIf="!authService.isLoggedIn()"><a class="nav-link" [routerLink]="'/app-login'">Login</a></li>
                 <li class="nav-item" *ngIf="authService.isLoggedIn()"><a class="nav-link" [routerLink]="'/app-account'">Account</a></li>
-                <li class="nav-item" *ngIf="authService.isLoggedIn()"><a class="nav-link text-danger" (click)="logout()" style="cursor: pointer;">Logout</a></li>
+                <li class="nav-item" *ngIf="authService.isLoggedIn()">
+                    <a class="nav-link text-danger" (click)="logout()" style="cursor: pointer;">Logout</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-<div id="logoutToast" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-      <div class="toast-body">
-        You have successfully logged out.
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-    </div>
-  </div>
-  

@@ -64,13 +64,19 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  rateMovie() {
+  rateMovie(rating: number) {
     if (this.movie) {
-      this.authService.rateMovie(this.movie.id, this.rating).subscribe(() => {
-        alert(`Vous avez noté ${this.movie.title} avec ${this.rating} étoiles.`);
-      });
+      this.authService.rateMovie(this.movie.id, rating).subscribe(
+        () => {
+          alert(`Vous avez noté ${this.movie.title} avec ${rating} étoiles.`);
+        },
+        (error) => {
+          console.error("Erreur lors de la notation du film :", error);
+        }
+      );
     }
   }
+  
 
   addToCustomList(listId: number) {
     if (this.movie) {

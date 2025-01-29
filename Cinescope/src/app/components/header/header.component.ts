@@ -3,40 +3,47 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, FormsModule],
   providers: [AuthService],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
+  searchQuery: string = ''; // ✅ Stocker la recherche
   private authSubscription!: Subscription;
 
-  constructor (private router: Router, public authService:AuthService) {}
+  constructor(private router: Router, public authService: AuthService) {}
 
-  goToRoute(route: string): void{
+  goToRoute(route: string): void {
     this.router.navigate([route]);
   }
 
   ngOnInit(): void {
-    // ✅ Subscribe to login state changes
     this.authSubscription = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
-      console.log('Header Updated: Logged In:', this.isLoggedIn);
     });
   }
 
   logout() {
     this.authService.logout();
-    this.router.navigate(['/']); // Redirect to home after logout
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
+    }
+  }
+
+  searchMovies() {
+    if (this.searchQuery.trim()) {
+      this.router.navigate(['/search', this.searchQuery]);
     }
   }
 }

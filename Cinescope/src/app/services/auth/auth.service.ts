@@ -143,20 +143,7 @@ export class AuthService {
       }
     );
   }
-  
 
-  rateMovie(movieId: number, rating: number): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/movie/${movieId}/rating`,
-      {
-        value: rating
-      },
-      {
-        params: { api_key: this.apiKey, session_id: this.sessionId },
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-      }
-    );
-  }
 
   getFavorites(): Observable<any> {
     const accountId = localStorage.getItem('account_id');
@@ -232,9 +219,7 @@ export class AuthService {
   }
   
 
-  /**
-   * 1️⃣ Créer une nouvelle liste
-   */
+
   createList(name: string, description: string): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/list?api_key=${this.apiKey}&session_id=${this.sessionId}`,
@@ -249,25 +234,19 @@ export class AuthService {
     );
   }
 
-  /**
-   * 2️⃣ Récupérer les listes de l'utilisateur
-   */
+
   getUserLists(): Observable<any> {
     return this.http.get(
       `${this.apiUrl}/account/${this.accountId}/lists?api_key=${this.apiKey}&session_id=${this.sessionId}`
     );
   }
 
-  /**
-   * 3️⃣ Récupérer les films d'une liste
-   */
+
   getListMovies(listId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/list/${listId}?api_key=${this.apiKey}`);
   }
 
-  /**
-   * 4️⃣ Ajouter un film à une liste personnalisée
-   */
+
   addToCustomList(listId: number, movieId: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/list/${listId}/add_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
@@ -278,9 +257,7 @@ export class AuthService {
     );
   }
 
-  /**
-   * 5️⃣ Supprimer un film d'une liste personnalisée
-   */
+
   removeFromCustomList(listId: number, movieId: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/list/${listId}/remove_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
@@ -292,6 +269,51 @@ export class AuthService {
   }
 
 
+
+  getUserRatings(): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+  
+    return this.http.get(
+      `${this.apiUrl}/account/${accountId}/rated/movies?api_key=${this.apiKey}&session_id=${sessionId}`
+    );
+  }
+
+
+  rateMovie(movieId: number, rating: number): Observable<any> {
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!sessionId) {
+      console.error("Session ID manquant.");
+      return new Observable();
+    }
+  
+    return this.http.post(
+      `${this.apiUrl}/movie/${movieId}/rating?api_key=${this.apiKey}&session_id=${sessionId}`,
+      { value: rating },
+      {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      }
+    );
+  }
+
+  searchMovies(query: string): Observable<any> {
+    if (!query.trim()) {
+      return new Observable(); // Empêcher les requêtes vides
+    }
+  
+    return this.http.get(
+      `${this.apiUrl}/search/movie?api_key=${this.apiKey}&query=${encodeURIComponent(query)}`
+    );
+  }
+  
+  
+  
   
 
   

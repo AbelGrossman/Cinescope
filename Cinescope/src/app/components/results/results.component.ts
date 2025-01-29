@@ -1,12 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
+import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, MovieCardComponent],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss'
 })
-export class ResultsComponent {
+export class ResultsComponent implements OnInit {
+  private authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
+  searchResults: any[] = [];
+  searchQuery: string = '';
 
+  ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      this.searchQuery = params.get('query') || '';
+      if (this.searchQuery) {
+        this.searchMovies(this.searchQuery);
+      }
+    });
+  }
+
+  searchMovies(query: string) {
+    this.authService.searchMovies(query).subscribe(
+      (response) => {
+        this.searchResults = response.results || [];
+      },
+      (error) => {
+        console.error("Erreur lors de la recherche :", error);
+      }
+    );
+  }
 }

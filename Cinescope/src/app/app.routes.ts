@@ -30,6 +30,7 @@ export const appRoutes: Routes = [
     {path: 'app-movie-ratings', component: MovieRatingsComponent},
     {path: 'app-results', component: ResultsComponent},
     { path: 'list/:id', component: ListComponent },
+    { path: 'search/:query', component: ResultsComponent },
     { 
         path: 'app-account', 
         component: AccountComponent,

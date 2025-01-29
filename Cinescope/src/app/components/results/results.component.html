@@ -1,1 +1,15 @@
-<p>results works!</p>
+<div class="container mt-4">
+    <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
+
+    <div *ngIf="searchResults.length > 0; else noResults">
+        <div class="row">
+            <div class="col-md-3 mb-4" *ngFor="let movie of searchResults">
+                <app-movie-card [movie]="movie"></app-movie-card>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noResults>
+        <p>Aucun film trouvé.</p>
+    </ng-template>
+</div>
