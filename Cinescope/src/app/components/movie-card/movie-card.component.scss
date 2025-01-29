@@ -1,0 +1,14 @@
+.card {
+    transition: 0.3s;
+    cursor: pointer;
+  
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+  }
+  

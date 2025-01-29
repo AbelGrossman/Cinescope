@@ -13,22 +13,29 @@ import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.
 import { ResultsComponent } from './components/results/results.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
+import { UserListsComponent } from './components/user-lists/user-lists.component';
 
 export const appRoutes: Routes = [
-    {path: '', component: HomeComponent }, 
+    {path: '', component: HomeComponent },
+    {path: 'app-movie/:id', component: MovieDetailsComponent },
     {path: 'app-about', component: AboutComponent }, 
-    {path: 'app-account', component: AccountComponent },
     {path: 'app-contact', component : ContactComponent},
-    {path: 'app-favorites', component: FavoritesComponent},
     {path: 'app-footer', component: FooterComponent},
     {path: 'app-header', component: HeaderComponent},
-    {path: 'app-home', component: HomeComponent},
     {path: 'app-login', component: LoginComponent},
     {path: 'app-movie-card', component: MovieCardComponent},
     {path: 'app-movie-details', component: MovieDetailsComponent},
     {path: 'app-movie-ratings', component: MovieRatingsComponent},
     {path: 'app-results', component: ResultsComponent},
-    {path: 'app-user-ratings', component: UserRatingsComponent},
-    {path: 'app-watchlist', component: WatchlistComponent},
+    { 
+        path: 'app-account', 
+        component: AccountComponent,
+        children: [
+          { path: 'favorites', component: FavoritesComponent },
+          { path: 'watchlist', component: WatchlistComponent },
+          { path: 'user-ratings', component: UserRatingsComponent },
+          { path: 'user-lists', component: UserListsComponent}
+        ]
+      },
     {path: '**', redirectTo: '' } 
 ];
