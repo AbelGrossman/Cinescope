@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
+import { MovieService } from '../../services/movie/movie.service';
+
 
 @Component({
   selector: 'app-watchlist',
@@ -10,7 +11,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './watchlist.component.scss'
 })
 export class WatchlistComponent implements OnInit {
-  private authService = inject(AuthService);
+  private movieService = inject(MovieService);
   watchlistMovies: any[] = [];
 
   ngOnInit() {
@@ -18,7 +19,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   loadWatchlist() {
-    this.authService.getWatchlist().subscribe(
+    this.movieService.getWatchlist().subscribe(
       (response) => {
         this.watchlistMovies = response.results || [];
       },
@@ -29,7 +30,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   removeFromWatchlist(movieId: number) {
-    this.authService.removeFromWatchlist(movieId).subscribe(() => {
+    this.movieService.removeFromWatchlist(movieId).subscribe(() => {
       this.watchlistMovies = this.watchlistMovies.filter(movie => movie.id !== movieId);
     });
   }

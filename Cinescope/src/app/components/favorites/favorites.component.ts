@@ -1,8 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
-import { Observable } from 'rxjs';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { MovieService } from '../../services/movie/movie.service';
+
 
 
 @Component({
@@ -13,7 +14,7 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
   styleUrl: './favorites.component.scss'
 })
 export class FavoritesComponent implements OnInit {
-  private authService = inject(AuthService);
+  private movieService = inject(MovieService);
   favoriteMovies: any[] = [];
 
   ngOnInit() {
@@ -21,7 +22,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   loadFavorites() {
-    this.authService.getFavorites().subscribe(
+    this.movieService.getFavorites().subscribe(
       (response) => {
         this.favoriteMovies = response.results || [];
       },
@@ -32,8 +33,10 @@ export class FavoritesComponent implements OnInit {
   }
 
   removeFavorite(movieId: number) {
-    this.authService.removeFromFavorites(movieId).subscribe(() => {
+    this.movieService.removeFromFavorites(movieId).subscribe(() => {
       this.favoriteMovies = this.favoriteMovies.filter(movie => movie.id !== movieId);
     });
   }
+
+  
 }

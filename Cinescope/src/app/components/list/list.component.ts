@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { RouterModule } from '@angular/router';
+import { ListService } from '../../services/list/list.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './list.component.scss'
 })
 export class ListComponent implements OnInit {
-  private authService = inject(AuthService);
+  private listService = inject(ListService);
   private route = inject(ActivatedRoute);
   listId!: number;
   listMovies: any[] = [];
@@ -28,7 +29,7 @@ export class ListComponent implements OnInit {
   }
 
   loadListMovies() {
-    this.authService.getListMovies(this.listId).subscribe(
+    this.listService.getListMovies(this.listId).subscribe(
       (response) => {
         this.listMovies = response.items || [];
       },
@@ -39,7 +40,7 @@ export class ListComponent implements OnInit {
   }
 
   removeMovie(movieId: number) {
-    this.authService.removeFromCustomList(this.listId, movieId).subscribe(() => {
+    this.listService.removeFromCustomList(this.listId, movieId).subscribe(() => {
       this.listMovies = this.listMovies.filter(movie => movie.id !== movieId);
     });
   }

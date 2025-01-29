@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
+import { ListService } from '../../services/list/list.service';
+import { MovieService } from '../../services/movie/movie.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -12,7 +13,9 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class MovieDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private authService = inject(AuthService);
+  private movieService = inject(MovieService);
+  private listService = inject(ListService);
+
   movie: any;
   rating: number = 0;
   userLists: any[] = [];
@@ -28,7 +31,7 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   fetchMovieDetails(movieId: number) {
-    this.authService.getMovieDetails(movieId).subscribe((data) => {
+    this.movieService.getMovieDetails(movieId).subscribe((data) => {
       this.movie = data;
     });
   }
@@ -39,7 +42,7 @@ export class MovieDetailsComponent implements OnInit {
   
   addToFavorites() {
     if (this.movie) {
-      this.authService.addToFavorites(this.movie.id).subscribe(
+      this.movieService.addToFavorites(this.movie.id).subscribe(
         () => {
           alert(`${this.movie.title} a été ajouté aux favoris.`);
         },
@@ -51,14 +54,14 @@ export class MovieDetailsComponent implements OnInit {
   }
   
   fetchUserLists() {
-    this.authService.getUserLists().subscribe((data) => {
+    this.listService.getUserLists().subscribe((data) => {
       this.userLists = data.results || [];
     });
   }
 
   addToWatchlist() {
     if (this.movie) {
-      this.authService.addToWatchlist(this.movie.id).subscribe(() => {
+      this.movieService.addToWatchlist(this.movie.id).subscribe(() => {
         alert(`${this.movie.title} a été ajouté à la watchlist.`);
       });
     }
@@ -66,7 +69,7 @@ export class MovieDetailsComponent implements OnInit {
 
   rateMovie(rating: number) {
     if (this.movie) {
-      this.authService.rateMovie(this.movie.id, rating).subscribe(
+      this.movieService.rateMovie(this.movie.id, rating).subscribe(
         () => {
           alert(`Vous avez noté ${this.movie.title} avec ${rating} étoiles.`);
         },
@@ -80,7 +83,7 @@ export class MovieDetailsComponent implements OnInit {
 
   addToCustomList(listId: number) {
     if (this.movie) {
-      this.authService.addToCustomList(listId, this.movie.id).subscribe(() => {
+      this.listService.addToCustomList(listId, this.movie.id).subscribe(() => {
         alert(`${this.movie.title} a été ajouté à la liste.`);
       });
     }

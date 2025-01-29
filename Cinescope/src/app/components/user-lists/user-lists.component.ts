@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { ListService } from '../../services/list/list.service';
 
 
 
@@ -14,7 +15,7 @@ import { Router, RouterModule } from '@angular/router';
   styleUrl: './user-lists.component.scss'
 })
 export class UserListsComponent implements OnInit {
-  private authService = inject(AuthService);
+  private listService = inject(ListService);
   userLists: any[] = [];
   newListName = '';
   newListDescription = '';
@@ -24,7 +25,7 @@ export class UserListsComponent implements OnInit {
   }
 
   loadUserLists() {
-    this.authService.getUserLists().subscribe(
+    this.listService.getUserLists().subscribe(
       (response) => {
         this.userLists = response.results || [];
       },
@@ -36,7 +37,7 @@ export class UserListsComponent implements OnInit {
 
   createList() {
     if (this.newListName.trim()) {
-      this.authService.createList(this.newListName, this.newListDescription).subscribe(() => {
+      this.listService.createList(this.newListName, this.newListDescription).subscribe(() => {
         this.newListName = '';
         this.newListDescription = '';
         this.loadUserLists();

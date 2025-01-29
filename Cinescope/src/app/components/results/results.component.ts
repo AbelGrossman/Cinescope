@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
+import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 @Component({
@@ -12,7 +12,7 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
   styleUrl: './results.component.scss'
 })
 export class ResultsComponent implements OnInit {
-  private authService = inject(AuthService);
+  private movieService = inject(MovieService);
   private route = inject(ActivatedRoute);
   searchResults: any[] = [];
   searchQuery: string = '';
@@ -27,7 +27,7 @@ export class ResultsComponent implements OnInit {
   }
 
   searchMovies(query: string) {
-    this.authService.searchMovies(query).subscribe(
+    this.movieService.searchMovies(query).subscribe(
       (response) => {
         this.searchResults = response.results || [];
       },

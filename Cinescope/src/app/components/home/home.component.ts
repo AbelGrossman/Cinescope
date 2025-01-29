@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
+import { MovieService } from '../../services/movie/movie.service';
 import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 
@@ -15,10 +15,10 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
 export class HomeComponent implements OnInit {
   trendingMovies: any[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(private movieSerivce: MovieService) {}
 
   ngOnInit(): void {
-    this.authService.getTrendingMovies().subscribe((response) => {
+    this.movieSerivce.getTrendingMovies().subscribe((response) => {
       this.trendingMovies = response.results;
       console.log("Trending Movies :", this.trendingMovies);
     });

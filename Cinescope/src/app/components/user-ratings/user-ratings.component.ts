@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
+import { MovieService } from '../../services/movie/movie.service';
+
 
 @Component({
   selector: 'app-user-ratings',
@@ -10,7 +12,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './user-ratings.component.scss'
 })
 export class UserRatingsComponent implements OnInit {
-  private authService = inject(AuthService);
+  private movieService = inject(MovieService);
   ratedMovies: any[] = [];
 
   ngOnInit() {
@@ -18,7 +20,7 @@ export class UserRatingsComponent implements OnInit {
   }
 
   loadUserRatings() {
-    this.authService.getUserRatings().subscribe(
+    this.movieService.getUserRatings().subscribe(
       (response) => {
         this.ratedMovies = response.results || [];
       },
