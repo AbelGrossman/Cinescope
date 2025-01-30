@@ -32,26 +32,12 @@ import { HttpClientModule } from '@angular/common/http';
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  sessionId: string | null = null;
+  sessionId: string = "";
 
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log("Utilisateur logged in : " + this.authService.isLoggedIn())
-    if (this.authService.isLoggedIn()) {
-      const requestToken = localStorage.getItem('request_token');
-      console.log('Request Token après redirection :', requestToken);
-
-      if (requestToken) {
-        this.authService.createSession(requestToken).subscribe((response) => {
-          this.sessionId = response.session_id;
-          console.log("")
-          if (this.sessionId) {
-            localStorage.setItem('session_id', this.sessionId);
-            console.log('Session ID stocké :', this.sessionId);
-          }
-        });
-      }
-    }
+    this.authService.handleAuthCallback();
   }
+  
 }
