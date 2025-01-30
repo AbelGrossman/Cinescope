@@ -3,11 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie/movie.service';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
+import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MovieCardComponent, ListMovieCardComponent],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss'
 })

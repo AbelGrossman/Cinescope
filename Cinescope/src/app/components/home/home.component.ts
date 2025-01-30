@@ -8,9 +8,7 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [
-    CommonModule, MovieCardComponent
-  ]
+  imports: [CommonModule, MovieCardComponent]
 })
 export class HomeComponent implements OnInit {
   trendingMovies: any[] = [];

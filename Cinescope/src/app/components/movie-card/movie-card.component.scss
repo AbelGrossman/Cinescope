@@ -1,14 +1,131 @@
-.card {
-    transition: 0.3s;
-    cursor: pointer;
-  
-    &:hover {
-      transform: scale(1.05);
+.movie-card {
+  display: block;
+  width: 200px;
+  text-decoration: none;
+  color: #000;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  position: relative;
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  .image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    border-radius: 12px;
+
+    .poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
     }
-  
-    .card-title {
-      font-size: 1.2rem;
-      font-weight: bold;
+
+    &:hover .poster {
+      transform: scale(1.1);
+    }
+
+    .options-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s ease-in-out;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
     }
   }
-  
+
+  .movie-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+
+    .movie-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 0;
+      color: #333;
+    }
+
+    .movie-details {
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: #757575;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      span {
+        color: #ffba00;
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .movie-actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+
+    .btn {
+      padding: 5px 10px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      color: #fff;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .actions-menu {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    button {
+      background: none;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-align: left;
+      width: 100%;
+      transition: background 0.2s ease-in-out;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+    }
+  }
+}

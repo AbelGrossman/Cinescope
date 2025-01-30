@@ -1,9 +1,31 @@
-<a class="card h-100 text-decoration-none" [routerLink]="['/app-movie', movie.id]">
-  <img class="card-img-top" 
-       [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
-       alt="{{ movie.title }}" />
-  <div class="card-body">
-    <h2 class="card-title">{{ movie.title }}</h2>
-    <p class="card-text">{{ movie.overview?.slice(0, 100) }}...</p>
+<a class="movie-card" [routerLink]="['/app-movie', movie.id]">
+  <div class="image-wrapper">
+    <img class="poster" 
+         [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
+         alt="{{ movie.title }}" />
+
+    <!-- Bouton "..." pour afficher les actions dans le contexte "Search" -->
+    <div *ngIf="context === 'search'" class="options-btn" (click)="toggleActions($event)">...</div>
+  </div>
+
+  <div class="movie-info">
+    <h2 class="movie-title">{{ movie.title }}</h2>
+    <p class="movie-details">
+      <span>⭐</span> {{ movie.vote_average | number: '1.1-1' }} | {{ movie.release_date | date: 'y' }}
+    </p>
   </div>
 </a>
+
+<!-- Menu des actions (visible uniquement dans "Search" quand l'option est activée) -->
+<div class="actions-menu" *ngIf="isActive() && context === 'search'">
+  <button (click)="addToFavorites()">Add to Favorites</button>
+  <button (click)="addToWatchlist()">Add to Watchlist</button>
+  <button *ngFor="let list of userLists" (click)="addToCustomList(list.id)">{{ list.name }}</button>
+</div>
+
+<!-- Boutons d'action pour les autres contextes -->
+<div class="movie-actions">
+  <button *ngIf="context === 'favorites'" class="btn btn-danger" (click)="removeFromFavorites()">Remove from Favorites</button>
+  <button *ngIf="context === 'watchlist'" class="btn btn-danger" (click)="removeFromWatchlist()">Remove from Watchlist</button>
+  <button *ngIf="context === 'list'" class="btn btn-danger" (click)="removeFromList(movie.id)">Remove from List</button>
+</div>

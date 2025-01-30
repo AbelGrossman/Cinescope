@@ -8,10 +8,13 @@ import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
 import { AccountComponent } from './components/account/account.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { FavoritesComponent } from './components/favorites/favorites.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
 import { ResultsComponent } from './components/results/results.component';
+import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
+import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -19,10 +22,11 @@ import { HttpClientModule } from '@angular/common/http';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, AboutComponent, AccountComponent, 
-    ContactComponent, FooterComponent, HeaderComponent, 
-    HomeComponent, LoginComponent, MovieCardComponent,
-    MovieDetailsComponent, MovieRatingsComponent,ResultsComponent,
-    HttpClientModule],
+    ContactComponent, FavoritesComponent, FooterComponent, 
+    HeaderComponent, HomeComponent, LoginComponent, 
+    MovieCardComponent, MovieDetailsComponent, MovieRatingsComponent,
+  ResultsComponent, UserRatingsComponent, WatchlistComponent,
+  HttpClientModule],
   providers: [AuthService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -33,6 +37,21 @@ export class AppComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.handleAuthCallback();
+    console.log("Utilisateur logged in : " + this.authService.isLoggedIn())
+    if (this.authService.isLoggedIn()) {
+      const requestToken = localStorage.getItem('request_token');
+      console.log('Request Token après redirection :', requestToken);
+
+      if (requestToken) {
+        this.authService.createSession(requestToken).subscribe((response) => {
+          this.sessionId = response.session_id;
+          console.log("")
+          if (this.sessionId) {
+            localStorage.setItem('session_id', this.sessionId);
+            console.log('Session ID stocké :', this.sessionId);
+          }
+        });
+      }
+    }
   }
 }

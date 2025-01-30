@@ -1,31 +1,18 @@
 <div class="container px-4 px-lg-5">
-
-    <div class="card text-white bg-secondary my-5 py-4 text-center">
-        <div class="card-body">
-            <p class="text-white m-0">Découvrez les films tendances du moment et ajoutez-les à votre watchlist !</p>
-        </div>
+  <div class="card text-white bg-secondary my-5 py-4 text-center">
+    <div class="card-body">
+      <p class="text-white m-0">
+        Découvrez les films tendances du moment et ajoutez-les à votre watchlist
+        !
+      </p>
     </div>
-
-    <!-- <div class="row gx-4 gx-lg-5">
-        <div class="col-md-4 mb-5" *ngFor="let movie of trendingMovies.slice(0, 22)">
-            <div class="card h-100">
-                <img class="card-img-top" 
-                     [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" 
-                     alt="{{ movie.title }}" />
-                <div class="card-body">
-                    <h2 class="card-title">{{ movie.title }}</h2>
-                    <p class="card-text">{{ movie.overview?.slice(0, 100) }}...</p>
-                </div>
-                <div class="card-footer">
-                    <a class="btn btn-primary btn-sm">Voir détails</a>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-    <div class="row gx-4 gx-lg-5">
-        <div class="col-md-4 mb-5" *ngFor="let movie of trendingMovies">
-          <app-movie-card [movie]="movie"></app-movie-card>
-        </div>
+  </div>
+  <div class="row gx-4 gx-lg-5">
+    <div
+      class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+      *ngFor="let movie of trendingMovies"
+    >
+      <app-movie-card [movie]="movie"></app-movie-card>
     </div>
+  </div>
 </div>
