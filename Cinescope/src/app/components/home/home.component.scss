@@ -34,3 +34,11 @@
         grid-template-columns: 1fr;
     }    
   }
+
+  .filters{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }

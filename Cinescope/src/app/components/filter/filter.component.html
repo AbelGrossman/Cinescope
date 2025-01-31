@@ -1,0 +1,56 @@
+
+<div class="dropdown">
+    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+      Filter
+    </button>
+    
+    <div class="dropdown-menu p-3 w-100 filter-dropdown" style="min-width: 280px;">
+  
+      <label class="form-label">Genre</label>
+      <select class="form-control" [(ngModel)]="filters.genre" (change)="applyFilters()">
+        <option value="">All Genres</option>
+        <option value="28">Action</option>
+        <option value="35">Comedy</option>
+        <option value="18">Drama</option>
+        <option value="27">Horror</option>
+        <option value="878">Science Fiction</option>
+        <option value="53">Thriller</option>
+        <option value="10752">War</option>
+        <option value="37">Western</option>
+        <option value="12">Adventure</option>
+        <option value="16">Animation</option>
+        <option value="80">Crime</option>
+        <option value="99">Documentary</option>
+        <option value="10751">Family</option>
+        <option value="14">Fantasy</option>
+        <option value="36">History</option>
+        <option value="10402">Music</option>
+        <option value="9648">Mystery</option>
+        <option value="10770">TV Movie</option>
+        <option value="10749">Romance</option>
+      </select>
+  
+      <label class="form-label">Min Rating</label>
+      <select class="form-select mb-2" [(ngModel)]="filters.minRating" (change)="applyFilters()">
+        <option value="">Any</option>
+        <option *ngFor="let rating of ratingOptions" [value]="rating">{{ rating }}</option>
+      </select>
+  
+      <label class="form-label">Year</label>
+      <input type="number" class="form-control mb-2" [(ngModel)]="filters.year" (input)="applyFilters()" min="1850" max="2025" placeholder="YYYY">
+  
+        <button class="btn btn-outline-secondary" (click)="toggleSortOrder()">
+            {{ filters.sortOrder === 'desc' ? 'acs' : 'desc' }}
+        </button>
+      <label class="form-label">Sort By</label>
+      <div class="d-flex align-items-center">
+            <select class="form-select mb-2" [(ngModel)]="filters.sortBy" (change)="applyFilters()">
+                <option value="popularity">Popularity</option>
+                <option value="vote_average">Rating</option>
+                <option value="release_date">Release Date</option>
+                <option value="revenue">Revenue</option>   
+            </select>
+      </div>
+        
+    </div>
+</div>

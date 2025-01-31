@@ -11,3 +11,55 @@ h1 {
     max-height: 500px;
   }
   
+
+  .rating {
+    .star {
+      font-size: 1.5rem;
+      color: #ffd700; /* Gold color for stars */
+      cursor: pointer;
+      transition: color 0.3s;
+  
+      &:hover {
+        color: #ffcc00;
+      }
+    }
+  }
+  
+  .btn-outline-primary,
+  .btn-outline-secondary,
+  .btn-outline-info,
+  .btn-outline-warning {
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .btn-outline-primary:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .btn-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #fff;
+  }
+  
+  .btn-outline-info:hover {
+    background-color: #17a2b8;
+    color: #fff;
+  }
+  
+  .btn-outline-warning:hover {
+    background-color: #ffc107;
+    color: #fff;
+  }
+  
+  .create-list {
+    color: #007bff; /* Bootstrap primary color */
+    cursor: pointer; /* Show hand cursor on hover */
+    padding: 8px 15px;
+    display: block;
+  }
+  
+  .create-list:hover {
+    background-color: #f8f9fa; /* Light gray background on hover */
+    color: #0056b3; /* Darker blue on hover */
+  }

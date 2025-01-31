@@ -5,39 +5,87 @@
     </div>
 
     <div class="col-md-8">
-        <h1>{{ movie.title }}</h1>
-        <p><strong>Date de sortie :</strong> {{ movie.release_date }}</p>
-        <p><strong>Genres :</strong> {{ getGenres() }}</p>
-        <p><strong>Durée :</strong> {{ movie.runtime }} min</p>
-        <p><strong>Note :</strong> ⭐ {{ movie.vote_average }} / 10</p>
-        <p>{{ movie.overview }}</p>
-      
+      <h1>{{ movie.title }}</h1>
+      <p><strong>Date de sortie :</strong> {{ movie.release_date }}</p>
+      <p><strong>Genres :</strong> {{ getGenres() }}</p>
+      <p><strong>Durée :</strong> {{ movie.runtime }} min</p>
+      <p><strong>Note :</strong> ⭐ {{ movie.vote_average }} / 10</p>
+      <p>{{ movie.overview }}</p>
+
+      <!-- Action Buttons -->
+      <div class="mt-3">
+        <button class="btn btn-outline-primary me-2" (click)="openActionModal('watchlist')">
+          {{ isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist' }}
+        </button>
+        <button class="btn btn-outline-success me-2" (click)="openActionModal('favorites')">
+          {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+        </button>
+        <a class="btn btn-outline-info me-2" [href]="'https://www.google.com/search?q=' + movie.title + ' showtimes'" target="_blank">
+          Find Showtimes
+        </a>
+
+        <!-- Rating Button Group -->
         <div class="mt-3">
-          <button class="btn border me-2" (click)="addToFavorites()">❤️ Ajouter aux favoris</button>
-          <button class="btn btn me-2" (click)="addToWatchlist()">🕒 Ajouter à la Watchlist</button>
-          <div class="mt-3">
-            <h5>Noter ce film :</h5>
-            <div class="btn-group">
-              <button *ngFor="let star of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" 
-                      class="btn btn-outline-primary"
-                      (click)="rateMovie(star)">
-                {{ star }} ⭐
-              </button>
-            </div>
-          </div>
-          
-
-
-          <div class="dropdown d-inline">
-            <button class="btn btn-warning dropdown-toggle" type="button" id="customListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              📂 Ajouter à une liste
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="customListDropdown">
-              <li *ngFor="let list of userLists">
-                <a class="dropdown-item" (click)="addToCustomList(list.id)">{{ list.name }}</a>
-              </li>
-            </ul>
+          <h5>Rate this movie:</h5>
+          <div class="rating">
+            <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="openActionModal('rate', star)" class="star">&#9733;</span>
           </div>
         </div>
-  
-      <a class="btn btn-primary mt-3" routerLink="/">Retour
+
+        <!-- Custom List Dropdown with "Create New List" -->
+        <div class="dropdown d-inline mt-3">
+          <button class="btn btn-outline-warning dropdown-toggle" type="button" id="customListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Add to a List
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="customListDropdown">
+            <li *ngFor="let list of userLists">
+              <a class="dropdown-item" (click)="openActionModal('customList', list.id)">{{ list.name }}</a>
+            </li>
+            <li class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item create-list" (click)="openListCreationModal()">➕ Create New List</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a class="btn btn-primary mt-3" [routerLink]="'/'">Back</a>
+    </div>
+  </div>
+</div>
+
+<div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login Required</h5>
+        <button type="button" class="btn-close" (click)="closeModal('loginModal')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please log in to perform this action.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal('loginModal')">Close</button>
+        <a class="btn btn-primary" routerLink="/app-login">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="listCreationModal" class="modal fade" tabindex="-1" aria-labelledby="listCreationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create a New List</h5>
+        <button type="button" class="btn-close" (click)="closeModal('listCreationModal')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control mb-2" placeholder="List Name" [(ngModel)]="newListName">
+        <textarea class="form-control mb-2" placeholder="List Description" [(ngModel)]="newListDescription"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal('listCreationModal')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="createList()">Create List</button>
+      </div>
+    </div>
+  </div>
+</div>

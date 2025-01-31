@@ -1,12 +1,12 @@
 <div class="container px-4 px-lg-5">
-  <div class="card text-white bg-secondary my-5 py-4 text-center">
-    <div class="card-body">
-      <p class="text-white m-0">
-        Découvrez les films tendances du moment et ajoutez-les à votre watchlist
-        !
-      </p>
-    </div>
+  <div class="col-md-3 filters">
+    <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
   </div>
+
+
+  <h2>Discover Movies</h2>
+
+  
   <div class="row gx-4 gx-lg-5">
     <div
       class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
@@ -15,4 +15,5 @@
       <app-movie-card [movie]="movie"></app-movie-card>
     </div>
   </div>
+  
 </div>
