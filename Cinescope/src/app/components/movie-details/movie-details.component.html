@@ -9,44 +9,53 @@
       <p><strong>Date de sortie :</strong> {{ movie.release_date }}</p>
       <p><strong>Genres :</strong> {{ getGenres() }}</p>
       <p><strong>Durée :</strong> {{ movie.runtime }} min</p>
-      <p><strong>Note :</strong> ⭐ {{ movie.vote_average }} / 10</p>
+      <p><strong>Note :</strong> ⭐ {{ movie.vote_average | number: '1.1-2' }} / 10</p>
+      <p><strong>Nombre de notes :</strong> {{formatNumberWithSpaces(movie.vote_count)}}</p>
       <p>{{ movie.overview }}</p>
 
       <!-- Action Buttons -->
       <div class="mt-3">
-        <button class="btn btn-outline-primary me-2" (click)="openActionModal('watchlist')">
-          {{ isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist' }}
-        </button>
+        
         <button class="btn btn-outline-success me-2" (click)="openActionModal('favorites')">
           {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
         </button>
-        <a class="btn btn-outline-info me-2" [href]="'https://www.google.com/search?q=' + movie.title + ' showtimes'" target="_blank">
-          Find Showtimes
-        </a>
-
-        <!-- Rating Button Group -->
-        <div class="mt-3">
-          <h5>Rate this movie:</h5>
-          <div class="rating">
-            <span *ngFor="let star of [1, 2, 3, 4, 5]" (click)="openActionModal('rate', star)" class="star">&#9733;</span>
-          </div>
-        </div>
-
-        <!-- Custom List Dropdown with "Create New List" -->
+        
+        <button class="btn btn-outline-primary me-2" (click)="openActionModal('watchlist')">
+          {{ isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist' }}
+        </button>
         <div class="dropdown d-inline mt-3">
-          <button class="btn btn-outline-warning dropdown-toggle" type="button" id="customListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <button class="btn btn-outline-warning dropdown-toggle add-to-list" type="button" id="customListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             Add to a List
           </button>
           <ul class="dropdown-menu" aria-labelledby="customListDropdown">
             <li *ngFor="let list of userLists">
-              <a class="dropdown-item" (click)="openActionModal('customList', list.id)">{{ list.name }}</a>
+              <a class="dropdown-item add-to-list" (click)="openActionModal('customList', list.id)">
+                {{ movieInLists[list.id] ? '❌ Remove from ' : '➕ Add to ' }} {{ list.name }}
+              </a>
             </li>
             <li class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item create-list" (click)="openListCreationModal()">➕ Create New List</a>
+              <a class="dropdown-item create-list" (click)="openListCreationModal()">Create New List</a>
             </li>
           </ul>
         </div>
+        <!-- Rating Button Group -->
+        <div class="rating-container">
+          <h5 class="rate-movie-string">Rate this movie:</h5>
+          <div class="rating-stars">
+            <span *ngFor="let star of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" 
+                  class="star" 
+                  [class.filled]="star <= userRating"
+                  (click)="rateMovie(star)">
+              &#9733;
+            </span>
+          </div>
+        </div>
+        <a class="btn btn-outline-info me-2 showtimes" [href]="'https://www.google.com/search?q=' + movie.title + ' showtimes'" target="_blank">
+          Find Showtimes
+        </a>
+        <!-- Custom List Dropdown with "Create New List" -->
+        
       </div>
       <a class="btn btn-primary mt-3" [routerLink]="'/'">Back</a>
     </div>

@@ -46,4 +46,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.router.navigate(['/search', this.searchQuery]);
     }
   }
+
+  resetFiltersAndGoHome() {
+    localStorage.removeItem('movieFilters'); // ✅ Remove saved filters
+    this.router.navigate(['/']); // ✅ Navigate to home
+  }
 }

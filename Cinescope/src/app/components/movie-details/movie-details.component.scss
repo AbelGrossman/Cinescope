@@ -14,7 +14,7 @@ h1 {
 
   .rating {
     .star {
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: #ffd700; /* Gold color for stars */
       cursor: pointer;
       transition: color 0.3s;
@@ -63,3 +63,38 @@ h1 {
     background-color: #f8f9fa; /* Light gray background on hover */
     color: #0056b3; /* Darker blue on hover */
   }
+
+  .add-to-list {
+    cursor: pointer;
+  } 
+
+  .rating-container {
+    margin-bottom: 15px; /* Remove space between "Rate this movie" and stars */
+  }
+  
+  .rating-stars {
+    display: flex;
+    gap: 5px; /* Add space between stars */
+    font-size: 1.5rem;
+  }
+  
+  .star {
+    color: lightgray; /* Default color for empty stars */
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .star.filled {
+    color: gold; /* Color stars up to the rating */
+  }
+  
+  /* Add spacing before "Add to List" */
+  .rate-movie-string {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+
+  .showtimes {
+    margin-bottom: 10px;
+  }
+  

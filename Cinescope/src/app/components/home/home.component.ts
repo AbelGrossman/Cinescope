@@ -27,6 +27,10 @@ export class HomeComponent implements OnInit {
   constructor(private movieService: MovieService) {}
 
   ngOnInit() {
+    const savedFilters = localStorage.getItem('movieFilters');
+    if (savedFilters) {
+      this.filters = JSON.parse(savedFilters);
+    }
     this.fetchMovies();
   }
 
@@ -38,6 +42,7 @@ export class HomeComponent implements OnInit {
 
   onFiltersChanged(newFilters: any) {
     this.filters = newFilters;
-    this.fetchMovies(); // Fetch new movies when filters change
+    localStorage.setItem('movieFilters', JSON.stringify(this.filters));
+    this.fetchMovies();
   }
 }

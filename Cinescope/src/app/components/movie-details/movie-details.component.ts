@@ -17,10 +17,11 @@
   export class MovieDetailsComponent implements OnInit {
     private route = inject(ActivatedRoute);
     private movieService = inject(MovieService);
-    private listService = inject(ListService);
+    private listService = inject  (ListService);
+    movieInLists: { [listId: number]: boolean } = {};
 
     movie: any;
-    rating: number = 0;
+    userRating: number = 0;
     userLists: any[] = [];
     isFavorite = false;
     isInWatchlist = false;
@@ -74,7 +75,7 @@
             this.rateMovie(extra);
             break;
           case 'customList':
-            this.addToCustomList(extra);
+            this.toggleMovieInList(extra);
             break;
         }
       }
@@ -119,7 +120,29 @@
     fetchUserLists() {
       this.listService.getUserLists().subscribe((data) => {
         this.userLists = data.results || [];
+        this.checkMovieInLists(); 
       });
+    }
+
+
+    checkMovieInLists() {
+      this.userLists.forEach((list) => {
+        this.listService.getListMovies(list.id).subscribe((listData) => {
+          this.movieInLists[list.id] = listData.items.some((item: any) => item.id === this.movie.id);
+        });
+      });
+    }
+  
+    toggleMovieInList(listId: number) {
+      if (this.movieInLists[listId]) {
+        this.listService.removeFromCustomList(listId, this.movie.id).subscribe(() => {
+          this.movieInLists[listId] = false; // ✅ Update UI instantly
+        });
+      } else {
+        this.listService.addToCustomList(listId, this.movie.id).subscribe(() => {
+          this.movieInLists[listId] = true; // ✅ Update UI instantly
+        });
+      }
     }
 
     addToWatchlist() {
@@ -131,25 +154,10 @@
     }
 
     rateMovie(rating: number) {
-      if (this.movie) {
-        this.movieService.rateMovie(this.movie.id, rating).subscribe(
-          () => {
-            alert(`Vous avez noté ${this.movie.title} avec ${rating} étoiles.`);
-          },
-          (error) => {
-            console.error("Erreur lors de la notation du film :", error);
-          }
-        );
-      }
-    }
-    
-
-    addToCustomList(listId: number) {
-      if (this.movie) {
-        this.listService.addToCustomList(listId, this.movie.id).subscribe(() => {
-          alert(`${this.movie.title} a été ajouté à la liste.`);
-        });
-      }
+      this.userRating = rating;
+      this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
+        console.log(`Rated ${this.movie.title} with ${rating} stars.`);
+      });
     }
   
     fetchFavorites() {
@@ -182,6 +190,10 @@
         this.newListName = '';
         this.newListDescription = ''; 
       });
+    }
+    
+    formatNumberWithSpaces(num: number): string {
+      return num.toLocaleString('fr-FR'); // Formats number with spaces (French format)
     }
     
   }

@@ -1,6 +1,6 @@
 
 <div class="dropdown">
-    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-outline-dark dropdown-toggle w-100" type="button" data-bs-display="static" data-bs-auto-close="outside" data-bs-toggle="dropdown" aria-expanded="false">
       Filter
     </button>
     
@@ -37,20 +37,22 @@
       </select>
   
       <label class="form-label">Year</label>
-      <input type="number" class="form-control mb-2" [(ngModel)]="filters.year" (input)="applyFilters()" min="1850" max="2025" placeholder="YYYY">
+      <input type="number" class="form-control mb-2" [(ngModel)]="filters.year" (input)="applyFilters()" min="1874" max="2025" placeholder="YYYY">
   
-        <button class="btn btn-outline-secondary" (click)="toggleSortOrder()">
-            {{ filters.sortOrder === 'desc' ? 'acs' : 'desc' }}
-        </button>
+        
       <label class="form-label">Sort By</label>
       <div class="d-flex align-items-center">
             <select class="form-select mb-2" [(ngModel)]="filters.sortBy" (change)="applyFilters()">
                 <option value="popularity">Popularity</option>
                 <option value="vote_average">Rating</option>
                 <option value="release_date">Release Date</option>
-                <option value="revenue">Revenue</option>   
+                <option value="revenue">Revenue</option>
+                <option value="vote_count">Vote Count</option> 
             </select>
       </div>
-        
-    </div>
+      <i class="bi"
+        [class.bi-arrow-up-circle]="isAscending"
+        [class.bi-arrow-down-circle]="!isAscending"
+        (click)="toggleSortOrder()">
+      </i>
 </div>
