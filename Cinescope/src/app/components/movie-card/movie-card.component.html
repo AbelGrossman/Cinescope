@@ -12,7 +12,6 @@
     </div>
   </a>
 
-  <!-- Affichage du menu d'actions selon le contexte -->
   <div class="actions-menu" *ngIf="isActive() && context === 'all'">
     <button (click)="toggleFavorite()" class="toggle-btn">
       <span class="heart">{{ isFavorite ? '♥' : '♡' }}</span>
@@ -29,7 +28,6 @@
     <button (click)="rateMovie()" class="toggle-btn">Noter</button>
   </div>
 
-  <!-- Pour les autres contextes, exemples -->
   <div class="actions-menu" *ngIf="isActive() && context === 'favorites'">
     <button (click)="toggleFavorite()" class="toggle-btn">
       <span class="heart">{{ isFavorite ? '♥' : '♡' }}</span>

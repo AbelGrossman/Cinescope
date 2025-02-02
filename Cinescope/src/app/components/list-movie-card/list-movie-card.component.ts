@@ -13,9 +13,9 @@ export class ListMovieCardComponent {
   @Input() movies: any[] = [];
   @Input() context: string = 'all';
 
-  activeMovieId: number | null = null; // Stocke l'ID du film dont les options sont ouvertes
+  activeMovieId: number | null = null;
 
-  setActiveMovie(movieId: number) {
-    this.activeMovieId = this.activeMovieId === movieId ? null : movieId; // Toggle des options
+  setActiveMovie(movieId: number | null) {
+    this.activeMovieId = this.activeMovieId === movieId ? null : movieId;
   }
 }

@@ -16,12 +16,11 @@ export class MovieCardComponent implements OnInit {
   private listService = inject(ListService);
 
   @Input() movie: any;
-  @Input() context: string = 'all'; // "all", "favorites", "watchlist", "list"
-  @Input() activeMovieId: number | null = null; // Contrôle l'affichage du menu d'actions
-  @Input() listId: number | null = null; // Pour le contexte "list"
-  @Output() toggleMovie = new EventEmitter<number | null>(); // null pour désactiver
+  @Input() context: string = 'all'; 
+  @Input() activeMovieId: number | null = null;
+  @Input() listId: number | null = null;
+  @Output() toggleMovie = new EventEmitter<number | null>();
 
-  // (les autres propriétés, isFavorite, isInWatchlist, etc., restent inchangées)
   userLists: any[] = [];
   isFavorite: boolean = false;
   isInWatchlist: boolean = false;
@@ -38,16 +37,13 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
-  // Méthode qui renvoie true si cette carte est active
   isActive(): boolean {
     return this.activeMovieId === this.movie.id;
   }
 
-  // Lors du clic sur le bouton d'options, on bascule l'état :
   toggleActions(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    // Si déjà active, on masque le menu en émettant null
     if (this.activeMovieId === this.movie.id) {
       this.toggleMovie.emit(null);
     } else {
@@ -55,14 +51,12 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
-  // Lors du mouseleave, on masque le menu si cette carte est active
   hideActions(): void {
     if (this.activeMovieId === this.movie.id) {
       this.toggleMovie.emit(null);
     }
   }
 
-  // (Les autres méthodes restent inchangées, par exemple fetchUserLists, checkFavorite, toggleFavorite, etc.)
   fetchUserLists(): void {
     this.listService.getUserLists().subscribe(
       (data) => {
