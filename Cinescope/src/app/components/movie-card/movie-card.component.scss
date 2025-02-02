@@ -3,9 +3,10 @@
   width: 100%;
   max-width: 200px;
   border-radius: 25px;
-  background-color: #f0f0f0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
+
+
 }
 
 .movie-card-container:hover {
@@ -17,7 +18,7 @@
 .movie-card {
   display: block;
   text-decoration: none;
-  color: inherit;
+  color: #b6b5b5;
   height: 100%;
 
 }
@@ -43,21 +44,24 @@
   justify-content: space-between;
   padding: 9px 10px 5px 15px;
   text-align: left;
-  height: 100px;
+  height: 60px;
+  border-radius: 0 0 25px 25px;
+  background: #212529;
 }
 
 .movie-title {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   font-weight: 600;
   margin: 0;
+  margin-left: 1px;
 
 }
 
 .movie-details {
-  position: relative;;
-  font-size: 0.8rem;
-  color: #888;
+  position: relative;
+  font-size: 0.7rem;
   margin-bottom: 8px;
+
 }
 
 .action-menu-handle {
@@ -65,8 +69,8 @@
   position: relative;
   width: 35px;
   height: 15px;
-  background: #f0f0f0;
-  color: #333;
+  background: #212529;
+  color: #b6b5b5;
   text-align: center;
   cursor: pointer;
   z-index: 999;
@@ -74,6 +78,7 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px 10px 0 0;
+  border: none;
 }
 
 .handle-icon {
@@ -84,10 +89,10 @@
 
 .actions-menu {
   position: relative;
-  top:0px;
+  top: 0px;
   display: flex;
   flex-direction: row;
-  background: #f0f0f0;
+  background: #212529;
   padding: 8px;
   gap: 5px;
   opacity: 0;
@@ -97,18 +102,19 @@
 
 .list-dropdown {
   position: absolute;
-  background: #f0f0f0;
+  background: #212529;
   right: 0px;
-  top: 50px;
+  top: 45px;
   padding: 8px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   z-index: 9999999;
-  border: solid 1px rgb(214, 205, 205);
-  border-radius: 10px 0px 10px 10px;
+  border: solid 1px #1c1f22;
+  border-radius: 0px 0px 10px 10px;
   justify-content: start;
   align-items: start;
+  font-size: 0.6rem;
 }
 
 .actions-menu.active {
@@ -134,10 +140,12 @@
   border: none;
   align-items: center;
   justify-content: center;
+  background: none;
 }
 
 .toggle-btn:hover {
-  background-color: #f7f7f7;
+  scale: 1.1;
+  transition: 0.15s;
 }
 
 .heart-icon {
@@ -157,10 +165,21 @@
   font-size: 18px;
 }
 
+.list-btn {
+  color: #b6b5b5;
+}
+
 .in-list {
-  color: #333;
+  color: #b6b5b5;
 }
 
 .not-in-list {
-  color: #888;
+  color: #979797;
+}
+
+.user-rating {
+  position: absolute;
+  font-size: 9px;
+  color: #b6b5b5;
+  font-style: normal;
 }
