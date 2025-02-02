@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
 import { MovieService } from '../../services/movie/movie.service';
+import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 
 
 @Component({
   selector: 'app-user-ratings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ListMovieCardComponent],
   templateUrl: './user-ratings.component.html',
   styleUrl: './user-ratings.component.scss'
 })

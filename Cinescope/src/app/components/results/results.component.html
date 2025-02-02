@@ -1,7 +1,11 @@
 <div class="container mt-4">
   <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
 
-  <app-list-movie-card [movies]="searchResults" context="search"></app-list-movie-card>
+  <app-list-movie-card 
+  [movies]="searchResults" 
+  context="all">
+</app-list-movie-card>
+
 
 
   <ng-template #noResults>

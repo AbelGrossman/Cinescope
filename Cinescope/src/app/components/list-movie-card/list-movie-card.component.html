@@ -1,10 +1,9 @@
-<div class="movie-card-container">
-    <app-movie-card
-      *ngFor="let movie of movies"
-      [movie]="movie"
-      [context]="context"
-      [activeMovieId]="activeMovieId"
-      (toggleMovie)="setActiveMovie($event)">
-    </app-movie-card>
-  </div>
-  
+<div class="movies-grid">
+  <app-movie-card
+    *ngFor="let movie of movies"
+    [movie]="movie"
+    [context]="context"
+    [activeMovieId]="activeMovieId"
+    (toggleMovie)="setActiveMovie($event)"
+  ></app-movie-card>
+</div>

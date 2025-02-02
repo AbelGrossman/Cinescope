@@ -11,7 +11,7 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
 })
 export class ListMovieCardComponent {
   @Input() movies: any[] = [];
-  @Input() context: string = '';
+  @Input() context: string = 'all';
 
   activeMovieId: number | null = null; // Stocke l'ID du film dont les options sont ouvertes
 

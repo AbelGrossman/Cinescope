@@ -1,131 +1,167 @@
-.movie-card {
-  display: block;
-  width: 200px;
-  text-decoration: none;
-  color: #000;
-  border-radius: 8px;
+/* Container de la carte */
+.movie-card-container {
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+  border-radius: 12px;
   overflow: hidden;
-  transition: transform 0.3s ease;
-  position: relative;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
 
   &:hover {
-    transform: scale(1.02);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
+}
 
-  .image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 250px;
-    overflow: hidden;
-    border-radius: 12px;
+/* Lien global de la carte */
+.movie-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+}
 
-    .poster {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
+/* Conteneur de l'image */
+.image-wrapper {
+  position: relative;
+  height: 350px;
+  background-color: #f0f0f0;
+  overflow: hidden;
+}
 
-    &:hover .poster {
-      transform: scale(1.1);
-    }
+/* Image du poster */
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
 
-    .options-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.2s ease-in-out;
+/* Zoom sur l'image au survol */
+.movie-card-container:hover .poster {
+  transform: scale(1.05);
+}
 
-      &:hover {
-        background: rgba(0, 0, 0, 0.8);
-      }
-    }
+/* Bouton d'options en haut à droite */
+.options-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.8);
   }
+}
 
-  .movie-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
+.movie-info {
+  padding: 15px 15px 0px 15px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
+}
 
-    .movie-title {
-      font-size: 1.2rem;
-      font-weight: bold;
-      margin: 0;
-      color: #333;
-    }
 
-    .movie-details {
-      font-size: 0.9rem;
-      font-weight: normal;
-      color: #757575;
-      display: flex;
-      align-items: center;
-      gap: 5px;
+/* Titre du film */
+.movie-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
 
-      span {
-        color: #ffba00;
-        font-size: 1rem;
-      }
-    }
+/* Détails du film */
+.movie-details {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 0;
+}
+
+/* Menu d'actions */
+.actions-menu {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10;
+}
+
+/* Boutons d'action */
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f7f7f7;
   }
+}
 
-  .movie-actions {
-    margin-top: 8px;
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
+/* Icône du coeur */
+.heart {
+  font-size: 1.4rem;
+  color: #e74c3c;
+  margin-right: 4px;
+}
 
-    .btn {
-      padding: 5px 10px;
-      font-size: 0.9rem;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
+/* Icône de la watchlist */
+.watchlist {
+  font-size: 1.4rem;
+  color: #3498db;
+  margin-right: 4px;
+}
 
-    .btn-danger {
-      background-color: #dc3545;
-      color: #fff;
-    }
+/* Actions supplémentaires pour les autres contextes */
+.movie-actions {
+  margin: 12px 16px 16px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
 
-    .btn:hover {
-      opacity: 0.9;
-    }
-  }
+/* Boutons génériques */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
 
-  .actions-menu {
-    position: absolute;
-    top: 40px;
-    right: 10px;
-    background: white;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+/* Bouton danger */
+.btn-danger {
+  background-color: #e74c3c;
+  color: #fff;
 
-    button {
-      background: none;
-      border: none;
-      padding: 8px 12px;
-      cursor: pointer;
-      text-align: left;
-      width: 100%;
-      transition: background 0.2s ease-in-out;
-
-      &:hover {
-        background: #f0f0f0;
-      }
-    }
+  &:hover {
+    background-color: #c0392b;
   }
 }

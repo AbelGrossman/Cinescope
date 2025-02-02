@@ -2,19 +2,10 @@
     <h2>Vos films favoris</h2>
     <p>Voici les films que vous avez ajoutés en favoris.</p>
 
-    <div *ngIf="favoriteMovies.length > 0; else noFavorites">
-        <div class="row">
-            <div class="col-md-3 mb-4" *ngFor="let movie of favoriteMovies">
-                <div class="card h-100">
-                    <img class="card-img-top" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ movie.title }}</h5>
-                        <button class="btn btn-danger" (click)="removeFavorite(movie.id)">Retirer des favoris</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <app-list-movie-card 
+        [movies]="favoriteMovies" 
+        context="favorites">
+    </app-list-movie-card>
 
     <ng-template #noFavorites>
         <p>Aucun film ajouté en favoris.</p>

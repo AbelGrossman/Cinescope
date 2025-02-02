@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth/auth.service';
+import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { MovieService } from '../../services/movie/movie.service';
 
@@ -9,7 +9,7 @@ import { MovieService } from '../../services/movie/movie.service';
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CommonModule, MovieCardComponent],
+  imports: [CommonModule, MovieCardComponent, ListMovieCardComponent],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
 })

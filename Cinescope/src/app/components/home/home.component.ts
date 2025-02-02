@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { FormsModule } from '@angular/forms';
 import { FilterComponent } from '../filter/filter.component';
+import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [CommonModule, MovieCardComponent, FormsModule, FilterComponent],
+  imports: [CommonModule, MovieCardComponent, FormsModule, FilterComponent, ListMovieCardComponent],
 })
 export class HomeComponent implements OnInit {
 

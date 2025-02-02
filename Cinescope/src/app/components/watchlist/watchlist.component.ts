@@ -1,12 +1,14 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie/movie.service';
+import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
+
 
 
 @Component({
   selector: 'app-watchlist',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ListMovieCardComponent],
   templateUrl: './watchlist.component.html',
   styleUrl: './watchlist.component.scss'
 })

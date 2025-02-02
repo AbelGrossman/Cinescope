@@ -1,19 +1,11 @@
 <div class="container mt-4">
     <h2>Your Ratings</h2>
     <p>Here are all the movies you've rated.</p>
-    <div *ngIf="ratedMovies.length > 0; else noRatings">
-        <div class="row">
-            <div class="col-md-3 mb-4" *ngFor="let movie of ratedMovies">
-                <div class="card h-100">
-                    <img class="card-img-top" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ movie.title }}</h5>
-                        <p>Votre note : ⭐ {{ movie.rating }} / 10</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+    <app-list-movie-card [movies]="ratedMovies" context="all">
+    </app-list-movie-card>
+
 
     <ng-template #noRatings>
         <p>Aucun film noté pour le moment.</p>
