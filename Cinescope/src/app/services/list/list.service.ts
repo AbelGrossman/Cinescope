@@ -9,34 +9,66 @@ import { environment } from '../../../environment/environment';
 export class ListService {
   private apiKey = environment.apiKey;
   private apiUrl = environment.apiUrl;
+  private v4Token = environment.v4Token;
+  private v4ApiUrl = environment.apiUrlV4;
   private sessionId = localStorage.getItem('session_id');
   private accountId = localStorage.getItem('account_id');
 
   constructor(private http: HttpClient) {}
 
   createList(name: string, description: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/list?api_key=${this.apiKey}&session_id=${this.sessionId}`,
-      { name, description, language: "fr" },
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+    return this.http.post(
+      `${this.apiUrl}/list?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+      { name, description, language: 'fr' },
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    );
   }
 
   getUserLists(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/account/${this.accountId}/lists?api_key=${this.apiKey}&session_id=${this.sessionId}`);
+    return this.http.get(
+      `${this.apiUrl}/account/${this.accountId}/lists?api_key=${this.apiKey}&session_id=${this.sessionId}`
+    );
   }
 
   getListMovies(listId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/list/${listId}?api_key=${this.apiKey}`);
+    return this.http.get(
+      `${this.apiUrl}/list/${listId}?api_key=${this.apiKey}`
+    );
   }
 
   addToCustomList(listId: number, movieId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/list/${listId}/add_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+    return this.http.post(
+      `${this.apiUrl}/list/${listId}/add_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
       { media_id: movieId },
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    );
   }
 
   removeFromCustomList(listId: number, movieId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/list/${listId}/remove_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
+    return this.http.post(
+      `${this.apiUrl}/list/${listId}/remove_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,
       { media_id: movieId },
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    );
+  }
+
+  deleteList(listId: number): Observable<any> {
+    return this.http.delete(
+      `${this.apiUrl}/list/${listId}?api_key=${this.apiKey}&session_id=${this.sessionId}`
+    );
+  }
+
+  updateList(listId: number, newName: string, newDescription: string): void {
+    this.getListMovies(listId).subscribe(oldList => {
+      const movies = oldList.items ? oldList.items.map((m: any) => m.id) : [];
+      this.deleteList(listId).subscribe(() => {
+        this.createList(newName, newDescription).subscribe(created => {
+          const newListId = created.list_id;
+          movies.forEach((movieId: number) => {
+            this.addToCustomList(newListId, movieId).subscribe();
+          });
+        });
+      });
+    });
   }
 }
