@@ -1,17 +1,17 @@
 .movie-card-container {
+  position: relative;
   width: 100%;
-  height: auto;
   max-width: 200px;
-  border-radius: 12px;
-  overflow: hidden;
-  background-color: #fff;
+  border-radius: 25px;
+  background-color: #f0f0f0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin-bottom: 20px;
+}
 
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
+.movie-card-container:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  transition: transform 150ms;
+  transform: translateY(-10px);
 }
 
 .movie-card {
@@ -19,13 +19,14 @@
   text-decoration: none;
   color: inherit;
   height: 100%;
+
 }
 
 .image-wrapper {
   position: relative;
-  height: 350px;
-  background-color: #f0f0f0;
-  overflow: hidden;
+  height: auto;
+  border-radius: 25px 25px 0 0;
+
 }
 
 .poster {
@@ -33,120 +34,133 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-}
-
-.movie-card-container:hover .poster {
-  transform: scale(1.05);
-}
-
-.options-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
+  border-radius: 25px 25px 0 0;
 }
 
 .movie-info {
-  padding: 15px 15px 0px 15px;
-  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  padding: 9px 10px 5px 15px;
   text-align: left;
+  height: 100px;
 }
 
-
 .movie-title {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  line-height: 1.2;
+  margin: 0;
+
 }
 
 .movie-details {
-  font-size: 0.9rem;
+  position: relative;;
+  font-size: 0.8rem;
   color: #888;
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 
+.action-menu-handle {
+  margin-right: 15px;
+  position: relative;
+  width: 35px;
+  height: 15px;
+  background: #f0f0f0;
+  color: #333;
+  text-align: center;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px 10px 0 0;
+}
+
+.handle-icon {
+  margin-top: 2px;
+  font-size: 20px;
+}
+
+
 .actions-menu {
+  position: relative;
+  top:0px;
+  display: flex;
+  flex-direction: row;
+  background: #f0f0f0;
+  padding: 8px;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  border-radius: 15px 0px 0px 0px;
+}
+
+.list-dropdown {
   position: absolute;
-  top: 40px;
-  right: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  padding: 10px;
+  background: #f0f0f0;
+  right: 0px;
+  top: 50px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  z-index: 10;
+  gap: 5px;
+  z-index: 9999999;
+  border: solid 1px rgb(214, 205, 205);
+  border-radius: 10px 0px 10px 10px;
+  justify-content: start;
+  align-items: start;
+}
+
+.actions-menu.active {
+  opacity: 1;
+}
+
+.action-menu-container {
+  position: absolute;
+  bottom: -46px;
+  transition: transform 0.3s ease;
+  right: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.action-menu-container.active {
+  transform: translateY(-45px);
 }
 
 .toggle-btn {
-  background: none;
-  border: none;
-  font-size: 1rem;
   cursor: pointer;
-  display: flex;
+  border: none;
   align-items: center;
-  color: #333;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #f7f7f7;
-  }
-}
-
-.heart {
-  font-size: 1.4rem;
-  color: #e74c3c;
-  margin-right: 4px;
-}
-
-.watchlist {
-  font-size: 1.4rem;
-  color: #3498db;
-  margin-right: 4px;
-}
-
-.movie-actions {
-  margin: 12px 16px 16px;
-  display: flex;
   justify-content: center;
-  gap: 12px;
 }
 
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.toggle-btn:hover {
+  background-color: #f7f7f7;
 }
 
-.btn-danger {
-  background-color: #e74c3c;
-  color: #fff;
+.heart-icon {
+  color: red;
+  font-size: 15px;
 
-  &:hover {
-    background-color: #c0392b;
-  }
+}
+
+.bookmark-icon {
+  color: purple;
+  font-size: 15px;
+
+}
+
+.star-icon {
+  color: #FFD700;
+  font-size: 18px;
+}
+
+.in-list {
+  color: #333;
+}
+
+.not-in-list {
+  color: #888;
 }

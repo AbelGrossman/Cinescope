@@ -11,11 +11,13 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
 })
 export class ListMovieCardComponent {
   @Input() movies: any[] = [];
-  @Input() context: string = 'all';
 
   activeMovieId: number | null = null;
 
-  setActiveMovie(movieId: number | null) {
-    this.activeMovieId = this.activeMovieId === movieId ? null : movieId;
-  }
+
+onToggleMovie(movieId: number | null): void {
+  console.log("toggle");
+  this.activeMovieId = movieId;
+}
+
 }

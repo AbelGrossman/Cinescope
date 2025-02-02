@@ -2,8 +2,7 @@
   <app-movie-card
     *ngFor="let movie of movies"
     [movie]="movie"
-    [context]="context"
     [activeMovieId]="activeMovieId"
-    (toggleMovie)="setActiveMovie($event)"
+    (toggleMovie)="onToggleMovie($event)"
   ></app-movie-card>
 </div>

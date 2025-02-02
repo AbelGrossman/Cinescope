@@ -110,7 +110,7 @@ export class MovieService {
   getFilteredMovies(filters: any): Observable<any> {
     let params: any = {
       api_key: this.apiKey,
-      sort_by: `${filters.sortBy}.${filters.sortOrder}` // Combine sortBy and sortOrder
+      sort_by: `${filters.sortBy}.${filters.sortOrder}`
     };
 
     if (filters.genre) params.with_genres = filters.genre;
@@ -119,4 +119,19 @@ export class MovieService {
 
     return this.http.get(`${this.apiUrl}/discover/movie`, { params });
   }
+
+  removeRating(movieId: number): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+  
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+  
+    return this.http.delete(
+      `${this.apiUrl}/movie/${movieId}/rating?api_key=${this.apiKey}&session_id=${sessionId}`
+    );
+  }
+  
 }

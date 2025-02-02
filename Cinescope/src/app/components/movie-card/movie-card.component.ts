@@ -16,76 +16,112 @@ export class MovieCardComponent implements OnInit {
   private listService = inject(ListService);
 
   @Input() movie: any;
-  @Input() context: string = 'all'; 
   @Input() activeMovieId: number | null = null;
   @Input() listId: number | null = null;
   @Output() toggleMovie = new EventEmitter<number | null>();
 
   userLists: any[] = [];
-  isFavorite: boolean = false;
-  isInWatchlist: boolean = false;
+  isFavorite = false;
+  isInWatchlist = false;
   movieInLists: { [key: number]: boolean } = {};
+  isListDropdownOpen = false;
+
+  userRating: number = 0;
+
 
   ngOnInit(): void {
-    if (!this.context) {
-      this.context = 'all';
-    }
-    if (this.context === 'all') {
+    if (this.movie && this.movie.id) {
       this.fetchUserLists();
-      this.checkFavorite();
-      this.checkWatchlist();
+      this.fetchFavorites();
+      this.fetchWatchlist();
+      this.checkUserRating();
     }
   }
 
+  checkUserRating(): void {
+    this.movieService.getUserRatings().subscribe({
+      next: (data) => {
+        const ratedFilm = data.results.find((rated: any) => rated.id === this.movie.id);
+        if (ratedFilm && ratedFilm.rating) {
+          this.userRating = ratedFilm.rating;
+        }
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des notes utilisateur', err);
+      }
+    });
+  }
+
+  fetchUserLists(): void {
+    this.listService.getUserLists().subscribe({
+      next: (data) => {
+        this.userLists = data.results || [];
+        this.userLists.forEach(list => {
+          this.listService.getListMovies(list.id).subscribe(listData => {
+            this.movieInLists[list.id] = listData.items.some(
+              (item: any) => item.id === this.movie.id
+            );
+          });
+        });
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des listes :', error);
+      }
+    });
+  }
+
+  fetchFavorites(): void {
+    this.movieService.getFavorites().subscribe({
+      next: (data) => {
+        this.isFavorite = data.results.some((fav: any) => fav.id === this.movie.id);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération des favoris :', error);
+      }
+    });
+  }
+
+  fetchWatchlist(): void {
+    this.movieService.getWatchlist().subscribe({
+      next: (data) => {
+        this.isInWatchlist = data.results.some((watch: any) => watch.id === this.movie.id);
+      },
+      error: (error) => {
+        console.error('Erreur lors de la récupération de la watchlist :', error);
+      }
+    });
+  }
+
   isActive(): boolean {
-    return this.activeMovieId === this.movie.id;
+    return this.activeMovieId === this.movie?.id;
   }
 
   toggleActions(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    if (this.activeMovieId === this.movie.id) {
+    if (this.isActive()) {
       this.toggleMovie.emit(null);
     } else {
-      this.toggleMovie.emit(this.movie.id);
+      this.toggleMovie.emit(this.movie?.id);
     }
   }
 
   hideActions(): void {
-    if (this.activeMovieId === this.movie.id) {
+    if (this.isActive()) {
       this.toggleMovie.emit(null);
     }
   }
 
-  fetchUserLists(): void {
-    this.listService.getUserLists().subscribe(
-      (data) => {
-        this.userLists = data.results || [];
-        this.userLists.forEach(list => {
-          this.listService.getListMovies(list.id).subscribe(listData => {
-            this.movieInLists[list.id] = listData.items.some((item: any) => item.id === this.movie.id);
-          });
-        });
-      },
-      (error) => {
-        console.error("Erreur lors de la récupération des listes utilisateur :", error);
-      }
-    );
+  toggleListDropdown(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isListDropdownOpen = !this.isListDropdownOpen;
   }
 
-  checkFavorite(): void {
-    this.movieService.getFavorites().subscribe(data => {
-      this.isFavorite = data.results.some((fav: any) => fav.id === this.movie.id);
-    });
-  }
-
-  checkWatchlist(): void {
-    this.movieService.getWatchlist().subscribe(data => {
-      this.isInWatchlist = data.results.some((watch: any) => watch.id === this.movie.id);
-    });
-  }
-
-  toggleFavorite(): void {
+  toggleFavorite(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.movie) return;
     if (this.isFavorite) {
       this.movieService.removeFromFavorites(this.movie.id).subscribe(() => {
         this.isFavorite = false;
@@ -99,7 +135,10 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
-  toggleWatchlist(): void {
+  toggleWatchlist(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.movie) return;
     if (this.isInWatchlist) {
       this.movieService.removeFromWatchlist(this.movie.id).subscribe(() => {
         this.isInWatchlist = false;
@@ -113,7 +152,11 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
-  toggleCustomList(listId: number): void {
+  toggleCustomList(event: Event, listId: number): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.movie) return;
+
     if (this.movieInLists[listId]) {
       this.listService.removeFromCustomList(listId, this.movie.id).subscribe(() => {
         this.movieInLists[listId] = false;
@@ -132,28 +175,52 @@ export class MovieCardComponent implements OnInit {
     return list ? list.name : '';
   }
 
-  removeFromList(): void {
-    if (!this.listId) {
-      console.error("listId non défini.");
-      return;
-    }
-    this.listService.removeFromCustomList(this.listId, this.movie.id).subscribe(() => {
-      alert(`${this.movie.title} retiré de la liste.`);
-      this.toggleMovie.emit(null);
-    });
-  }
-
-  // rateMovie() etc. restent inchangées.
   rateMovie(): void {
+    if (!this.movie) return;
     const ratingStr = prompt(`Donnez une note (0-10) pour ${this.movie.title}`);
     if (!ratingStr) return;
     const rating = parseFloat(ratingStr);
     if (isNaN(rating) || rating < 0 || rating > 10) {
-      alert("Note invalide.");
+      alert('Note invalide.');
       return;
     }
     this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
-      alert("Merci pour votre note.");
+      alert('Merci pour votre note.');
     });
+  }
+
+
+  toggleRate(event: Event): void {
+    event.preventDefault();
+    event.stopPropagation();
+    if (this.userRating > 0) {
+      const confirmRemove = confirm(`Vous avez déjà noté ce film (${this.userRating}/10). Voulez-vous retirer cette note ?`);
+      if (confirmRemove) {
+        this.removeRating();
+      }
+    } else {
+      this.askAndRateMovie();
+    }
+  }
+
+  askAndRateMovie(): void {
+    const ratingStr = prompt(`Donnez une note (0-10) pour ${this.movie.title}`);
+    if (!ratingStr) return;
+    const rating = parseFloat(ratingStr);
+    if (isNaN(rating) || rating < 0 || rating > 10) {
+      alert('Note invalide.');
+      return;
+    }
+    this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
+      this.userRating = rating;
+      alert(`Merci pour votre note: ${rating}/10`);
+    });
+  }
+
+  removeRating(): void {
+    this.movieService.removeRating(this.movie.id).subscribe(() => {
+        this.userRating = 0;
+        alert(`Votre note pour ${this.movie.title} a été retirée.`);
+      });
   }
 }

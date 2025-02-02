@@ -2,8 +2,46 @@
   <a class="movie-card" [routerLink]="['/app-movie', movie.id]">
     <div class="image-wrapper">
       <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" />
-      <div class="options-btn" (click)="toggleActions($event)">...</div>
+
+      <div class="action-menu-container" [class.active]="isActive()">
+        <div class="action-menu-handle" (click)="toggleActions($event)">
+          <i class="bi bi-three-dots handle-icon"></i>
+        </div>
+
+        <div class="actions-menu" [class.active]="isActive()">
+
+          <button (click)="toggleFavorite($event)" class="toggle-btn">
+            <i [class]="isFavorite ? 'bi bi-heart-fill heart-icon' : 'bi bi-heart heart-icon'"></i>
+          </button>
+
+          <button (click)="toggleWatchlist($event)" class="toggle-btn">
+            <i [class]="isInWatchlist ? 'bi bi-bookmark-fill bookmark-icon' : 'bi bi-bookmark bookmark-icon'"></i>
+          </button>
+
+          <button (click)="toggleRate($event)" class="toggle-btn">
+            <i [class]="userRating > 0 ? 'bi bi-star-fill star-icon' : 'bi bi-star star-icon'"></i>
+            <span *ngIf="userRating > 0">({{ userRating }})</span>
+          </button>
+          
+
+          <button class="toggle-btn list-btn" (click)="toggleListDropdown($event)">
+            <i class="bi bi-list-ul"></i>
+          </button>
+          <div class="list-dropdown" *ngIf="isListDropdownOpen">
+            <button
+              *ngFor="let list of userLists"
+              (click)="toggleCustomList($event, list.id)"
+              class="toggle-btn"
+              [ngClass]="movieInLists[list.id] ? 'in-list' : 'not-in-list'"
+            >
+              {{ list.name }}
+            </button>
+          </div>
+
+        </div>
+      </div>
     </div>
+
     <div class="movie-info">
       <h2 class="movie-title">{{ movie.title }}</h2>
       <p class="movie-details">
@@ -11,41 +49,4 @@
       </p>
     </div>
   </a>
-
-  <div class="actions-menu" *ngIf="isActive() && context === 'all'">
-    <button (click)="toggleFavorite()" class="toggle-btn">
-      <span class="heart">{{ isFavorite ? '♥' : '♡' }}</span>
-    </button>
-    <button (click)="toggleWatchlist()" class="toggle-btn">
-      <span class="watchlist">{{ isInWatchlist ? '✖️' : '➕' }}</span>
-    </button>
-    <ng-container *ngFor="let list of userLists">
-      <button (click)="toggleCustomList(list.id)" class="toggle-btn">
-        <i class="fa" [ngClass]="{'fa-check': movieInLists[list.id], 'fa-plus': !movieInLists[list.id]}"></i>
-        {{ list.name }}
-      </button>
-    </ng-container>
-    <button (click)="rateMovie()" class="toggle-btn">Noter</button>
-  </div>
-
-  <div class="actions-menu" *ngIf="isActive() && context === 'favorites'">
-    <button (click)="toggleFavorite()" class="toggle-btn">
-      <span class="heart">{{ isFavorite ? '♥' : '♡' }}</span>
-    </button>
-  </div>
-
-  <div class="actions-menu" *ngIf="isActive() && context === 'watchlist'">
-    <button (click)="toggleWatchlist()" class="toggle-btn">
-      <span class="watchlist">{{ isInWatchlist ? '🔖' : '➕' }}</span>
-    </button>
-  </div>
-
-  <div class="actions-menu" *ngIf="isActive() && context === 'list'">
-    <ng-container *ngFor="let list of userLists">
-      <button (click)="toggleCustomList(list.id)" class="toggle-btn">
-        <i class="fa" [ngClass]="{'fa-check': movieInLists[list.id], 'fa-plus': !movieInLists[list.id]}"></i>
-        {{ list.name }}
-      </button>
-    </ng-container>
-  </div>
 </div>
