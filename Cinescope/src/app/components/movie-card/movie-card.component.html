@@ -4,7 +4,7 @@
       <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" />
 
       <div class="action-menu-container" [class.active]="isActive()">
-        <div class="action-menu-handle" (click)="toggleActions($event)">
+        <div class="action-menu-handle" (click)="openActionModal($event)">
           <i class="bi bi-three-dots handle-icon"></i>
         </div>
 

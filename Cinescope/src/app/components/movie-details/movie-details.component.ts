@@ -6,12 +6,14 @@
   import { FormsModule } from '@angular/forms';
   import { RouterModule } from '@angular/router';
   import { Location } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 
 
   @Component({
     selector: 'app-movie-details',
     standalone: true,
     imports: [CommonModule, FormsModule, RouterModule],
+    providers: [AuthService],
     templateUrl: './movie-details.component.html',
     styleUrl: './movie-details.component.scss'
   })
@@ -29,7 +31,7 @@
     newListName = '';
     newListDescription = '';
 
-    constructor(private location: Location) {}
+    constructor(private location: Location, public authService: AuthService) {}
     
     ngOnInit() {
       if (!localStorage.getItem('lastPageUrl')){
@@ -208,4 +210,7 @@
       this.location.back(); // ✅ Navigate to the previous page
     }
       
+    login() {
+      this.authService.redirectToAuth()
+    }  
   }

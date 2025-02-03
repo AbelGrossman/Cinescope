@@ -8,4 +8,23 @@
   <footer class="footer">
     <app-footer></app-footer>
   </footer>
+  <!-- Global Login Modal (placed at the bottom of the main page) -->
+<div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login Required</h5>
+        <button type="button" class="btn-close" (click)="closeModal('loginModal')" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Please log in to perform this action.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal('loginModal')">Close</button>
+        <a class="btn btn-primary" (click)="login()">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 </main>

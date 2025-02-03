@@ -38,5 +38,30 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.authService.handleAuthCallback();
   }
+
+  login() {
+    this.authService.redirectToAuth()
+  }  
+
+  openModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'block';
+      modalElement.classList.add('show');
+      modalElement.setAttribute('aria-hidden', 'false');
+      modalElement.style.opacity = '1';
+    }
+  }
+
+  closeModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'none';
+      modalElement.classList.remove('show');
+      modalElement.setAttribute('aria-hidden', 'true');
+      modalElement.style.opacity = '0';
+    }
+  }
+  
   
 }
