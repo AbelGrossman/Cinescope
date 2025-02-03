@@ -75,6 +75,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']); // ✅ Navigate to home
   }
 
+  goToAllMovies() {
+    this.router.navigate(['/app-all-movies']);
+  }
+
   login() {
     this.authService.redirectToAuth()
   }  

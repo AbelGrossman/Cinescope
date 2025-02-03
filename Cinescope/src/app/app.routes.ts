@@ -14,6 +14,7 @@ import { UserRatingsComponent } from './components/user-ratings/user-ratings.com
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { UserListsComponent } from './components/user-lists/user-lists.component';
 import { ListComponent } from './components/list/list.component';
+import { AllMoviesComponent } from './components/all-movies/all-movies.component';
 
 
 export const appRoutes: Routes = [
@@ -40,5 +41,6 @@ export const appRoutes: Routes = [
           { path: 'user-lists', component: UserListsComponent}
         ]
       },
+    {path : 'app-all-movies', component: AllMoviesComponent},
     {path: '**', redirectTo: '' } 
 ];

@@ -107,7 +107,7 @@ export class MovieService {
     );
   }
 
-    getFilteredMovies(filters: any): Observable<any> {
+  getFilteredMovies(filters: any): Observable<any> {
     let params: any = {
       api_key: this.apiKey,
       sort_by: `${filters.sortBy}.${filters.sortOrder}`
@@ -146,5 +146,14 @@ export class MovieService {
   getPopularMovies(): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}`);
   }
+
+  getAllMovies(page: number = 1): Observable<any> {
+    return this.http.get(`${this.apiUrl}/discover/movie`, {
+      params: {
+        api_key: this.apiKey,
+        page: page.toString()
+      }
+    });
+  }  
   
 }

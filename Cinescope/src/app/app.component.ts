@@ -15,6 +15,7 @@ import { ResultsComponent } from './components/results/results.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AllMoviesComponent } from './components/all-movies/all-movies.component';
 
 
 @Component({
