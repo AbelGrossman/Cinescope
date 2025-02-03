@@ -8,7 +8,6 @@
 .dropdown-menu {
   min-width: 280px;
   background: var(--secondary-background);
-  border-radius: var(--border-radius);
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -44,6 +43,10 @@
   background: var(--secondary-background);
   color: var(--text);
 
+}
+
+.btn.show {
+  border: none !important;
 }
 
 .form-label {
