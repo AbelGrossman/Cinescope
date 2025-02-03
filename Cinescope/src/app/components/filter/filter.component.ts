@@ -16,6 +16,8 @@ export class FilterComponent {
     genre: '',
     minRating: '',
     year: '',
+    vote_count: '',
+    revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
   };
@@ -32,9 +34,13 @@ export class FilterComponent {
   }
 
   applyFilters() {
+  if (!this.filters.genre && !this.filters.minRating && !this.filters.year) {
+    localStorage.removeItem('movieFilters'); // ✅ Reset stored filters when all are cleared
+  } else {
     localStorage.setItem('movieFilters', JSON.stringify(this.filters));
-    this.filtersChanged.emit(this.filters);
   }
+  this.filtersChanged.emit(this.filters);
+}
 
   toggleSortOrder() {
     this.isAscending = !this.isAscending;

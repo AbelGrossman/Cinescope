@@ -107,7 +107,7 @@ export class MovieService {
     );
   }
 
-  getFilteredMovies(filters: any): Observable<any> {
+    getFilteredMovies(filters: any): Observable<any> {
     let params: any = {
       api_key: this.apiKey,
       sort_by: `${filters.sortBy}.${filters.sortOrder}`

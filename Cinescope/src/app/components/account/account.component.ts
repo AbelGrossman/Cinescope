@@ -8,16 +8,40 @@ import { UserListsComponent } from '../user-lists/user-lists.component';
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [RouterModule, FavoritesComponent, WatchlistComponent, UserRatingsComponent, UserListsComponent],
+  imports: [RouterModule],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
 export class AccountComponent {
+
+  filters = {
+    genre: '',
+    minRating: '',
+    year: '',
+    vote_count: '', 
+    revenue: '',
+    sortBy: 'popularity',
+    sortOrder: 'desc'
+  };
+  
   constructor(private router: Router) {}
 
 
   goToRoute(route: string): void {
     this.router.navigate([route]);
+  }
+
+  resetFilters() {
+    this.filters = {
+      genre: '',
+      minRating: '',
+      year: '',
+      vote_count: '',
+      revenue: '',
+      sortBy: 'popularity',
+      sortOrder: 'desc'
+    };
+    localStorage.removeItem('movieFilters'); // ✅ Clear saved filters
   }
 
   isActive(route: string): boolean {

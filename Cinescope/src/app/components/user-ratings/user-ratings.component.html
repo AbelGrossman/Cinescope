@@ -1,9 +1,12 @@
 <div class="container mt-4">
+    <div class="col-md-3 filters">
+        <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
+    </div>
     <h2>Your Ratings</h2>
     <p>Here are all the movies you've rated.</p>
 
 
-    <app-list-movie-card [movies]="ratedMovies">
+    <app-list-movie-card [movies]="filteredMovies">
     </app-list-movie-card>
 
 

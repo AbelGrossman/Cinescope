@@ -1,14 +1,17 @@
-<div class="container mt-4">
-  <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
+  <div class="container mt-4">
+      <div class="col-md-3 filters">
+        <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
+      </div>
+      <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
 
-  <app-list-movie-card 
-  [movies]="searchResults" 
->
-</app-list-movie-card>
+      <app-list-movie-card 
+      [movies]="filteredResults" 
+    >
+    </app-list-movie-card>
 
 
 
-  <ng-template #noResults>
-    <p>Aucun film trouvé.</p>
-  </ng-template>
-</div>
+      <ng-template #noResults>
+        <p>Aucun film trouvé.</p>
+      </ng-template>
+    </div>

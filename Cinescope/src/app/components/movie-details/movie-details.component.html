@@ -11,13 +11,14 @@
       <p><strong>Durée :</strong> {{ movie.runtime }} min</p>
       <p><strong>Note :</strong> ⭐ {{ movie.vote_average | number: '1.1-2' }} / 10</p>
       <p><strong>Nombre de notes :</strong> {{formatNumberWithSpaces(movie.vote_count)}}</p>
+      <p><strong>Recettes :</strong> {{ formatNumberWithSpaces(movie.revenue) + " $"}}</p>
       <p>{{ movie.overview }}</p>
 
       <!-- Action Buttons -->
       <div class="mt-3">
         
-        <button class="btn btn-outline-success me-2" (click)="openActionModal('favorites')">
-          {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+        <button class="btn btn-outline-danger me-2" (click)="openActionModal('favorites')">
+          {{ isFavorite ? 'Remove from Favorites ♥ ' : 'Add to Favorites ♡' }}
         </button>
         
         <button class="btn btn-outline-primary me-2" (click)="openActionModal('watchlist')">
@@ -57,7 +58,7 @@
         <!-- Custom List Dropdown with "Create New List" -->
         
       </div>
-      <a class="btn btn-primary mt-3" [routerLink]="'/'">Back</a>
+      <a class="btn btn-primary mt-3" (click)="goBack()">Back</a>
     </div>
   </div>
 </div>

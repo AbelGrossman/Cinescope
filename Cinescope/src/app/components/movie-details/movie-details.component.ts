@@ -5,6 +5,7 @@
   import { ActivatedRoute } from '@angular/router';
   import { FormsModule } from '@angular/forms';
   import { RouterModule } from '@angular/router';
+  import { Location } from '@angular/common';
 
 
   @Component({
@@ -27,8 +28,13 @@
     isInWatchlist = false;
     newListName = '';
     newListDescription = '';
+
+    constructor(private location: Location) {}
     
     ngOnInit() {
+      if (!localStorage.getItem('lastPageUrl')){
+        localStorage.setItem('lastPageUrl', document.URL); 
+      }
       this.route.paramMap.subscribe(params => {
         const movieId = Number(params.get('id'));
         if (movieId) {
@@ -193,7 +199,13 @@
     }
     
     formatNumberWithSpaces(num: number): string {
-      return num.toLocaleString('fr-FR'); // Formats number with spaces (French format)
+      return num.toLocaleString('en-US'); // Formats number with spaces (French format)
     }
-    
+
+
+
+    goBack() {
+      this.location.back(); // ✅ Navigate to the previous page
+    }
+      
   }
