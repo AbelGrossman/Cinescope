@@ -1,29 +1,49 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg">
     <div class="container px-3">
-        <a class="navbar-brand" href="" (click)="resetFiltersAndGoHome()">
-            <img class="brand-logo" src="assets/video-camera.png" alt="logo">
-        </a>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="search-bar">
-                    <input type="text" [(ngModel)]="searchQuery" 
-                           class="form-control" placeholder="Start Scoping"
-                           (keyup.enter)="searchMovies()">
-                </li>
-            </ul>
-        </div>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="" (click)="resetFiltersAndGoHome()">Home</a></li>
-                <li class="nav-item" *ngIf="!authService.isLoggedIn()"><a class="nav-link" [routerLink]="'/app-login'">Login</a></li>
-                <li class="nav-item" *ngIf="authService.isLoggedIn()"><a class="nav-link" [routerLink]="'/app-account'">Account</a></li>
-                <li class="nav-item" *ngIf="authService.isLoggedIn()">
-                    <a class="nav-link text-danger" (click)="logout()" style="cursor: pointer;">Logout</a>
-                </li>
-            </ul>
-        </div>
+      <a class="navbar-brand" href="" (click)="resetFiltersAndGoHome()">
+        <img class="brand-logo" src="assets/video-camera.png" alt="logo" />
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          <li class="search-bar">
+            <input
+              type="text"
+              [(ngModel)]="searchQuery"
+              class="form-control"
+              placeholder="Start Scoping"
+              (keyup.enter)="searchMovies()"
+            />
+          </li>
+        </ul>
+      </div>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <button class="nav-link" (click)="resetFiltersAndGoHome()">Home</button>
+          </li>
+          <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+            <button class="tmdb-login-btn" (click)="login()">
+              Login
+            </button>
+          </li>
+          <li class="nav-item" *ngIf="authService.isLoggedIn()">
+            <a class="acc-btn" [routerLink]="'/app-account'">Account</a>
+          </li>
+          <li class="nav-item" *ngIf="authService.isLoggedIn()">
+            <a class="nav-link logout" (click)="logout()" style="cursor: pointer">
+              <i class="logout-icon bi bi-box-arrow-right"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
+  

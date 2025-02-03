@@ -51,4 +51,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     localStorage.removeItem('movieFilters'); // ✅ Remove saved filters
     this.router.navigate(['/']); // ✅ Navigate to home
   }
+
+  login() {
+    this.authService.redirectToAuth()
+  }  
 }

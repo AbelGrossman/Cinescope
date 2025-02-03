@@ -19,8 +19,8 @@
           </button>
 
           <button (click)="toggleRate($event)" class="toggle-btn">
-            <i [class]="userRating > 0 ? 'bi bi-star-fill star-icon' : 'bi bi-star star-icon'">         <span class="user-rating" *ngIf="userRating > 0">({{ userRating }})</span></i>
-            <span class="user-rating" *ngIf="userRating > 0">({{ userRating }})</span>
+            <i [class]="userRating > 0 ? 'bi bi-star-fill star-icon' : 'bi bi-star star-icon'"></i>
+            <span class="user-rating" *ngIf="userRating > 0">{{ userRating }}</span>
           </button>
           
 

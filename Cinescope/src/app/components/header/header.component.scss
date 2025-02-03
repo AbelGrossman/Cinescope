@@ -1,7 +1,77 @@
-.brand-logo{
+.brand-logo {
     width: 50px;
     height: 50px;
     margin-right: 10px;
-}
-
-
+  }
+  
+  .tmdb-login-btn, .acc-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    margin-left: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: var(--accent);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    margin-right: 10px;
+  
+    &:hover {
+      background-color: #4b3c9c;
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .navbar {
+    background-color: var(--dark);
+    color: var(--white);
+    padding: 10px 20px;
+  }
+  
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white);
+    text-decoration: none;
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  
+    &:hover {
+      background-color: var(--grey);
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+  
+  .nav-link.logout {
+    color: red;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+  
+    &:hover {
+      background-color: rgba(255, 0, 0, 0.2);
+    }
+  }
+  
+  .logout-icon {
+    margin: 5px 20px 5px 20px;
+    font-size: 1.2rem;
+    color: red;
+  }
+  

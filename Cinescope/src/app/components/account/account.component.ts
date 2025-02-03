@@ -15,8 +15,14 @@ import { UserListsComponent } from '../user-lists/user-lists.component';
 export class AccountComponent {
   constructor(private router: Router) {}
 
+
   goToRoute(route: string): void {
     this.router.navigate([route]);
   }
+
+  isActive(route: string): boolean {
+    return this.router.url.includes(route);
+  }
+  
 
 }

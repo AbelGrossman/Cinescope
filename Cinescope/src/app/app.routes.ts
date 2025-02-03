@@ -6,7 +6,6 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
-import { LoginComponent } from './components/login/login.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
 import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
@@ -24,7 +23,6 @@ export const appRoutes: Routes = [
     {path: 'app-contact', component : ContactComponent},
     {path: 'app-footer', component: FooterComponent},
     {path: 'app-header', component: HeaderComponent},
-    {path: 'app-login', component: LoginComponent},
     {path: 'app-movie-card', component: MovieCardComponent},
     {path: 'app-movie-details', component: MovieDetailsComponent},
     {path: 'app-movie-ratings', component: MovieRatingsComponent},
@@ -35,6 +33,7 @@ export const appRoutes: Routes = [
         path: 'app-account', 
         component: AccountComponent,
         children: [
+          { path: '', redirectTo: 'favorites', pathMatch: 'full' },
           { path: 'favorites', component: FavoritesComponent },
           { path: 'watchlist', component: WatchlistComponent },
           { path: 'user-ratings', component: UserRatingsComponent },

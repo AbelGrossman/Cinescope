@@ -1,8 +1,7 @@
 .movies-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, auto));
-    column-gap: 20px;
-    padding-top: 10px;
-    justify-content: center;
-  }
-  
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, auto));
+  column-gap: var(--spacing-md, 20px); // Utilisation d'une variable avec fallback
+  padding-top: var(--spacing-sm, 10px);
+  justify-content: start;
+}

@@ -4,7 +4,6 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AuthService } from './services/auth/auth.service';
-import { LoginComponent } from './components/login/login.component';
 import { AboutComponent } from './components/about/about.component';
 import { AccountComponent } from './components/account/account.component';
 import { ContactComponent } from './components/contact/contact.component';
@@ -23,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [RouterOutlet, AboutComponent, AccountComponent, 
     ContactComponent, FavoritesComponent, FooterComponent, 
-    HeaderComponent, HomeComponent, LoginComponent, 
+    HeaderComponent, HomeComponent, 
     MovieCardComponent, MovieDetailsComponent, MovieRatingsComponent,
   ResultsComponent, UserRatingsComponent, WatchlistComponent,
   HttpClientModule],

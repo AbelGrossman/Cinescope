@@ -1,34 +1,95 @@
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  background-color: var(--grey);
+  padding: 2rem;
+  border: var(--grey2-dark) solid 1px;
+  border-radius: var(--border-radius);
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); // Ombre mise en dur
+  text-align: center;
+
+  h3 {
+    margin-bottom: 1.5rem;
+    color: var(--white);
+  }
+
+  input {
     width: 100%;
-    height: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--grey-dark);
+    border-radius: var(--border-radius);
+    background-color: var(--grey-dark);
+    color: var(--white);
+    font-size: 1rem;
+
+    &::placeholder {
+      color: var(--grey2);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 5px var(--accent-dark);
+    }
+  }
+
+  .modal-actions {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
+    justify-content: space-between;
+    margin-top: 1rem;
   }
-  
-  .modal-content {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 6px;
-    width: 400px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  button {
+    flex: 1;
+    margin: 0 0.5rem;
   }
-  
-  .modal-content h3 {
-    margin-bottom: 1rem;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
   }
-  
-  .modal-content input {
-    width: 100%;
-    margin-bottom: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--accent-dark);
   }
-  
-  .modal-content button {
-    margin-right: 0.5rem;
+}
+
+.btn-secondary {
+  background-color: var(--grey2);
+  color: var(--white);
+
+  &:hover {
+    background-color: var(--grey2-dark);
   }
-  
+}
