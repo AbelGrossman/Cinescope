@@ -14,16 +14,18 @@ import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.compo
   imports: [CommonModule, MovieCardComponent, FormsModule, FilterComponent, ListMovieCardComponent],
 })
 export class HomeComponent implements OnInit {
-
   filters = {
     genre: '',
     minRating: '',
     year: '',
     sortBy: 'popularity',
-    sortOrder: 'desc'
+    sortOrder: 'desc',
   };
 
   trendingMovies: any[] = [];
+  nowPlayingMovies: any[] = [];
+  topRatedMovies: any[] = [];
+  popularMovies: any[] = [];
 
   constructor(private movieService: MovieService) {}
 
@@ -33,11 +35,32 @@ export class HomeComponent implements OnInit {
       this.filters = JSON.parse(savedFilters);
     }
     this.fetchMovies();
+    this.fetchNowPlayingMovies();
+    this.fetchTopRatedMovies();
+    this.fetchPopularMovies();
   }
 
   fetchMovies() {
-    this.movieService.getFilteredMovies(this.filters).subscribe(response => {
+    this.movieService.getFilteredMovies(this.filters).subscribe((response) => {
       this.trendingMovies = response.results;
+    });
+  }
+
+  fetchNowPlayingMovies() {
+    this.movieService.getNowPlayingMovies().subscribe((response) => {
+      this.nowPlayingMovies = response.results;
+    });
+  }
+
+  fetchTopRatedMovies() {
+    this.movieService.getTopRatedMovies().subscribe((response) => {
+      this.topRatedMovies = response.results;
+    });
+  }
+
+  fetchPopularMovies() {
+    this.movieService.getPopularMovies().subscribe((response) => {
+      this.popularMovies = response.results;
     });
   }
 

@@ -1,16 +1,39 @@
 <div class="container px-4 px-lg-5">
+  <!-- Filtres -->
   <div class="col-md-3 filters">
     <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
   </div>
 
+  <!-- Trending Movies -->
+  <section>
+    <h2>Trending Movies</h2>
+    <div class="horizontal-scroll">
+      <app-movie-card
+        *ngFor="let movie of trendingMovies"
+        [movie]="movie">
+      </app-movie-card>
+    </div>
+  </section>
 
-  <h2>Discover Movies</h2>
+  <!-- Now Playing in Theaters -->
+  <section>
+    <h2>Now Playing in Theaters</h2>
+    <div class="horizontal-scroll">
+      <app-movie-card
+        *ngFor="let movie of nowPlayingMovies"
+        [movie]="movie">
+      </app-movie-card>
+    </div>
+  </section>
 
-  
-  <app-list-movie-card 
-  [movies]="trendingMovies" 
->
-</app-list-movie-card>
-
-  
+  <!-- Top Rated Movies -->
+  <section>
+    <h2>Top Rated Movies</h2>
+    <div class="horizontal-scroll">
+      <app-movie-card
+        *ngFor="let movie of topRatedMovies"
+        [movie]="movie">
+      </app-movie-card>
+    </div>
+  </section>
 </div>

@@ -134,4 +134,17 @@ export class MovieService {
     );
   }
   
+
+  getNowPlayingMovies(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/now_playing?api_key=${this.apiKey}`);
+  }
+  
+  getTopRatedMovies(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/top_rated?api_key=${this.apiKey}`);
+  }
+  
+  getPopularMovies(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}`);
+  }
+  
 }

@@ -35,6 +35,7 @@
     background-color: var(--dark);
     color: var(--white);
     padding: 10px 20px;
+    align-items: center;
   }
   
   .nav-link {
@@ -75,3 +76,7 @@
     color: red;
   }
   
+
+  ul {
+    align-items: center;
+  }
