@@ -23,7 +23,7 @@ export class UserRatingsComponent implements OnInit {
     genre: '',
     minRating: '',
     year: '',
-    vote_count: '',
+    minVoteCount: '',
     revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
@@ -83,7 +83,8 @@ export class UserRatingsComponent implements OnInit {
     this.filteredMovies = this.ratedMovies.filter(movie => 
       (!this.filters.genre || movie.genre_ids.includes(Number(this.filters.genre))) &&
       (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
-      (!this.filters.year || movie.release_date.startsWith(this.filters.year))
+      (!this.filters.year || movie.release_date.startsWith(this.filters.year)) && 
+      (!this.filters.minVoteCount || movie.vote_count >= this.filters.minVoteCount)
     )
     .sort((a, b) => {
       let key = this.filters.sortBy;
@@ -106,7 +107,7 @@ export class UserRatingsComponent implements OnInit {
       genre: '',
       minRating: '',
       year: '',
-      vote_count: '',
+      minVoteCount: '',
       revenue: '',
       sortBy: 'popularity',
       sortOrder: 'desc'

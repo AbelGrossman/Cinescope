@@ -16,7 +16,7 @@ export class FilterComponent {
     genre: '',
     minRating: '',
     year: '',
-    vote_count: '',
+    minVoteCount: '',
     revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
@@ -24,6 +24,8 @@ export class FilterComponent {
   isAscending: boolean = false; 
 
   ratingOptions: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
+
+  voteCountOptions: number[] = [100, 500, 1000, 5000, 10000, 50000];
 
   ngOnInit() {
     const savedFilters = localStorage.getItem('movieFilters');

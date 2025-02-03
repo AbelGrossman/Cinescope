@@ -25,7 +25,7 @@ export class ResultsComponent implements OnInit {
     genre: '',
     minRating: '',
     year: '',
-    vote_count: '', 
+    minVoteCount: '', 
     revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
@@ -97,7 +97,8 @@ export class ResultsComponent implements OnInit {
       .filter(movie => 
         (!this.filters.genre || movie.genre_ids?.includes(Number(this.filters.genre))) &&
         (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
-        (!this.filters.year || movie.release_date?.startsWith(this.filters.year))
+        (!this.filters.year || movie.release_date?.startsWith(this.filters.year)) && 
+        (!this.filters.minVoteCount || movie.vote_count >= this.filters.minVoteCount)
       )
       .sort((a, b) => {
         let key = this.filters.sortBy;
@@ -105,7 +106,7 @@ export class ResultsComponent implements OnInit {
 
         if (key === 'release_date') {
           return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
-        } else if (key === 'vote_average' || key === 'popularity' || key === 'vote_count') {
+        } else if (key === 'vote_average' || key === 'popularity') {
           return ((a[key] || 0) - (b[key] || 0)) * order;
         } else if (key === 'revenue') {
           return ((a.revenue || 0) - (b.revenue || 0)) * order;
@@ -122,7 +123,7 @@ export class ResultsComponent implements OnInit {
       genre: '',
       minRating: '',
       year: '',
-      vote_count: '',
+      minVoteCount: '',
       revenue: '',
       sortBy: 'popularity',
       sortOrder: 'desc'

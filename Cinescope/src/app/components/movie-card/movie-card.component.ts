@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
 import { ListService } from '../../services/list/list.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-movie-card',
   standalone: true,
   imports: [CommonModule, RouterModule],
+  providers: [AuthService],
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
@@ -19,6 +21,7 @@ export class MovieCardComponent implements OnInit {
   @Input() activeMovieId: number | null = null;
   @Input() listId: number | null = null;
   @Output() toggleMovie = new EventEmitter<number | null>();
+  @Output() openMenu = new EventEmitter<any>(); // ✅ Emit movie data when opening the menu
 
   userLists: any[] = [];
   isFavorite = false;
@@ -27,6 +30,8 @@ export class MovieCardComponent implements OnInit {
   isListDropdownOpen = false;
 
   userRating: number = 0;
+
+  constructor(public authService: AuthService) {}
 
 
   ngOnInit(): void {
@@ -110,6 +115,43 @@ export class MovieCardComponent implements OnInit {
     if (this.isActive()) {
       this.toggleMovie.emit(null);
     }
+  }
+
+  openActionModal(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!this.isUserLoggedIn()) {
+      this.openModal('loginModal');
+    }
+    else {
+      this.toggleActions(event);
+    }
+  }
+
+  openModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'block';
+      modalElement.classList.add('show');
+      modalElement.setAttribute('aria-hidden', 'false');
+      modalElement.style.opacity = '1';
+    }
+  }
+
+  closeModal(modalId: string) {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      modalElement.style.display = 'none';
+      modalElement.classList.remove('show');
+      modalElement.setAttribute('aria-hidden', 'true');
+      modalElement.style.opacity = '0';
+    }
+  }
+  
+  
+
+  isUserLoggedIn(): boolean {
+    return !!localStorage.getItem('session_id');
   }
 
   toggleListDropdown(event: Event): void {
