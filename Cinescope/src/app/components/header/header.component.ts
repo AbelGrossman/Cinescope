@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   searchQuery: string = ''; // ✅ Stocker la recherche
   private authSubscription!: Subscription;
 
+  isDarkMode: boolean= false;
+
   constructor(private router: Router, public authService: AuthService) {}
 
   goToRoute(route: string): void {
@@ -28,6 +30,27 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authSubscription = this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
     });
+
+
+    this.isDarkMode = localStorage.getItem('theme') === 'dark';
+    this.updateTheme();
+  }
+
+  toggleTheme() {
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+    this.updateTheme();
+  }
+
+  updateTheme() {
+    const htmlElement = document.documentElement;
+    if (this.isDarkMode) {
+      htmlElement.classList.remove('light-mode');
+      htmlElement.classList.add('dark-mode');
+    } else {
+      htmlElement.classList.remove('dark-mode');
+      htmlElement.classList.add('light-mode');
+    }
   }
 
   logout() {
@@ -56,3 +79,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.redirectToAuth()
   }  
 }
+

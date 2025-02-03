@@ -1,45 +1,51 @@
 :root {
   /* Light Mode */
-  --background-light: #F5F5F5; /* Gris très clair pour éviter un blanc agressif */
-  --secondary-background-light: #FFFFFF; /* Fond des cards et sections */
-  --primary-light: #4265ac; /* Bleu-gris doux, moderne et neutre */
-  --secondary-light: #9CA3AF; /* Accent secondaire subtil */
-  --text-light: #1F2937; /* Gris foncé pour un bon contraste sans être trop dur */
-  --border-light: #E5E7EB; /* Lignes discrètes pour la structure */
+  --background-light: #EEEEEE;
+  --secondary-background-light: #bfbfbf;
+  --primary-light: #00ADB5;
+  --secondary-light: #0d949b;
+  --text-light: #222831;
+  --text-secondary-light: #414141;
+  --border-light: #e2e8f0;
+
+
+
 
   /* Dark Mode */
-  --background-dark: #1E1E1E; /* Gris très foncé, comfy et immersif */
-  --secondary-background-dark: #292929; /* Légèrement plus clair pour créer du relief */
-  --primary-dark: #A8B5C3; /* Bleu-gris doux pour les accents */
-  --secondary-dark: #7D8A96; /* Ton plus foncé pour les éléments interactifs */
-  --text-dark: #E4E4E4; /* Blanc cassé pour une lecture agréable */
-  --border-dark: #3D3D3D; /* Bordures douces pour la structure */
+  --background-dark: #0D1B2A;
+  --secondary-background-dark: #1a2938;
+  --primary-dark: #00ADB5;
+  --secondary-dark: #0d949b;
+  --text-dark: #EEEEEE;
+  --text-secondary-dark: #bdbdbd;
+  --border-dark: #414141;
 
-  /* Autres variables */
-  --border-radius: 16px; /* Coins arrondis subtils */
+  --border-radius: 16px;
 }
+
 
 
 html {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-/* Couleurs Light Mode */
+
 .light-mode {
   --background: var(--background-light);
   --secondary-background: var(--secondary-background-light);
   --primary: var(--primary-light);
   --secondary: var(--secondary-light);
   --text: var(--text-light);
+  --text-secondary: var(--text-secondary-light);
   --border: var(--border-light);
 }
 
-/* Couleurs Dark Mode */
 .dark-mode {
   --background: var(--background-dark);
   --secondary-background: var(--secondary-background-dark);
   --primary: var(--primary-dark);
   --secondary: var(--secondary-dark);
   --text: var(--text-dark);
+  --text-secondary: var(--text-secondary-dark);
   --border: var(--border-dark);
 }
 
@@ -134,5 +140,6 @@ html {
 body {
   font-family: 'GothamSSm', sans-serif;
   font-weight: 600;
+  background-image: radial-gradient( circle 710px at 5.2% 7.2%,  rgba(37,89,222,1) 0%, rgba(37,89,222,1) 7.5%, rgba(4,4,29,1) 44.7% );
 }
 

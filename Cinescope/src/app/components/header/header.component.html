@@ -42,6 +42,12 @@
               <i class="logout-icon bi bi-box-arrow-right"></i>
             </a>
           </li>
+          <li class="nav-item">
+            <button class="theme-toggle-btn" (click)="toggleTheme()">
+              <i [ngClass]="isDarkMode ? 'bi bi-moon-fill' : 'bi bi-sun-fill'"></i>
+            </button>
+          </li>
+          
         </ul>
       </div>
     </div>
