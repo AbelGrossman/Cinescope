@@ -43,10 +43,15 @@
     </div>
 
     <div class="movie-info">
-      <h2 class="movie-title">{{ movie.title }}</h2>
+      <div #titleWrapper class="movie-title-wrapper">
+        <h2 #movieTitle class="movie-title" [class.scrolling]="isScrolling">
+          {{ movie.title }}
+        </h2>
+      </div>
       <p class="movie-details">
         <span>⭐</span> {{ movie.vote_average | number:'1.1-1' }} • {{ movie.release_date | date:'y' }}
       </p>
     </div>
+    
   </a>
 </div>

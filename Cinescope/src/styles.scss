@@ -1,7 +1,7 @@
 :root {
   /* Light Mode */
-  --background-light: #EEEEEE;
-  --secondary-background-light: #bfbfbf;
+  --background-light: #ffffff;
+  --secondary-background-light: #EEEEEE;
   --primary-light: #00ADB5;
   --secondary-light: #0d949b;
   --text-light: #222831;
@@ -139,8 +139,7 @@ html {
 
 
 body {
-  font-family: 'GothamSSm', sans-serif;
+  font-family: Arial, Helvetica, sans-serif, sans-serif;
   font-weight: 600;
-  background-image: radial-gradient( circle 710px at 5.2% 7.2%,  rgba(37,89,222,1) 0%, rgba(37,89,222,1) 7.5%, rgba(4,4,29,1) 44.7% );
 }
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { MovieService } from '../../services/movie/movie.service';
@@ -21,7 +21,7 @@ export class MovieCardComponent implements OnInit {
   @Input() activeMovieId: number | null = null;
   @Input() listId: number | null = null;
   @Output() toggleMovie = new EventEmitter<number | null>();
-  @Output() openMenu = new EventEmitter<any>(); // ✅ Emit movie data when opening the menu
+  @Output() openMenu = new EventEmitter<any>();
 
   userLists: any[] = [];
   isFavorite = false;
@@ -30,6 +30,12 @@ export class MovieCardComponent implements OnInit {
   isListDropdownOpen = false;
 
   userRating: number = 0;
+
+    @ViewChild('movieTitle') movieTitle!: ElementRef;
+    @ViewChild('titleWrapper') titleWrapper!: ElementRef;
+    isScrolling = false;
+    scrollDistance = 0;
+
 
   constructor(public authService: AuthService) {}
 
@@ -41,6 +47,19 @@ export class MovieCardComponent implements OnInit {
       this.fetchWatchlist();
       this.checkUserRating();
     }
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      const titleEl = this.movieTitle.nativeElement as HTMLElement;
+      const wrapperEl = this.titleWrapper.nativeElement as HTMLElement;
+      if (titleEl.scrollWidth > wrapperEl.offsetWidth) {
+        this.isScrolling = true;
+        const distance = titleEl.scrollWidth - wrapperEl.offsetWidth;
+        this.scrollDistance = distance;
+        titleEl.style.setProperty('--scroll-distance', `${distance}px`);
+      }
+    });
   }
 
   checkUserRating(): void {

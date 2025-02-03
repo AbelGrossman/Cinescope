@@ -1,25 +1,3 @@
-
-
-/* Couleurs Light Mode */
-.light-mode {
-  --background: var(--background-light);
-  --secondary-background: var(--secondary-background-light);
-  --primary: var(--primary-light);
-  --secondary: var(--secondary-light);
-  --text: var(--text-light);
-  --border: var(--border-light);
-}
-
-/* Couleurs Dark Mode */
-.dark-mode {
-  --background: var(--background-dark);
-  --secondary-background: var(--secondary-background-dark);
-  --primary: var(--primary-dark);
-  --secondary: var(--secondary-dark);
-  --text: var(--text-dark);
-  --border: var(--border-dark);
-}
-
 .movie-card-container {
   position: relative;
   width: 100%;
@@ -37,7 +15,7 @@
 .movie-card {
   display: block;
   text-decoration: none;
-  color: var(--text); /* Texte principal */
+  color: var(--text);
   height: 100%;
 }
 
@@ -49,7 +27,7 @@
 
 .poster {
   width: 100%;
-  height: 100%;
+  height: 300px;
   object-fit: cover;
   transition: transform 0.3s ease;
   border-radius: var(--border-radius) var(--border-radius) 0 0;
@@ -63,25 +41,55 @@
   text-align: left;
   height: 60px;
   border-radius: 0 0 var(--border-radius) var(--border-radius);
-  background: var(--secondary-background); /* Fond secondaire */
+  background: var(--secondary-background);
+}
+
+.movie-title-wrapper {
+  overflow: hidden;
+  width: 100%;
 }
 
 .movie-title {
   font-weight: 500;
   font-size: 0.8rem;
+  white-space: nowrap;
   margin: 0;
-  margin-left: 1px;
-  color: var(--text); /* Texte principal */
+  display: inline-block;
 }
+
+.movie-title.scrolling {
+  animation: marquee 10s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(calc(-1 * var(--scroll-distance)));
+  }
+  60% {
+    transform: translateX(calc(-1 * var(--scroll-distance)));
+  }
+  80% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 
 .movie-details {
   font-size: 0.7rem;
   margin-bottom: 8px;
   font-weight: 300;
-  color: var(--text-secondary); /* Accent secondaire pour les détails */
+  color: var(--text-secondary);
 }
 
-/* Action Menu */
 .action-menu-container {
   position: absolute;
   bottom: -46px;
@@ -99,8 +107,8 @@
 .action-menu-handle {
   width: 35px;
   height: 15px;
-  background: var(--secondary-background); /* Accent principal */
-  color: var(--text-inverse); /* Texte inversé */
+  background: var(--secondary-background);
+  color: var(--text-inverse);
   text-align: center;
   cursor: pointer;
   z-index: 999;
@@ -114,13 +122,15 @@
 
 .handle-icon {
   font-size: 20px;
+  margin-top: 3px;
+  color: var(--text-secondary);
 }
 
 .actions-menu {
   position: relative;
   display: flex;
   flex-direction: row;
-  background: var(--secondary-background); /* Fond secondaire */
+  background: var(--secondary-background);
   padding: 8px;
   gap: 5px;
   opacity: 0;
@@ -148,10 +158,9 @@
   }
 }
 
-/* List Dropdown */
 .list-dropdown {
   position: absolute;
-  background: var(--secondary-background); /* Fond secondaire */
+  background: var(--secondary-background);
   right: 0;
   top: 45px;
   padding: 8px;
@@ -160,33 +169,33 @@
   align-items: start;
   gap: 5px;
   z-index: 9999;
-  border: solid 1px var(--border); /* Bordure subtile */
+  border: solid 1px var(--border);
   border-radius: 0 0 10px 10px;
   font-size: 0.6rem;
 }
 
 /* Icons */
 .heart-icon {
-  color: #FF0000; /* Rouge vif pour le cœur */
+  color: #FF0000;
   font-size: 15px;
 }
 
 .bookmark-icon {
-  color: var(--primary); /* Accent principal */
+  color: var(--primary);
   font-size: 15px;
 }
 
 .star-icon {
-  color: #FFD700; /* Or pour les étoiles */
+  color: #FFD700;
   font-size: 18px;
 }
 
 .list-btn {
-  color: var(--text); /* Texte principal */
+  color: var(--text);
 }
 
 .in-list {
-  color: var(--primary); /* Accent principal */
+  color: var(--primary);
 }
 
 .not-in-list {
@@ -197,5 +206,5 @@
   position: absolute;
   font-size: 9px;
   color: var(--text-inverse); /* Texte inversé */
-  font-weight: 600;
+  font-weight: 700;
 }

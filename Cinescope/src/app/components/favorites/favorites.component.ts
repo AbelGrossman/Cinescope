@@ -38,7 +38,7 @@ export class FavoritesComponent implements OnInit {
       if (event instanceof NavigationStart) {
         const lastPage = localStorage.getItem('lastPageUrl') || '';
         if (event.id !== this.lastNavigationId && !lastPage.includes('/app-movie')) {
-          this.resetFilters(); // ✅ Reset filters when navigating to a new page
+          this.resetFilters();
         }
         this.lastNavigationId = event.id;
       }
