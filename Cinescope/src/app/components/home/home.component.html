@@ -5,9 +5,8 @@
   <section>
     <h2>Trending Movies</h2>
     <div class="horizontal-scroll">
-      <app-movie-card
-        *ngFor="let movie of trendingMovies"
-        [movie]="movie">
+      <app-movie-card *ngFor="let movie of trendingMovies" [movie]="movie" [activeMovieId]="activeMovieId"
+        (toggleMovie)="onToggleMovie($event)">
       </app-movie-card>
     </div>
   </section>
@@ -16,9 +15,8 @@
   <section>
     <h2>Now Playing in Theaters</h2>
     <div class="horizontal-scroll">
-      <app-movie-card
-        *ngFor="let movie of nowPlayingMovies"
-        [movie]="movie">
+      <app-movie-card *ngFor="let movie of nowPlayingMovies" [movie]="movie" [activeMovieId]="activeMovieId"
+        (toggleMovie)="onToggleMovie($event)">
       </app-movie-card>
     </div>
   </section>
@@ -27,9 +25,8 @@
   <section>
     <h2>Top Rated Movies</h2>
     <div class="horizontal-scroll">
-      <app-movie-card
-        *ngFor="let movie of topRatedMovies"
-        [movie]="movie">
+      <app-movie-card *ngFor="let movie of topRatedMovies" [movie]="movie" [activeMovieId]="activeMovieId"
+        (toggleMovie)="onToggleMovie($event)">
       </app-movie-card>
     </div>
   </section>

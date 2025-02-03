@@ -18,12 +18,24 @@ export class HomeComponent implements OnInit {
   topRatedMovies: any[] = [];
   popularMovies: any[] = [];
 
+  activeMovieId: number | null = null;
+
+
   constructor(private movieService: MovieService) {}
 
+
+
+
+ 
   ngOnInit() {
     this.fetchTrendingMovies();
     this.fetchNowPlayingMovies();
     this.fetchTopRatedMovies();
+  }
+  
+  onToggleMovie(movieId: number | null): void {
+    console.log("toggle");
+    this.activeMovieId = movieId;
   }
 
   fetchTrendingMovies() {
