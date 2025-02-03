@@ -7,43 +7,42 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(14, 15, 35, 0.5);
   z-index: 9999;
   backdrop-filter: blur(2px);
 }
 
 .modal-content {
-  background-color: var(--grey);
+  background-color: var(--background);
   padding: 2rem;
-  border: var(--grey2-dark) solid 1px;
   border-radius: var(--border-radius);
   width: 400px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); // Ombre mise en dur
+  box-shadow: 0 4px 10px rgba(14, 15, 35, 0.3); 
   text-align: center;
 
   h3 {
     margin-bottom: 1.5rem;
-    color: var(--white);
+    color: var(--text);
   }
 
   input {
     width: 100%;
     padding: 0.8rem;
     margin-bottom: 1rem;
-    border: 1px solid var(--grey-dark);
+    border: 1px solid var(--secondary); 
     border-radius: var(--border-radius);
-    background-color: var(--grey-dark);
-    color: var(--white);
+    background-color: var(--background); 
+    color: var(--text);
     font-size: 1rem;
 
     &::placeholder {
-      color: var(--grey2);
+      color: var(--text);
     }
 
     &:focus {
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 5px var(--accent-dark);
+      border-color: var(--primary);
+      box-shadow: 0 0 5px var(--primary);
     }
   }
 
@@ -77,19 +76,19 @@
 }
 
 .btn-primary {
-  background-color: var(--accent);
-  color: var(--white);
+  background-color: var(--primary);
+  color: var(--text-inverse);
 
   &:hover {
-    background-color: var(--accent-dark);
+    background-color: var(--secondary);
   }
 }
 
 .btn-secondary {
-  background-color: var(--grey2);
-  color: var(--white);
+  background-color: var(--background);
+  color: var(--text);
 
   &:hover {
-    background-color: var(--grey2-dark);
+    background-color: var(--secondary);
   }
 }

@@ -1,100 +1,108 @@
 h1 {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  p {
-    font-size: 1.1rem;
-  }
-  
-  .img-fluid {
-    max-height: 500px;
-  }
-  
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text); /* Texte principal */
+}
 
-  .rating {
-    .star {
-      font-size: 2rem;
-      color: #ffd700; /* Gold color for stars */
-      cursor: pointer;
-      transition: color 0.3s;
-  
-      &:hover {
-        color: #ffcc00;
-      }
-    }
-  }
-  
-  .btn-outline-primary,
-  .btn-outline-secondary,
-  .btn-outline-info,
-  .btn-outline-warning {
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .btn-outline-primary:hover {
-    background-color: #007bff;
-    color: #fff;
-  }
-  
-  .btn-outline-secondary:hover {
-    background-color: #6c757d;
-    color: #fff;
-  }
-  
-  .btn-outline-info:hover {
-    background-color: #17a2b8;
-    color: #fff;
-  }
-  
-  .btn-outline-warning:hover {
-    background-color: #ffc107;
-    color: #fff;
-  }
-  
-  .create-list {
-    color: #007bff; /* Bootstrap primary color */
-    cursor: pointer; /* Show hand cursor on hover */
-    padding: 8px 15px;
-    display: block;
-  }
-  
-  .create-list:hover {
-    background-color: #f8f9fa; /* Light gray background on hover */
-    color: #0056b3; /* Darker blue on hover */
-  }
+p {
+  font-size: 1.1rem;
+  color: var(--text); /* Texte principal */
+}
 
-  .add-to-list {
-    cursor: pointer;
-  } 
+.img-fluid {
+  max-height: 500px;
+  border-radius: var(--border-radius); /* Coins arrondis pour un rendu moderne */
+}
 
-  .rating-container {
-    margin-bottom: 15px; /* Remove space between "Rate this movie" and stars */
-  }
-  
-  .rating-stars {
-    display: flex;
-    gap: 5px; /* Add space between stars */
-    font-size: 1.5rem;
-  }
-  
+/* Rating */
+.rating {
   .star {
-    color: lightgray; /* Default color for empty stars */
+    font-size: 2rem;
+    color: #ffd700; /* Gold color for stars */
     cursor: pointer;
     transition: color 0.3s;
-  }
-  
-  .star.filled {
-    color: gold; /* Color stars up to the rating */
-  }
-  
-  /* Add spacing before "Add to List" */
-  .rate-movie-string {
-    margin-top: 15px;
-    margin-bottom: 0px;
-  }
 
-  .showtimes {
-    margin-bottom: 10px;
+    &:hover {
+      color: #ffcc00; /* Hover effect for stars */
+    }
   }
-  
+}
+
+.rating-container {
+  margin-bottom: 15px;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 5px; /* Add space between stars */
+  font-size: 1.5rem;
+}
+
+.star {
+  color: var(--secondary); /* Default color for empty stars */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star.filled {
+  color: #ffd700; /* Gold for filled stars */
+}
+
+/* Buttons */
+.btn-outline-primary,
+.btn-outline-secondary,
+.btn-outline-info,
+.btn-outline-warning {
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: var(--border-radius); /* Rounded buttons */
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary); /* Primary accent */
+  color: var(--text-inverse); /* Text inverse for contrast */
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--secondary); /* Secondary accent */
+  color: var(--text-inverse);
+}
+
+.btn-outline-info:hover {
+  background-color: #17a2b8; /* Info color */
+  color: var(--text-inverse);
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107; /* Warning color */
+  color: var(--text-inverse);
+}
+
+/* Create List */
+.create-list {
+  color: var(--primary); /* Primary accent */
+  cursor: pointer;
+  padding: 8px 15px;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: var(--secondary-background); /* Background hover effect */
+    color: var(--secondary); /* Darker accent on hover */
+  }
+}
+
+.add-to-list {
+  cursor: pointer;
+}
+
+/* Showtimes */
+.showtimes {
+  margin-bottom: 10px;
+  color: var(--text); /* Texte principal */
+}
+
+/* Spacing adjustments */
+.rate-movie-string {
+  margin-top: 15px;
+  margin-bottom: 0px;
+}

@@ -1,23 +1,46 @@
 :root {
-  --dark: #121212;
-  --dark-light: #1a1a1a;
+  /* Light Mode */
+  --background-light: #F5F5F5; /* Gris très clair pour éviter un blanc agressif */
+  --secondary-background-light: #FFFFFF; /* Fond des cards et sections */
+  --primary-light: #4265ac; /* Bleu-gris doux, moderne et neutre */
+  --secondary-light: #9CA3AF; /* Accent secondaire subtil */
+  --text-light: #1F2937; /* Gris foncé pour un bon contraste sans être trop dur */
+  --border-light: #E5E7EB; /* Lignes discrètes pour la structure */
 
-  --grey: #2a2929;
-  --grey-light: #3a3939;
-  --grey-dark: #1f1e1e;
+  /* Dark Mode */
+  --background-dark: #1E1E1E; /* Gris très foncé, comfy et immersif */
+  --secondary-background-dark: #292929; /* Légèrement plus clair pour créer du relief */
+  --primary-dark: #A8B5C3; /* Bleu-gris doux pour les accents */
+  --secondary-dark: #7D8A96; /* Ton plus foncé pour les éléments interactifs */
+  --text-dark: #E4E4E4; /* Blanc cassé pour une lecture agréable */
+  --border-dark: #3D3D3D; /* Bordures douces pour la structure */
 
-  --grey2: #545151;
-  --grey2-dark: #3e3b3b;
+  /* Autres variables */
+  --border-radius: 16px; /* Coins arrondis subtils */
+}
 
-  --white: #f0f0f0;
 
-  --accent: #5647ae;
-  --accent-dark: #45388c;
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+/* Couleurs Light Mode */
+.light-mode {
+  --background: var(--background-light);
+  --secondary-background: var(--secondary-background-light);
+  --primary: var(--primary-light);
+  --secondary: var(--secondary-light);
+  --text: var(--text-light);
+  --border: var(--border-light);
+}
 
-  --red: #dc3545;
-  --red-dark: #b52b38;
-
-  --border-radius: 25px;
+/* Couleurs Dark Mode */
+.dark-mode {
+  --background: var(--background-dark);
+  --secondary-background: var(--secondary-background-dark);
+  --primary: var(--primary-dark);
+  --secondary: var(--secondary-dark);
+  --text: var(--text-dark);
+  --border: var(--border-dark);
 }
 
 

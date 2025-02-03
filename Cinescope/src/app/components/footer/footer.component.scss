@@ -1,12 +1,8 @@
 .nav-link{
     padding: 10px 20px; 
+    color: var(--text);
 }
 
 .navbar {
-    background-color: var(--dark);
-}
-
-.nav-link {
-    color: var(--white);
-
+    background-color: var(--background);
 }

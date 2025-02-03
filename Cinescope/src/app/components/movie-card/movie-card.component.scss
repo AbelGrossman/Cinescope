@@ -1,3 +1,25 @@
+
+
+/* Couleurs Light Mode */
+.light-mode {
+  --background: var(--background-light);
+  --secondary-background: var(--secondary-background-light);
+  --primary: var(--primary-light);
+  --secondary: var(--secondary-light);
+  --text: var(--text-light);
+  --border: var(--border-light);
+}
+
+/* Couleurs Dark Mode */
+.dark-mode {
+  --background: var(--background-dark);
+  --secondary-background: var(--secondary-background-dark);
+  --primary: var(--primary-dark);
+  --secondary: var(--secondary-dark);
+  --text: var(--text-dark);
+  --border: var(--border-dark);
+}
+
 .movie-card-container {
   position: relative;
   width: 100%;
@@ -15,7 +37,7 @@
 .movie-card {
   display: block;
   text-decoration: none;
-  color: var(--white);
+  color: var(--text); /* Texte principal */
   height: 100%;
 }
 
@@ -41,7 +63,7 @@
   text-align: left;
   height: 60px;
   border-radius: 0 0 var(--border-radius) var(--border-radius);
-  background: var(--grey2);
+  background: var(--secondary-background); /* Fond secondaire */
 }
 
 .movie-title {
@@ -49,15 +71,17 @@
   font-size: 0.8rem;
   margin: 0;
   margin-left: 1px;
+  color: var(--text); /* Texte principal */
 }
 
 .movie-details {
   font-size: 0.7rem;
   margin-bottom: 8px;
   font-weight: 300;
+  color: var(--secondary); /* Accent secondaire pour les détails */
 }
 
-// Action Menu
+/* Action Menu */
 .action-menu-container {
   position: absolute;
   bottom: -46px;
@@ -75,8 +99,8 @@
 .action-menu-handle {
   width: 35px;
   height: 15px;
-  background: var(--grey2);
-  color: var(--white);
+  background: var(--secondary-background); /* Accent principal */
+  color: var(--text-inverse); /* Texte inversé */
   text-align: center;
   cursor: pointer;
   z-index: 999;
@@ -96,12 +120,14 @@
   position: relative;
   display: flex;
   flex-direction: row;
-  background: var(--grey2);
+  background: var(--secondary-background); /* Fond secondaire */
   padding: 8px;
   gap: 5px;
   opacity: 0;
   transition: opacity 0.2s ease;
   border-radius: 15px 0px 0px 0px;
+  border: none;
+
 
   &.active {
     opacity: 1;
@@ -122,10 +148,10 @@
   }
 }
 
-// List Dropdown
+/* List Dropdown */
 .list-dropdown {
   position: absolute;
-  background: var(--grey2);
+  background: var(--secondary-background); /* Fond secondaire */
   right: 0;
   top: 45px;
   padding: 8px;
@@ -134,42 +160,42 @@
   align-items: start;
   gap: 5px;
   z-index: 9999;
-  border: solid 1px var(--grey);
+  border: solid 1px var(--border); /* Bordure subtile */
   border-radius: 0 0 10px 10px;
   font-size: 0.6rem;
 }
 
-// Icons
+/* Icons */
 .heart-icon {
-  color: red;
+  color: #FF0000; /* Rouge vif pour le cœur */
   font-size: 15px;
 }
 
 .bookmark-icon {
-  color: var(--accent);
+  color: var(--primary); /* Accent principal */
   font-size: 15px;
 }
 
 .star-icon {
-  color: #FFD700;
+  color: #FFD700; /* Or pour les étoiles */
   font-size: 18px;
 }
 
 .list-btn {
-  color: var(--white);
+  color: var(--text); /* Texte principal */
 }
 
 .in-list {
-  color: var(--white);
+  color: var(--primary); /* Accent principal */
 }
 
 .not-in-list {
-  color: #979797;
+  color: var(--secondary); /* Accent secondaire */
 }
 
 .user-rating {
   position: absolute;
   font-size: 9px;
-  color: var(--dark);
+  color: var(--text-inverse); /* Texte inversé */
   font-weight: 600;
 }
