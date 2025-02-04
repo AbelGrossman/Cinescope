@@ -140,4 +140,10 @@
 </div>
 
 
-<app-star-rating *ngIf="showRatingPopup" [initialRating]="userRating" (ratingChange)="rateMovie($event)" (close)="closeRatingPopup()"></app-star-rating>
+<app-star-rating
+  *ngIf="showRatingPopup"
+  [initialRating]="userRating"
+  [movieId]="movie.id"
+  (ratingChange)="rateMovie($event)"
+  (close)="closeRatingPopup()"
+></app-star-rating>

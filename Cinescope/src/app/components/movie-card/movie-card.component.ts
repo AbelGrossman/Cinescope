@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { StarRatingComponent } from '../star-rating/star-rating.component'; // ajuste le chemin si besoin
 import { MovieService } from '../../services/movie/movie.service';
 import { ListService } from '../../services/list/list.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -8,7 +9,7 @@ import { AuthService } from '../../services/auth/auth.service';
 @Component({
   selector: 'app-movie-card',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, StarRatingComponent],
   providers: [AuthService],
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
@@ -30,15 +31,14 @@ export class MovieCardComponent implements OnInit {
   isListDropdownOpen = false;
 
   userRating: number = 0;
+  showRatingPopup: boolean = false;
 
-    @ViewChild('movieTitle') movieTitle!: ElementRef;
-    @ViewChild('titleWrapper') titleWrapper!: ElementRef;
-    isScrolling = false;
-    scrollDistance = 0;
-
+  @ViewChild('movieTitle') movieTitle!: ElementRef;
+  @ViewChild('titleWrapper') titleWrapper!: ElementRef;
+  isScrolling = false;
+  scrollDistance = 0;
 
   constructor(public authService: AuthService) {}
-
 
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
@@ -52,7 +52,6 @@ export class MovieCardComponent implements OnInit {
   setDefaultImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
   }
-  
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -146,8 +145,7 @@ export class MovieCardComponent implements OnInit {
     event.stopPropagation();
     if (!this.isUserLoggedIn()) {
       this.openModal('loginModal');
-    }
-    else {
+    } else {
       this.toggleActions(event);
     }
   }
@@ -171,8 +169,6 @@ export class MovieCardComponent implements OnInit {
       modalElement.style.opacity = '0';
     }
   }
-  
-  
 
   isUserLoggedIn(): boolean {
     return !!localStorage.getItem('session_id');
@@ -241,53 +237,29 @@ export class MovieCardComponent implements OnInit {
     return list ? list.name : '';
   }
 
-  rateMovie(): void {
-    if (!this.movie) return;
-    const ratingStr = prompt(`Donnez une note (0-10) pour ${this.movie.title}`);
-    if (!ratingStr) return;
-    const rating = parseFloat(ratingStr);
-    if (isNaN(rating) || rating < 0 || rating > 10) {
-      alert('Note invalide.');
-      return;
-    }
-    this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
-      alert('Merci pour votre note.');
-    });
-  }
-
-
+  // Remplace l'ancienne logique du prompt par l'ouverture du composant star-rating
   toggleRate(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    if (this.userRating > 0) {
-      const confirmRemove = confirm(`Vous avez déjà noté ce film (${this.userRating}/10). Voulez-vous retirer cette note ?`);
-      if (confirmRemove) {
-        this.removeRating();
-      }
+    this.showRatingPopup = true;
+  }
+
+  // Lorsqu'un rating est confirmé dans le popup
+  updateRating(newRating: number): void {
+    if (newRating > 0) {
+      this.movieService.rateMovie(this.movie.id, newRating).subscribe(() => {
+        this.userRating = newRating;
+        alert(`Merci pour votre note: ${newRating}/10`);
+      });
     } else {
-      this.askAndRateMovie();
-    }
-  }
-
-  askAndRateMovie(): void {
-    const ratingStr = prompt(`Donnez une note (0-10) pour ${this.movie.title}`);
-    if (!ratingStr) return;
-    const rating = parseFloat(ratingStr);
-    if (isNaN(rating) || rating < 0 || rating > 10) {
-      alert('Note invalide.');
-      return;
-    }
-    this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
-      this.userRating = rating;
-      alert(`Merci pour votre note: ${rating}/10`);
-    });
-  }
-
-  removeRating(): void {
-    this.movieService.removeRating(this.movie.id).subscribe(() => {
+      this.movieService.removeRating(this.movie.id).subscribe(() => {
         this.userRating = 0;
         alert(`Votre note pour ${this.movie.title} a été retirée.`);
       });
+    }
+  }
+
+  closeRatingPopup(): void {
+    this.showRatingPopup = false;
   }
 }
-

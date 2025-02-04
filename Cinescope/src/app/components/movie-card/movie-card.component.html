@@ -1,7 +1,12 @@
 <div class="movie-card-container" (mouseleave)="hideActions()">
   <a class="movie-card" [routerLink]="['/app-movie', movie.id]">
     <div class="image-wrapper">
-      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
+      <img
+        class="poster"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+        (error)="setDefaultImage($event)"
+        alt="{{ movie.title }}"
+      />
 
       <div class="action-menu-container" [class.active]="isActive()">
         <div class="action-menu-handle" (click)="openActionModal($event)">
@@ -9,7 +14,6 @@
         </div>
 
         <div class="actions-menu" [class.active]="isActive()">
-
           <button (click)="toggleFavorite($event)" class="toggle-btn">
             <i [class]="isFavorite ? 'bi bi-heart-fill heart-icon' : 'bi bi-heart heart-icon'"></i>
           </button>
@@ -18,11 +22,11 @@
             <i [class]="isInWatchlist ? 'bi bi-bookmark-fill bookmark-icon' : 'bi bi-bookmark bookmark-icon'"></i>
           </button>
 
+          <!-- Bouton d'ouverture du popup star-rating -->
           <button (click)="toggleRate($event)" class="toggle-btn">
             <i [class]="userRating > 0 ? 'bi bi-star-fill star-icon' : 'bi bi-star star-icon'"></i>
             <span class="user-rating" *ngIf="userRating > 0">{{ userRating }}</span>
           </button>
-          
 
           <button class="toggle-btn list-btn" (click)="toggleListDropdown($event)">
             <i class="bi bi-list-ul"></i>
@@ -37,7 +41,6 @@
               {{ list.name }}
             </button>
           </div>
-
         </div>
       </div>
     </div>
@@ -49,9 +52,17 @@
         </h2>
       </div>
       <p class="movie-details">
-        <span>⭐</span> {{ movie.vote_average | number:'1.1-1' }} • {{ movie.release_date | date:'y' }}
+        <span>⭐</span>
+        {{ movie.vote_average | number:'1.1-1' }} • {{ movie.release_date | date:'y' }}
       </p>
     </div>
-    
   </a>
 </div>
+
+<app-star-rating
+  *ngIf="showRatingPopup"
+  [initialRating]="userRating"
+  [movieId]="movie.id"
+  (ratingChange)="updateRating($event)"
+  (close)="closeRatingPopup()"
+></app-star-rating>

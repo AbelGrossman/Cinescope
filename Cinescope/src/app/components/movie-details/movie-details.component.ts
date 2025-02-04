@@ -27,7 +27,7 @@ export class MovieDetailsComponent implements OnInit {
   private router = inject(Router);
 
   movie: any
-  userRating = 0
+  userRating: number = 0
   userLists: any[] = []
   isFavorite = false
   isInWatchlist = false
@@ -48,8 +48,23 @@ export class MovieDetailsComponent implements OnInit {
         this.fetchUserLists()
         this.fetchFavorites()
         this.fetchWatchlist()
+        this.fetchUserRating()
       }
     })
+  }
+
+  fetchUserRating(): void {
+    this.movieService.getUserRatings().subscribe({
+      next: (data) => {
+        const ratedFilm = data.results.find((rated: any) => rated.id === this.movie.id);
+        if (ratedFilm && ratedFilm.rating) {
+          this.userRating = ratedFilm.rating;
+        }
+      },
+      error: (err) => {
+        console.error('Erreur lors de la récupération des notes utilisateur', err);
+      }
+    });
   }
 
   fetchMovieDetails(movieId: number) {

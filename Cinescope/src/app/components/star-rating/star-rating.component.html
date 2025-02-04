@@ -1,1 +1,25 @@
-<p>star-rating works!</p>
+<div class="star-rating-popup">
+    <div class="star-rating-content">
+      <h2>Rate this movie</h2>
+      <div class="stars">
+        <span
+          *ngFor="let star of stars; let i = index"
+          (click)="rate(i + 1)"
+          (mouseenter)="hover(i + 1)"
+          (mouseleave)="hover(0)"
+          [class.filled]="star <= (hoverRating || rating)"
+        >
+          ★
+        </span>
+      </div>
+      <div class="rating-value">
+        {{ hoverRating || rating || 0 }}/10
+      </div>
+      <div class="buttons">
+        <button class="btn-confirm" (click)="confirmRating()">Confirm</button>
+        <button class="btn-cancel" (click)="cancel()">Cancel</button>
+        <button *ngIf="rating" class="btn-remove" (click)="removeRating()">Remove Rating</button>
+      </div>
+    </div>
+  </div>
+  
