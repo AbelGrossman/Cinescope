@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, inject, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { StarRatingComponent } from '../star-rating/star-rating.component'; // ajuste le chemin si besoin
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { ListService } from '../../services/list/list.service';
 import { AuthService } from '../../services/auth/auth.service';
@@ -17,29 +17,23 @@ import { AuthService } from '../../services/auth/auth.service';
 export class MovieCardComponent implements OnInit {
   private movieService = inject(MovieService);
   private listService = inject(ListService);
-
   @Input() movie: any;
   @Input() activeMovieId: number | null = null;
   @Input() listId: number | null = null;
   @Output() toggleMovie = new EventEmitter<number | null>();
   @Output() openMenu = new EventEmitter<any>();
-
   userLists: any[] = [];
   isFavorite = false;
   isInWatchlist = false;
   movieInLists: { [key: number]: boolean } = {};
   isListDropdownOpen = false;
-
   userRating: number = 0;
   showRatingPopup: boolean = false;
-
   @ViewChild('movieTitle') movieTitle!: ElementRef;
   @ViewChild('titleWrapper') titleWrapper!: ElementRef;
   isScrolling = false;
   scrollDistance = 0;
-
   constructor(public authService: AuthService) {}
-
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
       this.fetchUserLists();
@@ -48,11 +42,9 @@ export class MovieCardComponent implements OnInit {
       this.checkUserRating();
     }
   }
-
   setDefaultImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
   }
-
   ngAfterViewInit(): void {
     setTimeout(() => {
       const titleEl = this.movieTitle.nativeElement as HTMLElement;
@@ -65,7 +57,6 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
-
   checkUserRating(): void {
     this.movieService.getUserRatings().subscribe({
       next: (data) => {
@@ -75,55 +66,48 @@ export class MovieCardComponent implements OnInit {
         }
       },
       error: (err) => {
-        console.error('Erreur lors de la récupération des notes utilisateur', err);
+        console.error(err);
       }
     });
   }
-
   fetchUserLists(): void {
     this.listService.getUserLists().subscribe({
       next: (data) => {
         this.userLists = data.results || [];
         this.userLists.forEach(list => {
           this.listService.getListMovies(list.id).subscribe(listData => {
-            this.movieInLists[list.id] = listData.items.some(
-              (item: any) => item.id === this.movie.id
-            );
+            this.movieInLists[list.id] = listData.items.some((item: any) => item.id === this.movie.id);
           });
         });
       },
       error: (error) => {
-        console.error('Erreur lors de la récupération des listes :', error);
+        console.error(error);
       }
     });
   }
-
   fetchFavorites(): void {
     this.movieService.getFavorites().subscribe({
       next: (data) => {
         this.isFavorite = data.results.some((fav: any) => fav.id === this.movie.id);
       },
       error: (error) => {
-        console.error('Erreur lors de la récupération des favoris :', error);
+        console.error(error);
       }
     });
   }
-
   fetchWatchlist(): void {
     this.movieService.getWatchlist().subscribe({
       next: (data) => {
         this.isInWatchlist = data.results.some((watch: any) => watch.id === this.movie.id);
       },
       error: (error) => {
-        console.error('Erreur lors de la récupération de la watchlist :', error);
+        console.error(error);
       }
     });
   }
-
   isActive(): boolean {
     return this.activeMovieId === this.movie?.id;
   }
-
   toggleActions(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -133,13 +117,11 @@ export class MovieCardComponent implements OnInit {
       this.toggleMovie.emit(this.movie?.id);
     }
   }
-
   hideActions(): void {
     if (this.isActive()) {
       this.toggleMovie.emit(null);
     }
   }
-
   openActionModal(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -149,7 +131,6 @@ export class MovieCardComponent implements OnInit {
       this.toggleActions(event);
     }
   }
-
   openModal(modalId: string) {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
@@ -159,7 +140,6 @@ export class MovieCardComponent implements OnInit {
       modalElement.style.opacity = '1';
     }
   }
-
   closeModal(modalId: string) {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
@@ -169,17 +149,14 @@ export class MovieCardComponent implements OnInit {
       modalElement.style.opacity = '0';
     }
   }
-
   isUserLoggedIn(): boolean {
     return !!localStorage.getItem('session_id');
   }
-
   toggleListDropdown(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.isListDropdownOpen = !this.isListDropdownOpen;
   }
-
   toggleFavorite(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -196,7 +173,6 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
-
   toggleWatchlist(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -213,12 +189,10 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
-
   toggleCustomList(event: Event, listId: number): void {
     event.preventDefault();
     event.stopPropagation();
     if (!this.movie) return;
-
     if (this.movieInLists[listId]) {
       this.listService.removeFromCustomList(listId, this.movie.id).subscribe(() => {
         this.movieInLists[listId] = false;
@@ -231,20 +205,15 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
-
   getListName(listId: number): string {
     const list = this.userLists.find(l => l.id === listId);
     return list ? list.name : '';
   }
-
-  // Remplace l'ancienne logique du prompt par l'ouverture du composant star-rating
   toggleRate(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.showRatingPopup = true;
   }
-
-  // Lorsqu'un rating est confirmé dans le popup
   updateRating(newRating: number): void {
     if (newRating > 0) {
       this.movieService.rateMovie(this.movie.id, newRating).subscribe(() => {
@@ -258,7 +227,6 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
-
   closeRatingPopup(): void {
     this.showRatingPopup = false;
   }

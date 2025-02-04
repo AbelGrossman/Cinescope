@@ -1,50 +1,38 @@
-<div class="movie-card-container" (mouseleave)="hideActions()">
+<div class="movie-card-container" [class.dropdown-open]="isListDropdownOpen" (mouseleave)="hideActions()">
   <a class="movie-card" [routerLink]="['/app-movie', movie.id]">
     <div class="image-wrapper">
-      <img
-        class="poster"
-        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-        (error)="setDefaultImage($event)"
-        alt="{{ movie.title }}"
-      />
-
+      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
       <div class="action-menu-container" [class.active]="isActive()">
         <div class="action-menu-handle" (click)="openActionModal($event)">
           <i class="bi bi-three-dots handle-icon"></i>
         </div>
-
         <div class="actions-menu" [class.active]="isActive()">
           <button (click)="toggleFavorite($event)" class="toggle-btn">
             <i [class]="isFavorite ? 'bi bi-heart-fill heart-icon' : 'bi bi-heart heart-icon'"></i>
           </button>
-
           <button (click)="toggleWatchlist($event)" class="toggle-btn">
             <i [class]="isInWatchlist ? 'bi bi-bookmark-fill bookmark-icon' : 'bi bi-bookmark bookmark-icon'"></i>
           </button>
-
-          <!-- Bouton d'ouverture du popup star-rating -->
           <button (click)="toggleRate($event)" class="toggle-btn">
             <i [class]="userRating > 0 ? 'bi bi-star-fill star-icon' : 'bi bi-star star-icon'"></i>
             <span class="user-rating" *ngIf="userRating > 0">{{ userRating }}</span>
           </button>
-
-          <button class="toggle-btn list-btn" (click)="toggleListDropdown($event)">
-            <i class="bi bi-list-ul"></i>
-          </button>
-          <div class="list-dropdown" *ngIf="isListDropdownOpen">
-            <button
-              *ngFor="let list of userLists"
-              (click)="toggleCustomList($event, list.id)"
-              class="toggle-btn"
-              [ngClass]="movieInLists[list.id] ? 'in-list' : 'not-in-list'"
-            >
-              {{ list.name }}
+          <div class="dropdown-container">
+            <button class="toggle-btn list-btn" (click)="toggleListDropdown($event)">
+              <i class="bi bi-list-ul"></i>
             </button>
+            <ul class="dropdown-menu" *ngIf="isListDropdownOpen">
+              <li *ngFor="let list of userLists">
+                <a class="dropdown-item" (click)="toggleCustomList($event, list.id)">
+                  <i class="fas" [ngClass]="{'fa-minus-circle': movieInLists[list.id], 'fa-plus-circle': !movieInLists[list.id]}"></i>
+                  {{ list.name }}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-
     <div class="movie-info">
       <div #titleWrapper class="movie-title-wrapper">
         <h2 #movieTitle class="movie-title" [class.scrolling]="isScrolling">
@@ -58,7 +46,6 @@
     </div>
   </a>
 </div>
-
 <app-star-rating
   *ngIf="showRatingPopup"
   [initialRating]="userRating"
