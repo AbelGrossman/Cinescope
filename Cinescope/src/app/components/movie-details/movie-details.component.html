@@ -10,7 +10,8 @@
 
   <div class="movie-content">
     <div class="poster-container">
-      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" />
+      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
+
 
       <div class="rating-container poster-ratings">
         <div class="rating-item">
@@ -47,7 +48,7 @@
               'fa-heart': isFavorite,
               'fa-heart-broken': !isFavorite
             }"></i>
-          {{ isFavorite ? "Favorited" : "Add to Favorites" }}
+          {{ isFavorite ? "In Favorites" : "Add to Favorites" }}
         </button>
         <button class="btn-action watchlist" (click)="openActionModal('watchlist')">
           <i class="fas" [ngClass]="{

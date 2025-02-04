@@ -224,5 +224,9 @@ export class MovieDetailsComponent implements OnInit {
       this.openModal("loginModal")
     }
   }
+
+  setDefaultImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
+  }
 }
 
