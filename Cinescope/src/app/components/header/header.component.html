@@ -12,7 +12,7 @@
             [(ngModel)]="searchQuery"
             class="form-control"
             placeholder="Start Scoping"
-            (keyup.enter)="searchMovies()"
+            (keyup.enter)="resetFiltersAndSearchMovies()"
           />
         </li>
       </ul>
@@ -29,7 +29,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <button (click)="goToAllMovies()"
+          <button (click)="resetFiltersAndGoToAllMovies()"
             class="nav-link"
             [ngClass]="{ 'active': activeButton === 'all-movies' }"
             (click)="setActive('all-movies'); goToRoute('/app-all-movies')"
@@ -41,8 +41,7 @@
           <button
             class="nav-link"
             [ngClass]="{ 'active': activeButton === 'login' }"
-            (click)="setActive('login'); goToRoute('/login')"
-          >
+            (click)="login()">         
             Login
           </button>
         </li>

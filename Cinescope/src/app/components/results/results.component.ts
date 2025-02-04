@@ -1,5 +1,5 @@
 
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MovieService } from '../../services/movie/movie.service';
@@ -16,74 +16,225 @@ import { NavigationStart, Router } from '@angular/router';
   styleUrl: './results.component.scss'
 })
 export class ResultsComponent implements OnInit {
-  private movieService = inject(MovieService);
-  private route = inject(ActivatedRoute);
+  movieService = inject(MovieService);
+  route = inject(ActivatedRoute);
   searchResults: any[] = [];
   filteredResults: any[] = [];
   searchQuery: string = '';
+  currentPage: number = 1;
+  totalPages: number = 1;
 
   filters = {
     genre: '',
     minRating: '',
     year: '',
     minVoteCount: '', 
-    revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
   };
   lastNavigationId: number | null = null;
+  isLoading: boolean = false;
 
 
   constructor(private router: Router) {}
 
+  // ngOnInit() {
+  //   this.route.paramMap.subscribe(params => {
+  //     const newSearchQuery = params.get('query') || '';
+  //   });
+  //   this.router.events.subscribe(event => {
+  //     if (event instanceof NavigationStart) {
+  //       localStorage.setItem('lastPageUrl', event.url);
+  //     }
+  //   });
+  //   const savedFilters = localStorage.getItem('movieFilters');
+  //   if (savedFilters) {
+  //     this.filters = JSON.parse(savedFilters);
+  //   }
+  //   const savedResults = localStorage.getItem('searchResults');
+  //   if (savedResults) {
+  //     this.searchResults = JSON.parse(savedResults);
+  //     this.applyFilters(); // ✅ Apply filters to existing results
+  //   } else {
+  //     this.fetchSearchResults();
+  //   }
+  // }
+
   ngOnInit() {
+    this.currentPage = 1; // ✅ Start from page 1
+    this.totalPages = 1; // ✅ Default value before fetching
+  
     this.router.events.subscribe(event => {
-          if (event instanceof NavigationStart) {
-            const lastPage = localStorage.getItem('lastPageUrl') || '';
-            if (event.id !== this.lastNavigationId && !lastPage.includes('/app-movie')) {
-              this.resetFilters(); // ✅ Reset filters when navigating to a new page
-            }
-            this.lastNavigationId = event.id;
-          }
+      if (event instanceof NavigationStart) {
+        localStorage.setItem('lastPageUrl', event.url);
+      }
     });
+  
+    this.route.paramMap.subscribe(params => {
+      const newSearchQuery = params.get('query') || '';
+  
+      if (newSearchQuery !== this.searchQuery) {
+        this.searchQuery = newSearchQuery;
+        localStorage.removeItem('searchResults'); // ✅ Reset stored results if query changes
+        this.searchResults = [];
+        this.searchMovies(this.searchQuery, this.currentPage);
+      } else {
+        const savedResults = localStorage.getItem('searchResults');
+        if (savedResults) {
+          this.searchResults = JSON.parse(savedResults);
+          this.applyFilters();
+        }
+      }
+    });
+  
     const savedFilters = localStorage.getItem('movieFilters');
     if (savedFilters) {
       this.filters = JSON.parse(savedFilters);
     }
+  }
+  
+
+  fetchSearchResults() {
     this.route.paramMap.subscribe(params => {
-      this.searchQuery = params.get('query') || '';
+      const newSearchQuery = params.get('query') || '';
+
+      // ✅ If the query has changed, reset filters and results
+      if (newSearchQuery !== this.searchQuery) {
+        this.searchQuery = newSearchQuery;
+        this.resetFilters();
+      }
+
       if (this.searchQuery) {
         this.searchMovies(this.searchQuery);
       }
     });
   }
 
+  // searchMovies(query: string, page: number = 1) {
+  //   if (!query.trim() || this.currentPage > this.totalPages) return;
+  
+  //   this.movieService.searchMovies(query, page).subscribe(
+  //     (response) => {
+  //       let movies = response.results || [];
+  //       this.totalPages = response.total_pages; // ✅ Get total pages
+  
+  //       // ✅ Fetch full details if revenue is missing
+  //       let requests = movies.map((movie: any) =>
+  //         movie.revenue !== undefined && movie.revenue !== null
+  //           ? of(movie)
+  //           : this.movieService.getMovieDetails(movie.id)
+  //       );
+  
+  //       forkJoin(requests).subscribe((fullMovies: any) => {
+  //         const processedMovies = fullMovies.map((movie: any) => ({
+  //           ...movie,
+  //           genre_ids: movie.genre_ids || movie.genres?.map((g: any) => g.id) || [],
+  //           revenue: movie.revenue || 0
+  //         }));
+  
+  //         // ✅ Append new results instead of replacing them
+  //         this.searchResults = [...this.searchResults, ...processedMovies];
+  
+  //         localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
+  //         this.applyFilters();
+  //       });
+  
+  //       this.currentPage++; // ✅ Move to the next page for the next request
+  //     },
+  //     (error) => {
+  //       console.error("Error fetching search results:", error);
+  //     }
+  //   );
+  // }
 
-  searchMovies(query: string) {
-    this.movieService.searchMovies(query).subscribe(
+  searchMovies(query: string, page: number = 1) {
+    if (!query.trim() || this.currentPage > this.totalPages || this.isLoading) return;
+    
+    this.isLoading = true; // ✅ Prevent duplicate API calls
+  
+    this.movieService.searchMovies(query, page).subscribe(
       (response) => {
         let movies = response.results || [];
-
-        // ✅ Fetch full details only if revenue is missing
-        let requests = movies.map((movie:any) =>
-          movie.revenue !== undefined
+        this.totalPages = response.total_pages; // ✅ Get total pages
+  
+        let requests = movies.map((movie: any) =>
+          movie.revenue !== undefined && movie.revenue !== null
             ? of(movie)
             : this.movieService.getMovieDetails(movie.id)
         );
-
-        forkJoin(requests).subscribe((fullMovies:any) => {
-          this.searchResults = fullMovies.map((movie:any) => ({
+  
+        forkJoin(requests).subscribe((fullMovies: any) => {
+          const newMovies = fullMovies.map((movie: any) => ({
             ...movie,
-            genre_ids: movie.genre_ids || movie.genres?.map((g:any) => g.id) || [] // ✅ Ensure genre_ids exist
+            genre_ids: movie.genre_ids || movie.genres?.map((g: any) => g.id) || [],
+            revenue: movie.revenue || 0
           }));
+  
+          // ✅ Prevent duplicates using a Set
+          const existingMovieIds = new Set(this.searchResults.map(m => m.id));
+          const uniqueMovies = newMovies.filter((movie:any) => !existingMovieIds.has(movie.id));
+  
+          this.searchResults = [...this.searchResults, ...uniqueMovies]; // ✅ Append only unique movies
+  
+          localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
           this.applyFilters();
+  
+          this.isLoading = false; // ✅ Allow next API call
+          this.currentPage++; // ✅ Move to next page
         });
       },
       (error) => {
-        console.error("Erreur lors de la recherche :", error);
+        console.error("Error fetching search results:", error);
+        this.isLoading = false; // ✅ Reset loading state on error
       }
     );
   }
+  
+
+  // @HostListener('window:scroll', [])
+  // onScroll(): void {
+  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+  //     this.searchMovies(this.searchQuery, this.currentPage);
+  //   }
+  // }
+
+  @HostListener('window:scroll', [])
+onScroll(): void {
+  if (this.isLoading) return; // ✅ Prevent multiple API calls
+
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+    this.searchMovies(this.searchQuery, this.currentPage);
+  }
+}
+
+  
+
+  // searchMovies(query: string) {
+  //   this.movieService.searchMovies(query).subscribe(
+  //     (response) => {
+  //       let movies = response.results || [];
+
+  //       // ✅ Fetch full details only if revenue is missing
+  //       let requests = movies.map((movie:any) =>
+  //         movie.revenue !== undefined
+  //           ? of(movie)
+  //           : this.movieService.getMovieDetails(movie.id)
+  //       );
+
+  //       forkJoin(requests).subscribe((fullMovies:any) => {
+  //         this.searchResults = fullMovies.map((movie:any) => ({
+  //           ...movie,
+  //           genre_ids: movie.genre_ids || movie.genres?.map((g:any) => g.id) || [] // ✅ Ensure genre_ids exist
+  //         }));
+  //         localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
+  //         this.applyFilters();
+  //       });
+  //     },
+  //     (error) => {
+  //       console.error("Erreur lors de la recherche :", error);
+  //     }
+  //   );
+  // }
 
 
   onFiltersChanged(newFilters: any) {
@@ -109,8 +260,6 @@ export class ResultsComponent implements OnInit {
           return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
         } else if (key === 'vote_average' || key === 'popularity') {
           return ((a[key] || 0) - (b[key] || 0)) * order;
-        } else if (key === 'revenue') {
-          return ((a.revenue || 0) - (b.revenue || 0)) * order;
         }
          else {
           return 0;
@@ -126,7 +275,6 @@ export class ResultsComponent implements OnInit {
       minRating: '',
       year: '',
       minVoteCount: '',
-      revenue: '',
       sortBy: 'popularity',
       sortOrder: 'desc'
     };

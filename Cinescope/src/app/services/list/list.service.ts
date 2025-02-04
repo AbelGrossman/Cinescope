@@ -30,11 +30,15 @@ export class ListService {
     );
   }
 
-  getListMovies(listId: number): Observable<any> {
-    return this.http.get(
-      `${this.apiUrl}/list/${listId}?api_key=${this.apiKey}`
-    );
+  getListMovies(listId: number, page: number = 1): Observable<any> {
+    return this.http.get(`${this.apiUrl}/list/${listId}`, {
+      params: {
+        api_key: this.apiKey,
+        page: page.toString(), // ✅ Add pagination support
+      }
+    });
   }
+  
 
   getListMoviesPage(listId: number, page: number = 1): Observable<any> {
     return this.http.get(

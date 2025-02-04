@@ -5,7 +5,7 @@
     </button>
     
     <div class="dropdown-menu p-3 w-100 filter-dropdown" style="min-width: 280px;">
-  
+      <div *ngIf="!hideGenre">
       <label class="form-label">Genre</label>
       <select class="form-control" [(ngModel)]="filters.genre" (change)="applyFilters()">
         <option value="">All Genres</option>
@@ -29,6 +29,7 @@
         <option value="10770">TV Movie</option>
         <option value="10749">Romance</option>
       </select>
+      </div>
   
       <label class="form-label">Min Rating</label>
       <select class="form-select mb-2" [(ngModel)]="filters.minRating" (change)="applyFilters()">
@@ -52,7 +53,6 @@
                 <option value="popularity">Popularity</option>
                 <option value="vote_average">Rating</option>
                 <option value="release_date">Release Date</option>
-                <option value="revenue">Revenue</option>
             </select>
       </div>
       <i class="bi"

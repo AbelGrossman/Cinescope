@@ -43,6 +43,8 @@ export class AccountComponent implements AfterViewInit {
   setActiveTab(index: number, route: string, event: MouseEvent) {
     this.activeIndex = index;
     this.router.navigate([route], { relativeTo: this.route });
+    localStorage.removeItem('accountFilters');
+    // Met à jour la position et la taille du slider
     this.updateSliderPosition(event);
   }
 

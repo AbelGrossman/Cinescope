@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -11,13 +11,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class FilterComponent {
   @Output() filtersChanged = new EventEmitter<any>();
-
+  @Input () hideGenre: boolean = false;
+  
   filters = {
     genre: '',
     minRating: '',
     year: '',
     minVoteCount: '',
-    revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
   };

@@ -22,14 +22,25 @@ export class MovieService {
     return this.http.get(`${this.apiUrl}/movie/${movieId}?api_key=${this.apiKey}`);
   }
 
+  // searchMovies(query: string, page: number = 1): Observable<any> {
+  //   let params: any = {
+  //     api_key: this.apiKey,
+  //     query: encodeURIComponent(query),
+  //     page: page.toString() // Ensure pagination works
+  //   };
+  //   return this.http.get(`${this.apiUrl}/search/movie`, { params });
+  // }
+
   searchMovies(query: string, page: number = 1): Observable<any> {
-    let params: any = {
-      api_key: this.apiKey,
-      query: encodeURIComponent(query),
-      page: page.toString() // Ensure pagination works
-    };
-    return this.http.get(`${this.apiUrl}/search/movie`, { params });
+    return this.http.get(`${this.apiUrl}/search/movie`, {
+      params: {
+        api_key: this.apiKey,
+        query: encodeURIComponent(query),
+        page: page.toString(), // ✅ Add pagination support
+      }
+    });
   }
+  
 
   filterAllMovies(filters: any): Observable<any> {
     let params: any = {

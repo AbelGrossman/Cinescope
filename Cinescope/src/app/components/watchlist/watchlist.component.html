@@ -1,9 +1,12 @@
 <div class="container mt-4">
+    <div class="col-md-3 filters">
+        <app-filter (filtersChanged)="onFiltersChanged($event)" [hideGenre]="true"></app-filter>
+    </div>
     <h2>Your Watchlist</h2>
     <p>Here are all the movies you've added to your watchlist.</p>
 
 
-    <app-list-movie-card [movies]="watchlistMovies">
+    <app-list-movie-card [movies]="filteredMovies">
     </app-list-movie-card>
 
     <ng-template #noWatchlist>

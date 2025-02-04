@@ -3,14 +3,8 @@
     <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
   </div>
   <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
-
-  <app-list-movie-card 
-  [movies]="filteredResults" 
->
+  <app-list-movie-card [movies]="filteredResults">
 </app-list-movie-card>
-
-
-
   <ng-template #noResults>
     <p>Aucun film trouvé.</p>
   </ng-template>

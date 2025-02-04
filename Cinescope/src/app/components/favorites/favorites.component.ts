@@ -3,59 +3,130 @@ import { CommonModule } from '@angular/common';
 import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { forkJoin, of } from 'rxjs';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { FilterComponent } from '../filter/filter.component';
 
 
 @Component({
   selector: 'app-favorites',
   standalone: true,
-  imports: [CommonModule, ListMovieCardComponent],
+  imports: [CommonModule, ListMovieCardComponent, FilterComponent],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
 })
 export class FavoritesComponent implements OnInit {
   private movieService = inject(MovieService);
+   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   favoriteMovies: any[] = [];
   filteredMovies: any[] = [];
   currentPage: number = 1;
   isLoading: boolean = false;
+  totalPages: number = 1;
 
-
+  filters = {
+    minRating: '',
+    year: '',
+    minVoteCount: '',
+    sortBy: 'popularity',
+    sortOrder: 'desc'
+  };
 
 
   ngOnInit() {
-    this.loadFavorites();
-  }
+      this.router.events.subscribe(event => {
+        if (event instanceof NavigationStart) {
+          localStorage.setItem('lastPageUrl', event.url);
+        }
+      });
+  
+      const savedFilters = localStorage.getItem('accountFilters');
+      if (savedFilters) {
+        this.filters = JSON.parse(savedFilters);
+      }
+  
+      this.route.paramMap.subscribe(params => {
+          this.loadFavorites();
+      });
+    }
 
   loadFavorites() {
-    if (this.isLoading) return;
-    this.isLoading = true;
-    this.movieService.getFavoritesPage(this.currentPage).subscribe(response => {
-      let movies = response.results || [];
-  
-      let requests = movies.map((movie: any)=>
-        movie.revenue !== undefined
-          ? of(movie)
-          : this.movieService.getMovieDetails(movie.id)
-      );
-
-      forkJoin(requests).subscribe((fullMovies:any) => {
-        this.favoriteMovies = [...this.favoriteMovies, ...fullMovies.map((movie:any) => ({
-          ...movie,
-          genre_ids: movie.genre_ids || movie.genres?.map((g: any) => g.id) || []
-        }))];
+      if (this.isLoading || this.currentPage > this.totalPages) return;
+      this.isLoading = true;
+    
+      this.movieService.getFavoritesPage(this.currentPage).subscribe(response => {
+        let movies = response.results || response.items || [];
+        this.totalPages = response.total_pages || 1; // ✅ Ensure we track total pages
+    
+        let requests = movies.map((movie: any) =>
+          movie.revenue !== undefined
+            ? of(movie)
+            : this.movieService.getMovieDetails(movie.id)
+        );
+    
+        forkJoin(requests).subscribe((fullMovies: any) => {
+          // ✅ Prevent duplicates using a Set
+          const existingMovieIds = new Set(this.favoriteMovies.map(m => m.id));
+          const uniqueMovies = fullMovies.filter((movie: any) => !existingMovieIds.has(movie.id));
+    
+          this.favoriteMovies = [...this.favoriteMovies, ...uniqueMovies];
+          this.applyFilters();
+          this.isLoading = false;
+          this.currentPage++; // ✅ Move to next page for future API calls
+        });
+      },
+      (error) => {
+        console.error("Error fetching movies:", error);
         this.isLoading = false;
       });
-    },
-      (error) => {
-        console.error("Erreur lors de la récupération des favoris :", error);
-      }
-    );
-  }
+    }
 
-  @HostListener('window:scroll', [])
+    applyFilters() {
+      this.filteredMovies = this.favoriteMovies
+        .filter(movie => 
+          (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
+          (!this.filters.year || movie.release_date?.startsWith(this.filters.year)) &&
+          (!this.filters.minVoteCount || movie.vote_count >= this.filters.minVoteCount)
+        )
+        .sort((a, b) => {
+          let key = this.filters.sortBy;
+          let order = this.filters.sortOrder === 'asc' ? 1 : -1;
+  
+          if (key === 'release_date') {
+            return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
+          } else if (key === 'vote_average' || key === 'popularity') {
+            return ((a[key] || 0) - (b[key] || 0)) * order;
+          } else {
+            return 0;
+          }
+        });
+  
+      console.log("Filtered Movies:", this.filteredMovies);
+    }
+
+    onFiltersChanged(newFilters: any) {
+      this.filters = newFilters;
+      localStorage.setItem('accountFilters', JSON.stringify(this.filters));
+      this.applyFilters();
+    }
+  
+    resetFilters() {
+      this.filters = {
+        minRating: '',
+        year: '',
+        minVoteCount: '',
+        sortBy: 'popularity',
+        sortOrder: 'desc'
+      };
+      localStorage.removeItem('accountFilters');
+      this.applyFilters();
+    }
+
+    @HostListener('window:scroll', [])
     onScroll(): void {
+      if (this.isLoading || this.currentPage > this.totalPages) return;
+    
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-        this.currentPage++;
         this.loadFavorites();
       }
     }

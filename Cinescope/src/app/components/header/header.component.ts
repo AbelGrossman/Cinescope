@@ -99,7 +99,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  searchMovies() {
+  resetFiltersAndSearchMovies() {
+    console.log("searchQuery", this.searchQuery);
+    localStorage.removeItem('movieFilters');
+    localStorage.removeItem('searchResults');
     if (this.searchQuery.trim()) {
       this.router.navigate(['/search', this.searchQuery]);
     }
@@ -110,8 +113,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/']); // ✅ Navigate to home
   }
 
-  goToAllMovies() {
-    this.router.navigate(['/app-all-movies']);
+  resetFiltersAndGoToAllMovies() {
+    localStorage.removeItem('movieFilters'); // ✅ Remove saved filters
+    this.router.navigate(['/app-all-movies']); // ✅ Navigate to all movies
   }
 
   login() {

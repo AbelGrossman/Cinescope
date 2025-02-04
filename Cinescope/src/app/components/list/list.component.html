@@ -1,7 +1,14 @@
 <div class="container mt-4">
+    <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Go Back
+    </button>
+    <div class="col-md-3 filters">
+        <app-filter (filtersChanged)="onFiltersChanged($event)" [hideGenre]="true"></app-filter>
+    </div>
     <h2>Films de la liste</h2>
+    
     <app-list-movie-card 
-    [movies]="listMovies" 
+    [movies]="filteredMovies" 
 >
 </app-list-movie-card>
 
@@ -10,3 +17,6 @@
         <p>Aucun film ajouté.</p>
     </ng-template>
 </div>
+
+
+

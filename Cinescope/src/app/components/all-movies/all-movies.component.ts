@@ -20,7 +20,6 @@ export class AllMoviesComponent {
     minRating: '',
     year: '',
     minVoteCount: '',
-    revenue: '',
     sortBy: 'popularity',
     sortOrder: 'desc'
   };
@@ -174,7 +173,6 @@ export class AllMoviesComponent {
       minRating: '',
       year: '',
       minVoteCount: '',
-      revenue: '',
       sortBy: 'popularity',
       sortOrder: 'desc'
     };
