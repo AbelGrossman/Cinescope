@@ -1,77 +1,104 @@
 .star-rating-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.star-rating-content {
+  background-color: var(--secondary-background);
+  color: var(--text);
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 60%;
+  max-width: 400px;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.stars {
+  font-size: 1.5rem;
+  color: var(--border);
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+
+  i {
+    &.filled {
+      color: var(--primary);
+    }
   }
-  
-  .star-rating-content {
-    background-color: var(--secondary-background);
-    color: var(--text);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 90%;
-    max-width: 400px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  .stars {
-    font-size: 2em;
-    color: var(--border);
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .stars span {
-    transition: color 0.2s ease-in-out;
-  }
-  
-  .stars span.filled {
-    color: var(--primary);
-  }
-  
-  .rating-value {
-    font-size: 1.2em;
-    margin: 10px 0;
-  }
-  
-  .buttons {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
+}
+
+.rating-value {
+  font-size: 1.2rem;
+  margin: 0.8rem 0;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.buttons {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius:var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+
+  &-confirm {
     background-color: var(--primary);
     color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
   }
-  
-  button.btn-cancel {
-    background-color: var(--secondary);
+
+  &-cancel {
+    background-color: var(--background);
+    color: #fff;
   }
-  
-  button.btn-remove {
-    background-color: var(--sub-text);
+
+  &-remove {
+    background-color: rgb(172, 12, 12);
+    color: #fff;
   }
-  
-  button:hover {
-    opacity: 0.9;
+
+  &:hover {
+    transform: scale(1.05);
   }
-  
+}
+
+@media (max-width: 480px) {
+  .star-rating-content {
+    padding: 1.5rem;
+  }
+
+  .stars {
+    font-size: 1.5rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+

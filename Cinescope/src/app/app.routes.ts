@@ -8,7 +8,6 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
-import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
 import { ResultsComponent } from './components/results/results.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
@@ -26,7 +25,6 @@ export const appRoutes: Routes = [
     {path: 'app-header', component: HeaderComponent},
     {path: 'app-movie-card', component: MovieCardComponent},
     {path: 'app-movie-details', component: MovieDetailsComponent},
-    {path: 'app-movie-ratings', component: MovieRatingsComponent},
     {path: 'app-results', component: ResultsComponent},
     { path: 'list/:id', component: ListComponent },
     { path: 'search/:query', component: ResultsComponent },

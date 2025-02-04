@@ -21,22 +21,12 @@ export class MovieService {
   getMovieDetails(movieId: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/${movieId}?api_key=${this.apiKey}`);
   }
-
-  // searchMovies(query: string, page: number = 1): Observable<any> {
-  //   let params: any = {
-  //     api_key: this.apiKey,
-  //     query: encodeURIComponent(query),
-  //     page: page.toString() // Ensure pagination works
-  //   };
-  //   return this.http.get(`${this.apiUrl}/search/movie`, { params });
-  // }
-
   searchMovies(query: string, page: number = 1): Observable<any> {
     return this.http.get(`${this.apiUrl}/search/movie`, {
       params: {
         api_key: this.apiKey,
         query: encodeURIComponent(query),
-        page: page.toString(), // ✅ Add pagination support
+        page: page.toString(),
       }
     });
   }
@@ -46,7 +36,7 @@ export class MovieService {
     let params: any = {
       sort_by: `${filters.sortBy}.${filters.sortOrder}`,
       api_key: this.apiKey,
-      page: filters.page || 1, // Ensure page number is included
+      page: filters.page || 1,
     };
     if (filters.genre) params.with_genres = filters.genre;
     if (filters.minRating) params["vote_average.gte"] = filters.minRating;

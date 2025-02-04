@@ -40,14 +40,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isDarkMode = localStorage.getItem('theme') === 'dark';
     this.updateTheme();
 
-    // Écouter les changements de route
     this.routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.updateActiveButton(event.urlAfterRedirects);
       });
 
-    // Initialiser activeButton pour l'URL actuelle
     this.updateActiveButton(this.router.url);
   }
 
@@ -109,13 +107,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   resetFiltersAndGoHome() {
-    localStorage.removeItem('movieFilters'); // ✅ Remove saved filters
-    this.router.navigate(['/']); // ✅ Navigate to home
+    localStorage.removeItem('movieFilters');
+    this.router.navigate(['/']);
   }
 
   resetFiltersAndGoToAllMovies() {
-    localStorage.removeItem('movieFilters'); // ✅ Remove saved filters
-    this.router.navigate(['/app-all-movies']); // ✅ Navigate to all movies
+    localStorage.removeItem('movieFilters');
+    this.router.navigate(['/app-all-movies']);
   }
 
   login() {

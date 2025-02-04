@@ -2,13 +2,11 @@
     <div class="col-md-3 filters">
         <app-filter (filtersChanged)="onFiltersChanged($event)" [hideGenre]="true"></app-filter>
     </div>
-    <h2>Vos films favoris</h2>
-    <p>Voici les films que vous avez ajoutés en favoris.</p>
         <app-list-movie-card 
         [movies]="filteredMovies">
     </app-list-movie-card>
 
     <ng-template #noFavorites>
-        <p>Aucun film ajouté en favoris.</p>
+        <p>No favorites movies yet.</p>
     </ng-template>
 </div>

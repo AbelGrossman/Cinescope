@@ -10,7 +10,6 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FavoritesComponent } from './components/favorites/favorites.component';
 import { MovieCardComponent } from './components/movie-card/movie-card.component';
 import { MovieDetailsComponent } from './components/movie-details/movie-details.component';
-import { MovieRatingsComponent } from './components/movie-ratings/movie-ratings.component';
 import { ResultsComponent } from './components/results/results.component';
 import { UserRatingsComponent } from './components/user-ratings/user-ratings.component';
 import { WatchlistComponent } from './components/watchlist/watchlist.component';
@@ -24,7 +23,7 @@ import { AllMoviesComponent } from './components/all-movies/all-movies.component
   imports: [RouterOutlet, AboutComponent, AccountComponent, 
     ContactComponent, FavoritesComponent, FooterComponent, 
     HeaderComponent, HomeComponent, 
-    MovieCardComponent, MovieDetailsComponent, MovieRatingsComponent,
+    MovieCardComponent, MovieDetailsComponent,
   ResultsComponent, UserRatingsComponent, WatchlistComponent,
   HttpClientModule],
   providers: [AuthService],
@@ -33,6 +32,7 @@ import { AllMoviesComponent } from './components/all-movies/all-movies.component
 })
 export class AppComponent implements OnInit {
   sessionId: string = "";
+  title: string = 'Cinescope';
 
   constructor(private authService: AuthService) {}
 

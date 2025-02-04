@@ -57,7 +57,7 @@ export class WatchlistComponent implements OnInit {
       
         this.movieService.getWatchlistPage(this.currentPage).subscribe(response => {
           let movies = response.results || response.items || [];
-          this.totalPages = response.total_pages || 1; // ✅ Ensure we track total pages
+          this.totalPages = response.total_pages || 1;
       
           let requests = movies.map((movie: any) =>
             movie.revenue !== undefined
@@ -66,14 +66,13 @@ export class WatchlistComponent implements OnInit {
           );
       
           forkJoin(requests).subscribe((fullMovies: any) => {
-            // ✅ Prevent duplicates using a Set
             const existingMovieIds = new Set(this.watchlistMovies.map(m => m.id));
             const uniqueMovies = fullMovies.filter((movie: any) => !existingMovieIds.has(movie.id));
       
             this.watchlistMovies = [...this.watchlistMovies, ...uniqueMovies];
             this.applyFilters();
             this.isLoading = false;
-            this.currentPage++; // ✅ Move to next page for future API calls
+            this.currentPage++;
           });
         },
         (error) => {

@@ -1,11 +1,11 @@
 <div class="modal">
     <div class="modal-content">
-      <h3 *ngIf="!listData">Créer une nouvelle liste</h3>
-      <h3 *ngIf="listData">Modifier la liste</h3>
+      <h3 *ngIf="!listData">Create a new list</h3>
+      <h3 *ngIf="listData">Edit the list</h3>
   
       <input
         class="form-control mb-2"
-        placeholder="Nom de la liste"
+        placeholder="Name"
         [(ngModel)]="name"
       />
       <input
@@ -14,8 +14,8 @@
         [(ngModel)]="description"
       />
   
-      <button class="btn btn-primary" (click)="onSave()">Enregistrer</button>
-      <button class="btn btn-secondary" (click)="close.emit(false)">Annuler</button>
+      <button class="btn btn-primary" (click)="onSave()">Save</button>
+      <button class="btn btn-secondary" (click)="close.emit(false)">Cancel</button>
     </div>
   </div>
   

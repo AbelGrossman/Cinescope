@@ -23,6 +23,8 @@ export class ListComponent implements OnInit {
   private router = inject(Router);
 
   listId!: number;
+  listName: string = '';
+  listDescription: string = '';
   listMovies: any[] = [];
   filteredMovies: any[] = [];
   currentPage: number = 1;
@@ -43,12 +45,10 @@ export class ListComponent implements OnInit {
         localStorage.setItem('lastPageUrl', event.url);
       }
     });
-
     const savedFilters = localStorage.getItem('accountFilters');
     if (savedFilters) {
       this.filters = JSON.parse(savedFilters);
     }
-
     this.route.paramMap.subscribe(params => {
       this.listId = Number(params.get('id'));
       if (this.listId) {
@@ -60,26 +60,23 @@ export class ListComponent implements OnInit {
   loadListMovies() {
     if (this.isLoading || this.currentPage > this.totalPages) return;
     this.isLoading = true;
-  
     this.listService.getListMovies(this.listId, this.currentPage).subscribe(response => {
+      if (this.currentPage === 1) {
+        this.listName = response.name;
+        this.listDescription = response.description;
+      }
       let movies = response.results || response.items || [];
-      this.totalPages = response.total_pages || 1; // ✅ Ensure we track total pages
-  
+      this.totalPages = response.total_pages || 1;
       let requests = movies.map((movie: any) =>
-        movie.revenue !== undefined
-          ? of(movie)
-          : this.movieService.getMovieDetails(movie.id)
+        movie.revenue !== undefined ? of(movie) : this.movieService.getMovieDetails(movie.id)
       );
-  
       forkJoin(requests).subscribe((fullMovies: any) => {
-        // ✅ Prevent duplicates using a Set
         const existingMovieIds = new Set(this.listMovies.map(m => m.id));
         const uniqueMovies = fullMovies.filter((movie: any) => !existingMovieIds.has(movie.id));
-  
         this.listMovies = [...this.listMovies, ...uniqueMovies];
         this.applyFilters();
         this.isLoading = false;
-        this.currentPage++; // ✅ Move to next page for future API calls
+        this.currentPage++;
       });
     },
     (error) => {
@@ -88,7 +85,6 @@ export class ListComponent implements OnInit {
     });
   }
   
-
   applyFilters() {
     this.filteredMovies = this.listMovies
       .filter(movie => 
@@ -99,7 +95,6 @@ export class ListComponent implements OnInit {
       .sort((a, b) => {
         let key = this.filters.sortBy;
         let order = this.filters.sortOrder === 'asc' ? 1 : -1;
-
         if (key === 'release_date') {
           return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
         } else if (key === 'vote_average' || key === 'popularity') {
@@ -108,7 +103,6 @@ export class ListComponent implements OnInit {
           return 0;
         }
       });
-
     console.log("Filtered Movies:", this.filteredMovies);
   }
 
@@ -129,26 +123,21 @@ export class ListComponent implements OnInit {
     localStorage.removeItem('accountFilters');
     this.applyFilters();
   }
-
   
-
-@HostListener('window:scroll', [])
-onScroll(): void {
-  if (this.isLoading || this.currentPage > this.totalPages) return;
-
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-    this.loadListMovies();
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.isLoading || this.currentPage > this.totalPages) return;
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+      this.loadListMovies();
+    }
   }
-}
 
-
-goBack() {
-  const lastPage = localStorage.getItem('lastPageUrl');
-  if (lastPage) {
-    window.history.back(); // ✅ Navigate back while preserving filters
-  } else {
-    this.router.navigate(['/movies']); // ✅ Fallback if no history is found
+  goBack() {
+    const lastPage = localStorage.getItem('lastPageUrl');
+    if (lastPage) {
+      window.history.back();
+    } else {
+      this.router.navigate(['/movies']);
+    }
   }
-}
-
 }

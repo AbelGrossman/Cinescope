@@ -1,5 +1,4 @@
 :root {
-  /* Light Mode */
   --background-light: #ffffff;
   --secondary-background-light: #EEEEEE;
   --primary-light: #363635;
@@ -9,10 +8,6 @@
   --sub-text-light: #8a8c8f;
   --border-light: #e2e8f0;
 
-
-
-
-  /* Dark Mode */
   --background-dark: #0D1B2A;
   --secondary-background-dark: #1a2938;
   --primary-dark: #00ADB5;
@@ -58,88 +53,86 @@ html {
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-Light.otf') format('opentype');
-  font-weight: 300; /* Light */
+  font-weight: 300;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-LightItalic.otf') format('opentype');
-  font-weight: 300; /* Light Italic */
+  font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-Medium.otf') format('opentype');
-  font-weight: 500; /* Medium */
+  font-weight: 500;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-MediumItalic.otf') format('opentype');
-  font-weight: 500; /* Medium Italic */
+  font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-Bold.otf') format('opentype');
-  font-weight: 700; /* Bold */
+  font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-BoldItalic.otf') format('opentype');
-  font-weight: 700; /* Bold Italic */
+  font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-Black.otf') format('opentype');
-  font-weight: 900; /* Black */
+  font-weight: 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-BlackItalic.otf') format('opentype');
-  font-weight: 900; /* Black Italic */
+  font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-Book.otf') format('opentype');
-  font-weight: 400; /* Book (Normal) */
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-BookItalic.otf') format('opentype');
-  font-weight: 400; /* Book Italic */
+  font-weight: 400;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-XLight.otf') format('opentype');
-  font-weight: 200; /* Extra Light */
+  font-weight: 200;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GothamSSm';
   src: url('/assets/fonts/GothamSSm-XLightItalic.otf') format('opentype');
-  font-weight: 200; /* Extra Light Italic */
+  font-weight: 200;
   font-style: italic;
 }
-
-
 
 
 body {

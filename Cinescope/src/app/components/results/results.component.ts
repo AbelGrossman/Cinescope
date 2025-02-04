@@ -38,31 +38,9 @@ export class ResultsComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  // ngOnInit() {
-  //   this.route.paramMap.subscribe(params => {
-  //     const newSearchQuery = params.get('query') || '';
-  //   });
-  //   this.router.events.subscribe(event => {
-  //     if (event instanceof NavigationStart) {
-  //       localStorage.setItem('lastPageUrl', event.url);
-  //     }
-  //   });
-  //   const savedFilters = localStorage.getItem('movieFilters');
-  //   if (savedFilters) {
-  //     this.filters = JSON.parse(savedFilters);
-  //   }
-  //   const savedResults = localStorage.getItem('searchResults');
-  //   if (savedResults) {
-  //     this.searchResults = JSON.parse(savedResults);
-  //     this.applyFilters(); // ✅ Apply filters to existing results
-  //   } else {
-  //     this.fetchSearchResults();
-  //   }
-  // }
-
   ngOnInit() {
-    this.currentPage = 1; // ✅ Start from page 1
-    this.totalPages = 1; // ✅ Default value before fetching
+    this.currentPage = 1;
+    this.totalPages = 1;
   
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -75,7 +53,7 @@ export class ResultsComponent implements OnInit {
   
       if (newSearchQuery !== this.searchQuery) {
         this.searchQuery = newSearchQuery;
-        localStorage.removeItem('searchResults'); // ✅ Reset stored results if query changes
+        localStorage.removeItem('searchResults');
         this.searchResults = [];
         this.searchMovies(this.searchQuery, this.currentPage);
       } else {
@@ -98,7 +76,7 @@ export class ResultsComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const newSearchQuery = params.get('query') || '';
 
-      // ✅ If the query has changed, reset filters and results
+
       if (newSearchQuery !== this.searchQuery) {
         this.searchQuery = newSearchQuery;
         this.resetFilters();
@@ -110,52 +88,15 @@ export class ResultsComponent implements OnInit {
     });
   }
 
-  // searchMovies(query: string, page: number = 1) {
-  //   if (!query.trim() || this.currentPage > this.totalPages) return;
-  
-  //   this.movieService.searchMovies(query, page).subscribe(
-  //     (response) => {
-  //       let movies = response.results || [];
-  //       this.totalPages = response.total_pages; // ✅ Get total pages
-  
-  //       // ✅ Fetch full details if revenue is missing
-  //       let requests = movies.map((movie: any) =>
-  //         movie.revenue !== undefined && movie.revenue !== null
-  //           ? of(movie)
-  //           : this.movieService.getMovieDetails(movie.id)
-  //       );
-  
-  //       forkJoin(requests).subscribe((fullMovies: any) => {
-  //         const processedMovies = fullMovies.map((movie: any) => ({
-  //           ...movie,
-  //           genre_ids: movie.genre_ids || movie.genres?.map((g: any) => g.id) || [],
-  //           revenue: movie.revenue || 0
-  //         }));
-  
-  //         // ✅ Append new results instead of replacing them
-  //         this.searchResults = [...this.searchResults, ...processedMovies];
-  
-  //         localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
-  //         this.applyFilters();
-  //       });
-  
-  //       this.currentPage++; // ✅ Move to the next page for the next request
-  //     },
-  //     (error) => {
-  //       console.error("Error fetching search results:", error);
-  //     }
-  //   );
-  // }
-
   searchMovies(query: string, page: number = 1) {
     if (!query.trim() || this.currentPage > this.totalPages || this.isLoading) return;
     
-    this.isLoading = true; // ✅ Prevent duplicate API calls
+    this.isLoading = true;
   
     this.movieService.searchMovies(query, page).subscribe(
       (response) => {
         let movies = response.results || [];
-        this.totalPages = response.total_pages; // ✅ Get total pages
+        this.totalPages = response.total_pages;
   
         let requests = movies.map((movie: any) =>
           movie.revenue !== undefined && movie.revenue !== null
@@ -170,71 +111,35 @@ export class ResultsComponent implements OnInit {
             revenue: movie.revenue || 0
           }));
   
-          // ✅ Prevent duplicates using a Set
           const existingMovieIds = new Set(this.searchResults.map(m => m.id));
           const uniqueMovies = newMovies.filter((movie:any) => !existingMovieIds.has(movie.id));
   
-          this.searchResults = [...this.searchResults, ...uniqueMovies]; // ✅ Append only unique movies
+          this.searchResults = [...this.searchResults, ...uniqueMovies];
   
           localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
           this.applyFilters();
   
-          this.isLoading = false; // ✅ Allow next API call
-          this.currentPage++; // ✅ Move to next page
+          this.isLoading = false;
+          this.currentPage++;
         });
       },
       (error) => {
         console.error("Error fetching search results:", error);
-        this.isLoading = false; // ✅ Reset loading state on error
+        this.isLoading = false;
       }
     );
   }
   
 
-  // @HostListener('window:scroll', [])
-  // onScroll(): void {
-  //   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-  //     this.searchMovies(this.searchQuery, this.currentPage);
-  //   }
-  // }
 
   @HostListener('window:scroll', [])
 onScroll(): void {
-  if (this.isLoading) return; // ✅ Prevent multiple API calls
+  if (this.isLoading) return;
 
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
     this.searchMovies(this.searchQuery, this.currentPage);
   }
 }
-
-  
-
-  // searchMovies(query: string) {
-  //   this.movieService.searchMovies(query).subscribe(
-  //     (response) => {
-  //       let movies = response.results || [];
-
-  //       // ✅ Fetch full details only if revenue is missing
-  //       let requests = movies.map((movie:any) =>
-  //         movie.revenue !== undefined
-  //           ? of(movie)
-  //           : this.movieService.getMovieDetails(movie.id)
-  //       );
-
-  //       forkJoin(requests).subscribe((fullMovies:any) => {
-  //         this.searchResults = fullMovies.map((movie:any) => ({
-  //           ...movie,
-  //           genre_ids: movie.genre_ids || movie.genres?.map((g:any) => g.id) || [] // ✅ Ensure genre_ids exist
-  //         }));
-  //         localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
-  //         this.applyFilters();
-  //       });
-  //     },
-  //     (error) => {
-  //       console.error("Erreur lors de la recherche :", error);
-  //     }
-  //   );
-  // }
 
 
   onFiltersChanged(newFilters: any) {
@@ -278,6 +183,6 @@ onScroll(): void {
       sortBy: 'popularity',
       sortOrder: 'desc'
     };
-    localStorage.removeItem('movieFilters'); // ✅ Clear saved filters
+    localStorage.removeItem('movieFilters');
   }
 }

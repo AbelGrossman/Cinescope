@@ -2,10 +2,10 @@
   <div class="col-md-3 filters">
     <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
   </div>
-  <h2>Résultats de recherche pour "{{ searchQuery }}"</h2>
+  <h2>Results for "{{ searchQuery }}"</h2>
   <app-list-movie-card [movies]="filteredResults">
 </app-list-movie-card>
   <ng-template #noResults>
-    <p>Aucun film trouvé.</p>
+    <p>No movie found.</p>
   </ng-template>
 </div>

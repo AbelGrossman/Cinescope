@@ -9,8 +9,6 @@ import { environment } from '../../../environment/environment';
 export class ListService {
   private apiKey = environment.apiKey;
   private apiUrl = environment.apiUrl;
-  private v4Token = environment.v4Token;
-  private v4ApiUrl = environment.apiUrlV4;
   private sessionId = localStorage.getItem('session_id');
   private accountId = localStorage.getItem('account_id');
 
@@ -34,7 +32,7 @@ export class ListService {
     return this.http.get(`${this.apiUrl}/list/${listId}`, {
       params: {
         api_key: this.apiKey,
-        page: page.toString(), // ✅ Add pagination support
+        page: page.toString(),
       }
     });
   }

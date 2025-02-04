@@ -47,7 +47,6 @@ export class StarRatingComponent implements OnInit {
 
   removeRating(): void {
     if (!this.movieId) {
-      console.error('movieId manquant pour supprimer le rating.');
       return;
     }
     this.movieService.removeRating(this.movieId).subscribe({

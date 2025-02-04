@@ -37,7 +37,7 @@ export class FilterComponent {
 
   applyFilters() {
   if (!this.filters.genre && !this.filters.minRating && !this.filters.year) {
-    localStorage.removeItem('movieFilters'); // ✅ Reset stored filters when all are cleared
+    localStorage.removeItem('movieFilters');
   } else {
     localStorage.setItem('movieFilters', JSON.stringify(this.filters));
   }

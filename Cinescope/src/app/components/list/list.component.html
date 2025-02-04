@@ -2,21 +2,16 @@
     <button class="btn-back" (click)="goBack()">
         <i class="fas fa-arrow-left"></i> Go Back
     </button>
+    <div class="list-header">
+        <h1>{{ listName }}</h1>
+        <p>{{ listDescription }}</p>
+    </div>
+
     <div class="col-md-3 filters">
         <app-filter (filtersChanged)="onFiltersChanged($event)" [hideGenre]="true"></app-filter>
     </div>
-    <h2>Films de la liste</h2>
-    
-    <app-list-movie-card 
-    [movies]="filteredMovies" 
->
-</app-list-movie-card>
-
-
+    <app-list-movie-card [movies]="filteredMovies"></app-list-movie-card>
     <ng-template #noMovies>
-        <p>Aucun film ajouté.</p>
+        <p>No movies added.</p>
     </ng-template>
 </div>
-
-
-

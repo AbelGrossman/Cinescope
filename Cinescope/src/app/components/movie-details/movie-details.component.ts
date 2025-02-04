@@ -150,7 +150,6 @@ export class MovieDetailsComponent implements OnInit {
 
   createList() {
     this.listService.createList(this.newListName, this.newListDescription).subscribe(() => {
-      alert("List created successfully!")
       this.newListName = ""
       this.newListDescription = ""
       this.closeModal("listCreationModal")
@@ -165,9 +164,9 @@ export class MovieDetailsComponent implements OnInit {
   goBack() {
     const lastPage = localStorage.getItem('lastPageUrl');
     if (lastPage) {
-      window.history.back(); // ✅ Navigate back while preserving filters
+      window.history.back();
     } else {
-      this.router.navigate(['/movies']); // ✅ Fallback if no history is found
+      this.router.navigate(['/movies']);
     }
   }
 

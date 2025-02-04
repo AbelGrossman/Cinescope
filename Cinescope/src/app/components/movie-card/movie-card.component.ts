@@ -164,12 +164,10 @@ export class MovieCardComponent implements OnInit {
     if (this.isFavorite) {
       this.movieService.removeFromFavorites(this.movie.id).subscribe(() => {
         this.isFavorite = false;
-        alert(`${this.movie.title} retiré des favoris.`);
       });
     } else {
       this.movieService.addToFavorites(this.movie.id).subscribe(() => {
         this.isFavorite = true;
-        alert(`${this.movie.title} ajouté aux favoris.`);
       });
     }
   }
@@ -180,12 +178,10 @@ export class MovieCardComponent implements OnInit {
     if (this.isInWatchlist) {
       this.movieService.removeFromWatchlist(this.movie.id).subscribe(() => {
         this.isInWatchlist = false;
-        alert(`${this.movie.title} retiré de la watchlist.`);
       });
     } else {
       this.movieService.addToWatchlist(this.movie.id).subscribe(() => {
         this.isInWatchlist = true;
-        alert(`${this.movie.title} ajouté à la watchlist.`);
       });
     }
   }
@@ -196,12 +192,10 @@ export class MovieCardComponent implements OnInit {
     if (this.movieInLists[listId]) {
       this.listService.removeFromCustomList(listId, this.movie.id).subscribe(() => {
         this.movieInLists[listId] = false;
-        alert(`${this.movie.title} retiré de ${this.getListName(listId)}.`);
       });
     } else {
       this.listService.addToCustomList(listId, this.movie.id).subscribe(() => {
         this.movieInLists[listId] = true;
-        alert(`${this.movie.title} ajouté à ${this.getListName(listId)}.`);
       });
     }
   }
@@ -218,12 +212,10 @@ export class MovieCardComponent implements OnInit {
     if (newRating > 0) {
       this.movieService.rateMovie(this.movie.id, newRating).subscribe(() => {
         this.userRating = newRating;
-        alert(`Merci pour votre note: ${newRating}/10`);
       });
     } else {
       this.movieService.removeRating(this.movie.id).subscribe(() => {
         this.userRating = 0;
-        alert(`Votre note pour ${this.movie.title} a été retirée.`);
       });
     }
   }
