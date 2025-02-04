@@ -42,11 +42,19 @@
 .btn {
   background: var(--secondary-background);
   color: var(--text);
-
+  background: var(--secondary-background);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: none;
 }
 
 .btn.show {
   border: none !important;
+  background: var(--secondary-background);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn.show:active {
+  border:none
 }
 
 .form-label {

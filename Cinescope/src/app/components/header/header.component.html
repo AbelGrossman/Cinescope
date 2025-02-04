@@ -1,63 +1,77 @@
 <nav class="navbar navbar-expand-lg">
-    <div class="container px-3">
-      <a class="navbar-brand" href="" (click)="resetFiltersAndGoHome()">
-        <img class="brand-logo" src="assets/video-camera.png" alt="logo" />
-      </a>
-      
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="search-bar">
-            <input
-              type="text"
-              [(ngModel)]="searchQuery"
-              class="form-control"
-              placeholder="Start Scoping"
-              (keyup.enter)="searchMovies()"
-            />
-          </li>
-        </ul>
-      </div>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
-      
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <button class="nav-link" (click)="goToAllMovies()">
-              All Movies
-            </button>
-          </li>
-          <li class="nav-item">
-            <button class="nav-link" (click)="resetFiltersAndGoHome()">Home</button>
-          </li>
-          <li class="nav-item" *ngIf="!authService.isLoggedIn()">
-            <button class="tmdb-login-btn" (click)="login()">
-              Login
-            </button>
-          </li>
-          <li class="nav-item" *ngIf="authService.isLoggedIn()">
-            <a class="acc-btn" [routerLink]="'/app-account'">Account</a>
-          </li>
-          
-          <li class="nav-item" *ngIf="authService.isLoggedIn()">
-            <a class="nav-link logout" (click)="logout()" style="cursor: pointer">
-              <i class="logout-icon bi bi-box-arrow-right"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <button class="theme-toggle-btn" (click)="toggleTheme()">
-              <i [ngClass]="isDarkMode ? 'bi bi-moon-fill' : 'bi bi-sun-fill'"></i>
-            </button>
-          </li>
-        </ul>
-      </div>
+  <div class="container px-3">
+    <a class="navbar-brand" href="" (click)="resetFiltersAndGoHome()">
+      <img class="brand-logo" src="assets/video-camera.png" alt="logo" />
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="search-bar">
+          <input
+            type="text"
+            [(ngModel)]="searchQuery"
+            class="form-control"
+            placeholder="Start Scoping"
+            (keyup.enter)="searchMovies()"
+          />
+        </li>
+      </ul>
     </div>
-  </nav>
-  
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <button (click)="goToAllMovies()"
+            class="nav-link"
+            [ngClass]="{ 'active': activeButton === 'all-movies' }"
+            (click)="setActive('all-movies'); goToRoute('/app-all-movies')"
+          >
+            All Movies
+          </button>
+        </li>        
+        <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+          <button
+            class="nav-link"
+            [ngClass]="{ 'active': activeButton === 'login' }"
+            (click)="setActive('login'); goToRoute('/login')"
+          >
+            Login
+          </button>
+        </li>
+        
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a
+            class="nav-link"
+            [routerLink]="'/app-account'"
+            (click)="setActive('account')"
+            [ngClass]="{ 'active': activeButton === 'account' }"
+          >
+            Account
+          </a>
+        </li>
+        
+
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a class="nav-link logout" (click)="logout()" style="cursor: pointer">
+            <i class="logout-icon bi bi-box-arrow-right"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <button class="theme-toggle-btn" (click)="toggleTheme()">
+            <i
+              [ngClass]="isDarkMode ? 'bi bi-moon-fill' : 'bi bi-sun-fill'"
+            ></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

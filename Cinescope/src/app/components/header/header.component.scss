@@ -4,34 +4,6 @@
   margin-right: 10px;
 }
 
-.tmdb-login-btn,
-.acc-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  margin-left: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  background-color: var(--primary); /* Accent principal */
-  color: var(--text-inverse); /* Texte inversé */
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  text-decoration: none;
-  margin-right: 10px;
-
-  &:hover {
-    background-color: var(--secondary); /* Accent secondaire */
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(0.95);
-  }
-}
-
 .navbar {
   background-color: var(--background); /* Fond principal */
   color: var(--text); /* Texte principal */
@@ -43,23 +15,26 @@
 }
 
 .nav-link {
-  display: inline-flex;
-  align-items: center;
-  padding: 10px 15px;
+  background: none;
+  color: var(--text);
   font-size: 1rem;
   font-weight: 600;
-  color: var(--text); /* Texte principal */
-  text-decoration: none;
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
   border-radius: var(--border-radius);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: var(--secondary); /* Fond secondaire au hover */
+    background: var(--grey);
+    color: var(--text-inverse);
     transform: scale(1.05);
   }
 
-  &:active {
-    transform: scale(0.95);
+  &.active {
+    background: var(--primary);
+    color: var(--text-inverse);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   }
 }
 

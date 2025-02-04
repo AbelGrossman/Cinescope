@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -15,10 +15,14 @@ import { FormsModule } from '@angular/forms';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
-  searchQuery: string = ''; // ✅ Stocker la recherche
+  searchQuery: string = '';
   private authSubscription!: Subscription;
 
-  isDarkMode: boolean= false;
+  isDarkMode: boolean = false;
+
+  activeButton: string = '';
+
+  private routerSubscription!: Subscription;
 
   constructor(private router: Router, public authService: AuthService) {}
 
@@ -27,13 +31,41 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.authSubscription = this.authService.isLoggedIn$.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn;
-    });
-
+    this.authSubscription = this.authService.isLoggedIn$.subscribe(
+      (loggedIn) => {
+        this.isLoggedIn = loggedIn;
+      }
+    );
 
     this.isDarkMode = localStorage.getItem('theme') === 'dark';
     this.updateTheme();
+
+    // Écouter les changements de route
+    this.routerSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: any) => {
+        this.updateActiveButton(event.urlAfterRedirects);
+      });
+
+    // Initialiser activeButton pour l'URL actuelle
+    this.updateActiveButton(this.router.url);
+  }
+
+  updateActiveButton(url: string) {
+    if (url.includes('/app-all-movies')) {
+      this.activeButton = 'all-movies';
+    } else if (url.includes('/login')) {
+      this.activeButton = 'login';
+    } else if (url.includes('/app-account')) {
+      this.activeButton = 'account';
+    } 
+     else {
+      this.activeButton = '';
+    }
+  }
+
+  setActive(button: string) {
+    this.activeButton = button;
   }
 
   toggleTheme() {
@@ -62,6 +94,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   searchMovies() {
@@ -80,7 +115,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   login() {
-    this.authService.redirectToAuth()
-  }  
+    this.authService.redirectToAuth();
+  }
 }
-
