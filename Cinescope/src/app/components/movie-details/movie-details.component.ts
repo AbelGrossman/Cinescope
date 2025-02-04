@@ -7,7 +7,7 @@
   import { RouterModule } from '@angular/router';
   import { Location } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
-
+import { Router } from '@angular/router';
 
   @Component({
     selector: 'app-movie-details',
@@ -31,7 +31,7 @@ import { AuthService } from '../../services/auth/auth.service';
     newListName = '';
     newListDescription = '';
 
-    constructor(private location: Location, public authService: AuthService) {}
+    constructor(private location: Location, public authService: AuthService, private router: Router) {}
     
     ngOnInit() {
       if (!localStorage.getItem('lastPageUrl')){
@@ -207,8 +207,14 @@ import { AuthService } from '../../services/auth/auth.service';
 
 
     goBack() {
-      this.location.back(); // ✅ Navigate to the previous page
+      const lastPage = localStorage.getItem('lastPageUrl');
+      if (lastPage) {
+        window.history.back(); // ✅ Navigate back while preserving filters
+      } else {
+        this.router.navigate(['/movies']); // ✅ Fallback if no history is found
+      }
     }
+    
       
     login() {
       this.authService.redirectToAuth()

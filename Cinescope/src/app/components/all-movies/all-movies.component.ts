@@ -1,12 +1,15 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ListMovieCardComponent } from '../list-movie-card/list-movie-card.component';
 import { FilterComponent } from '../filter/filter.component';
 import { MovieService } from '../../services/movie/movie.service';
+import { CommonModule } from '@angular/common';
+import { forkJoin, of } from 'rxjs';
+import { NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'app-all-movies',
   standalone: true,
-  imports: [ListMovieCardComponent, FilterComponent],
+  imports: [CommonModule, ListMovieCardComponent, FilterComponent],
   providers: [MovieService],
   templateUrl: './all-movies.component.html',
   styleUrl: './all-movies.component.scss'
@@ -21,22 +24,164 @@ export class AllMoviesComponent {
     sortBy: 'popularity',
     sortOrder: 'desc'
   };
-  trendingMovies: any[] = [];
+  allMovies: any[] = [];
   movieService = inject(MovieService);
+  currentPage:number = 1;
+  isLoading: boolean = false;
+  lastNavigationId: number | null = null;
 
+  constructor(private router: Router) {}
+  
 
   ngOnInit() {
-    this.fetchMovies();
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        localStorage.setItem('lastPageUrl', event.url); // ✅ Store last page URL
+      }
+    });
+    const savedFilters = localStorage.getItem('movieFilters');
+    if (savedFilters) {
+      this.filters = JSON.parse(savedFilters);
+    }
+
+    const savedPage = localStorage.getItem('moviePage');
+    this.currentPage = savedPage ? parseInt(savedPage, 10) : 1;
+    this.allMovies = [];
+    if (Object.values(this.filters).some(value => value)) {
+      this.loadFilteredMoviesUpToCurrentPage();
+    } else {
+      this.loadMoviesUpToCurrentPage();
+    }
   }
 
-  fetchMovies() {
-    this.movieService.getFilteredMovies(this.filters).subscribe(response => {
-      this.trendingMovies = response.results;
+  loadMoviesUpToCurrentPage() {
+    this.isLoading = true;
+  
+    let movieRequests = [];
+    for (let i = 1; i <= this.currentPage; i++) {
+      movieRequests.push(this.movieService.getAllMovies(i));
+    }
+  
+    forkJoin(movieRequests).subscribe(responses => {
+      let movies = responses.flatMap(response => response.results || []);
+  
+      let detailRequests = movies.map((movie: any) =>
+        movie.poster_path ? of(movie) : this.movieService.getMovieDetails(movie.id)
+      );
+  
+      forkJoin(detailRequests).subscribe(fullMovies => {
+        this.allMovies = fullMovies;
+        this.isLoading = false;
+      });
     });
   }
 
+  loadFilteredMoviesUpToCurrentPage() {
+    this.isLoading = true;
+  
+    let movieRequests = [];
+    for (let i = 1; i <= this.currentPage; i++) {
+      movieRequests.push(this.movieService.filterAllMovies({ ...this.filters, page: i }));
+    }
+  
+    forkJoin(movieRequests).subscribe(responses => {
+      let movies = responses.flatMap(response => response.results || []);
+  
+      let detailRequests = movies.map((movie: any) =>
+        movie.poster_path ? of(movie) : this.movieService.getMovieDetails(movie.id)
+      );
+  
+      forkJoin(detailRequests).subscribe(fullMovies => {
+        this.allMovies = fullMovies;
+        this.isLoading = false;
+      });
+    });
+  }
+  
+  
+
+  fetchMovies() {
+    if (this.isLoading) return;
+    this.isLoading = true;
+
+    this.movieService.getAllMovies(this.currentPage).subscribe(response => {
+      let movies = response.results || [];
+  
+      // ✅ Fetch full details only if poster_path is missing
+      let requests = movies.map((movie:any) =>
+        movie.poster_path ? of(movie) : this.movieService.getMovieDetails(movie.id)
+      );
+  
+      forkJoin(requests).subscribe((fullMovies:any) => {
+        this.allMovies = [...this.allMovies, ...fullMovies];
+        this.isLoading = false;
+      });
+    });
+  }
+
+  filterMovies() {
+    if (this.isLoading) return;
+    this.isLoading = true;
+  
+    this.movieService.filterAllMovies({ ...this.filters, page: this.currentPage }).subscribe(response => {
+      let movies = response.results || [];
+  
+      let requests = movies.map((movie: any) =>
+        movie.poster_path ? of(movie) : this.movieService.getMovieDetails(movie.id)
+      );
+  
+      forkJoin(requests).subscribe((fullMovies: any) => {
+        this.allMovies = [...this.allMovies, ...fullMovies]; // Append instead of replacing
+        this.isLoading = false;
+      });
+    });
+  }
+  
+
   onFiltersChanged(newFilters: any) {
     this.filters = newFilters;
-    this.fetchMovies(); // Fetch new movies when filters change
+    this.currentPage = 1; // ✅ Reset page when filters change
+    this.allMovies = []; // ✅ Clear movies when filters
+    localStorage.setItem('movieFilters', JSON.stringify(this.filters));
+    localStorage.setItem('moviePage', this.currentPage.toString());
+    this.filterMovies(); // Fetch new movies when filters change
   }
+
+
+
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+    if (this.isLoading) return;
+
+    this.currentPage++; // Increment page
+    localStorage.setItem('moviePage', this.currentPage.toString());
+
+    if (Object.values(this.filters).some(value => value)) { 
+      // If filters are applied, load more filtered movies
+      this.filterMovies();
+    } else { 
+      // Otherwise, load more general movies
+      this.fetchMovies();
+    }
+  }
+}
+
+
+  resetFilters() {
+    this.filters = {
+      genre: '',
+      minRating: '',
+      year: '',
+      minVoteCount: '',
+      revenue: '',
+      sortBy: 'popularity',
+      sortOrder: 'desc'
+    };
+    localStorage.removeItem('movieFilters'); // ✅ Clear saved filters
+    localStorage.removeItem('moviePage');
+
+  }
+
+
 }

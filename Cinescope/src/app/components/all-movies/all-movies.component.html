@@ -4,7 +4,10 @@
         <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
     </div>
     <h2>All Movies</h2> 
-    <app-list-movie-card [movies]="trendingMovies">
+    <app-list-movie-card [movies]="allMovies">
     </app-list-movie-card>  
+    <div class="loading" *ngIf="isLoading">
+        <p>Loading more movies...</p>
+    </div>
 </section>
 </div>

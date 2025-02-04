@@ -36,6 +36,12 @@ export class ListService {
     );
   }
 
+  getListMoviesPage(listId: number, page: number = 1): Observable<any> {
+    return this.http.get(
+      `${this.apiUrl}/list/${listId}?api_key=${this.apiKey}&page=${page}`
+    );
+  }
+
   addToCustomList(listId: number, movieId: number): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/list/${listId}/add_item?api_key=${this.apiKey}&session_id=${this.sessionId}`,

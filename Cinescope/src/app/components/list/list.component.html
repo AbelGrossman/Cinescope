@@ -1,12 +1,7 @@
 <div class="container mt-4">
-    <div class="col-md-3 filters">
-        <app-filter (filtersChanged)="onFiltersChanged($event)"></app-filter>
-    </div>
     <h2>Films de la liste</h2>
-
-
     <app-list-movie-card 
-    [movies]="filteredMovies" 
+    [movies]="listMovies" 
 >
 </app-list-movie-card>
 

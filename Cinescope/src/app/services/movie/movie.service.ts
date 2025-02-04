@@ -22,8 +22,27 @@ export class MovieService {
     return this.http.get(`${this.apiUrl}/movie/${movieId}?api_key=${this.apiKey}`);
   }
 
-  searchMovies(query: string): Observable<any> {
-    return this.http.get(`${this.apiUrl}/search/movie?api_key=${this.apiKey}&query=${encodeURIComponent(query)}`);
+  searchMovies(query: string, page: number = 1): Observable<any> {
+    let params: any = {
+      api_key: this.apiKey,
+      query: encodeURIComponent(query),
+      page: page.toString() // Ensure pagination works
+    };
+    return this.http.get(`${this.apiUrl}/search/movie`, { params });
+  }
+
+  filterAllMovies(filters: any): Observable<any> {
+    let params: any = {
+      sort_by: `${filters.sortBy}.${filters.sortOrder}`,
+      api_key: this.apiKey,
+      page: filters.page || 1, // Ensure page number is included
+    };
+    if (filters.genre) params.with_genres = filters.genre;
+    if (filters.minRating) params["vote_average.gte"] = filters.minRating;
+    if (filters.year) params.primary_release_year = filters.year;
+    if (filters.minVoteCount) params["vote_count.gte"] = filters.minVoteCount;
+    
+    return this.http.get(`${this.apiUrl}/discover/movie`, { params });
   }
 
   addToFavorites(movieId: number): Observable<any> {
@@ -32,24 +51,33 @@ export class MovieService {
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  getFavorites(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/account/${this.accountId}/favorite/movies?api_key=${this.apiKey}&session_id=${this.sessionId}`);
-  }
-
   addToWatchlist(movieId: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/account/${this.accountId}/watchlist?api_key=${this.apiKey}&session_id=${this.sessionId}`,
       { media_type: 'movie', media_id: movieId, watchlist: true },
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
   }
 
-  getWatchlist(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/account/${this.accountId}/watchlist/movies?api_key=${this.apiKey}&session_id=${this.sessionId}`);
-  }
-
   rateMovie(movieId: number, rating: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/movie/${movieId}/rating?api_key=${this.apiKey}&session_id=${this.sessionId}`,
       { value: rating },
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) });
+  }
+
+  getFavorites(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/account/${this.accountId}/favorite/movies?api_key=${this.apiKey}&session_id=${this.sessionId}`);
+  }
+
+  getFavoritesPage(page: number = 1): Observable<any> {
+    return this.http.get(`${this.apiUrl}/account/${this.accountId}/favorite/movies?api_key=${this.apiKey}&session_id=${this.sessionId}&page=${page}`);
+  }
+
+
+  getWatchlist(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/account/${this.accountId}/watchlist/movies?api_key=${this.apiKey}&session_id=${this.sessionId}`);
+  }
+
+  getWatchlistPage(page: number = 1): Observable<any> {
+    return this.http.get(`${this.apiUrl}/account/${this.accountId}/watchlist/movies?api_key=${this.apiKey}&session_id=${this.sessionId}&page=${page}`);
   }
 
   getUserRatings(): Observable<any> {
@@ -63,6 +91,20 @@ export class MovieService {
 
     return this.http.get(`${this.apiUrl}/account/${accountId}/rated/movies?api_key=${this.apiKey}&session_id=${sessionId}`);
   }
+
+
+  getUserRatingsPage(page: number=1): Observable<any> {
+    const accountId = localStorage.getItem('account_id');
+    const sessionId = localStorage.getItem('session_id');
+
+    if (!accountId || !sessionId) {
+      console.error("Account ID ou Session ID manquant.");
+      return new Observable();
+    }
+
+    return this.http.get(`${this.apiUrl}/account/${accountId}/rated/movies?api_key=${this.apiKey}&session_id=${sessionId}&page=${page}`);
+  }
+    
 
   removeFromFavorites(movieId: number): Observable<any> {
     const accountId = localStorage.getItem('account_id');
@@ -107,18 +149,15 @@ export class MovieService {
     );
   }
 
-  getFilteredMovies(filters: any): Observable<any> {
+  getAllMovies(page:number=1): Observable<any> {
     let params: any = {
       api_key: this.apiKey,
-      sort_by: `${filters.sortBy}.${filters.sortOrder}`
+      page: page.toString(),
     };
-
-    if (filters.genre) params.with_genres = filters.genre;
-    if (filters.minRating) params["vote_average.gte"] = filters.minRating;
-    if (filters.year) params.primary_release_year = filters.year;
-
     return this.http.get(`${this.apiUrl}/discover/movie`, { params });
   }
+
+  
 
   removeRating(movieId: number): Observable<any> {
     const accountId = localStorage.getItem('account_id');
@@ -145,15 +184,6 @@ export class MovieService {
   
   getPopularMovies(): Observable<any> {
     return this.http.get(`${this.apiUrl}/movie/popular?api_key=${this.apiKey}`);
-  }
-
-  getAllMovies(page: number = 1): Observable<any> {
-    return this.http.get(`${this.apiUrl}/discover/movie`, {
-      params: {
-        api_key: this.apiKey,
-        page: page.toString()
-      }
-    });
-  }  
+  } 
   
 }
