@@ -30,6 +30,7 @@ export const appRoutes: Routes = [
     {path: 'app-results', component: ResultsComponent},
     { path: 'list/:id', component: ListComponent },
     { path: 'search/:query', component: ResultsComponent },
+    {path : 'app-all-movies', component: AllMoviesComponent},
     { 
         path: 'app-account', 
         component: AccountComponent,
@@ -41,6 +42,5 @@ export const appRoutes: Routes = [
           { path: 'user-lists', component: UserListsComponent}
         ]
       },
-    {path : 'app-all-movies', component: AllMoviesComponent},
     {path: '**', redirectTo: '' } 
 ];

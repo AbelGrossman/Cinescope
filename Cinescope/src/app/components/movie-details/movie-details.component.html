@@ -1,101 +1,143 @@
-<div class="container mt-5">
-  <div *ngIf="movie" class="row">
-    <div class="col-md-4">
-      <img class="img-fluid rounded" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}">
+<div class="movie-showcase" *ngIf="movie">
+  <div
+    class="movie-backdrop"
+    [style.background-image]="
+      'url(https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')'
+    "
+  >
+    <div class="backdrop-overlay"></div>
+  </div>
+
+  <div class="movie-content">
+    <div class="poster-container">
+      <img
+        class="poster"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+        alt="{{ movie.title }}"
+      />
+
+      <div class="rating-container poster-ratings">
+        <div class="rating-item">
+          <i class="fas fa-star"></i>
+          <span class="rating-value">{{
+            movie.vote_average | number : "1.1-1"
+          }}</span>
+          <span class="vote-count"
+            >({{ formatNumberWithSpaces(movie.vote_count) }} votes)</span
+          >
+        </div>
+        <div class="rating-item">
+          <i class="fas fa-dollar-sign"></i>
+          <span class="rating-value">{{
+            formatNumberWithSpaces(movie.revenue)
+          }}</span>
+          <span class="vote-count">Box Office</span>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-8">
-      <h1>{{ movie.title }}</h1>
-      <p><strong>Date de sortie :</strong> {{ movie.release_date }}</p>
-      <p><strong>Genres :</strong> {{ getGenres() }}</p>
-      <p><strong>Durée :</strong> {{ movie.runtime }} min</p>
-      <p><strong>Note :</strong> ⭐ {{ movie.vote_average | number: '1.1-2' }} / 10</p>
-      <p><strong>Nombre de notes :</strong> {{formatNumberWithSpaces(movie.vote_count)}}</p>
-      <p><strong>Recettes :</strong> {{ formatNumberWithSpaces(movie.revenue) + " $"}}</p>
-      <p>{{ movie.overview }}</p>
+    <div class="movie-details">
+      <h1 class="movie-title">{{ movie.title }}</h1>
+      <div class="movie-meta">
+        <span class="meta-item"
+          ><i class="fas fa-calendar-alt"></i>
+          {{ movie.release_date | date : "yyyy" }}</span
+        >
+        <span class="meta-item"
+          ><i class="fas fa-clock"></i> {{ movie.runtime }} min</span
+        >
+        <span class="meta-item"
+          ><i class="fas fa-film"></i> {{ getGenres() }}</span
+        >
+      </div>
 
-      <!-- Action Buttons -->
-      <div class="mt-3">
-        
-        <button class="btn btn-outline-danger me-2" (click)="openActionModal('favorites')">
-          {{ isFavorite ? 'Remove from Favorites ♥ ' : 'Add to Favorites ♡' }}
+      <p class="movie-overview">{{ movie.overview }}</p>
+
+      <div class="action-buttons">
+        <button
+          class="btn-action favorite"
+          (click)="openActionModal('favorites')"
+        >
+          <i
+            class="fas"
+            [ngClass]="{
+              'fa-heart': isFavorite,
+              'fa-heart-broken': !isFavorite
+            }"
+          ></i>
+          {{ isFavorite ? "Favorited" : "Add to Favorites" }}
         </button>
-        
-        <button class="btn btn-outline-primary me-2" (click)="openActionModal('watchlist')">
-          {{ isInWatchlist ? 'Remove from Watchlist' : 'Add to Watchlist' }}
+        <button
+          class="btn-action watchlist"
+          (click)="openActionModal('watchlist')"
+        >
+          <i
+            class="fas"
+            [ngClass]="{
+              'fa-check-circle': isInWatchlist,
+              'fa-plus-circle': !isInWatchlist
+            }"
+          ></i>
+          {{ isInWatchlist ? "In Watchlist" : "Add to Watchlist" }}
         </button>
-        <div class="dropdown d-inline mt-3">
-          <button class="btn btn-outline-warning dropdown-toggle add-to-list" type="button" id="customListDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            Add to a List
+        <div class="dropdown">
+          <button
+            class="btn-action dropdown-toggle"
+            type="button"
+            id="listDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fas fa-list"></i> Add to List
           </button>
-          <ul class="dropdown-menu" aria-labelledby="customListDropdown">
+          <ul class="dropdown-menu" aria-labelledby="listDropdown">
             <li *ngFor="let list of userLists">
-              <a class="dropdown-item add-to-list" (click)="openActionModal('customList', list.id)">
-                {{ movieInLists[list.id] ? '❌ Remove from ' : '➕ Add to ' }} {{ list.name }}
+              <a
+                class="dropdown-item"
+                (click)="openActionModal('customList', list.id)"
+              >
+                <i
+                  class="fas"
+                  [ngClass]="{
+                    'fa-minus-circle': movieInLists[list.id],
+                    'fa-plus-circle': !movieInLists[list.id]
+                  }"
+                ></i>
+                {{ list.name }}
               </a>
             </li>
-            <li class="dropdown-divider"></li>
+            <li><hr class="dropdown-divider" /></li>
             <li>
-              <a class="dropdown-item create-list" (click)="openListCreationModal()">Create New List</a>
+              <a
+                class="dropdown-item create-list"
+                (click)="openListCreationModal()"
+              >
+                <i class="fas fa-plus"></i> Create New List
+              </a>
             </li>
           </ul>
         </div>
-        <!-- Rating Button Group -->
-        <div class="rating-container">
-          <h5 class="rate-movie-string">Rate this movie:</h5>
-          <div class="rating-stars">
-            <span *ngFor="let star of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" 
-                  class="star" 
-                  [class.filled]="star <= userRating"
-                  (click)="rateMovie(star)">
-              &#9733;
-            </span>
-          </div>
-        </div>
-        <a class="btn btn-outline-info me-2 showtimes" [href]="'https://www.google.com/search?q=' + movie.title + ' showtimes'" target="_blank">
-          Find Showtimes
+        <a
+          class="btn-action showtimes"
+          [href]="
+            'https://www.google.com/search?q=' + movie.title + ' showtimes'
+          "
+          target="_blank"
+        >
+          <i class="fas fa-ticket-alt"></i> Find Showtimes
         </a>
-        <!-- Custom List Dropdown with "Create New List" -->
-        
+        <button class="btn-action favorite" (click)="openRatingPopup()">Rate Movie           <span *ngIf="userRating" class="user-rating-display">({{ userRating }}/10)</span>
+        </button>
+
+
       </div>
-      <a class="btn btn-primary mt-3" (click)="goBack()">Back</a>
+
+      <button class="btn-back" (click)="goBack()">
+        <i class="fas fa-arrow-left"></i> Back to Results
+      </button>
     </div>
   </div>
 </div>
 
-<div id="loginModal" class="modal fade" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Login Required</h5>
-        <button type="button" class="btn-close" (click)="closeModal('loginModal')" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Please log in to perform this action.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal('loginModal')">Close</button>
-        <a class="btn btn-primary" (click)="login()">Login</a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div id="listCreationModal" class="modal fade" tabindex="-1" aria-labelledby="listCreationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Create a New List</h5>
-        <button type="button" class="btn-close" (click)="closeModal('listCreationModal')" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" class="form-control mb-2" placeholder="List Name" [(ngModel)]="newListName">
-        <textarea class="form-control mb-2" placeholder="List Description" [(ngModel)]="newListDescription"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal('listCreationModal')">Close</button>
-        <button type="button" class="btn btn-primary" (click)="createList()">Create List</button>
-      </div>
-    </div>
-  </div>
-</div>
+<app-star-rating *ngIf="showRatingPopup" [initialRating]="userRating" (ratingChange)="rateMovie($event)" (close)="closeRatingPopup()"></app-star-rating>

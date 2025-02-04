@@ -49,6 +49,11 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+  setDefaultImage(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
+  }
+  
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       const titleEl = this.movieTitle.nativeElement as HTMLElement;

@@ -1,7 +1,7 @@
 <div class="movie-card-container" (mouseleave)="hideActions()">
   <a class="movie-card" [routerLink]="['/app-movie', movie.id]">
     <div class="image-wrapper">
-      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" />
+      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
 
       <div class="action-menu-container" [class.active]="isActive()">
         <div class="action-menu-handle" (click)="openActionModal($event)">

@@ -1,52 +1,75 @@
-import { Component } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { FavoritesComponent } from '../favorites/favorites.component';
-import { WatchlistComponent } from '../watchlist/watchlist.component';
-import { UserRatingsComponent } from '../user-ratings/user-ratings.component';
-import { UserListsComponent } from '../user-lists/user-lists.component';
+import { CommonModule } from '@angular/common';
+import { Component, AfterViewInit, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-account',
-  standalone: true,
-  imports: [RouterModule],
   templateUrl: './account.component.html',
+  standalone:true,
+  imports: [CommonModule, RouterModule],
   styleUrl: './account.component.scss'
 })
-export class AccountComponent {
+export class AccountComponent implements AfterViewInit {
 
-  filters = {
-    genre: '',
-    minRating: '',
-    year: '',
-    vote_count: '', 
-    revenue: '',
-    sortBy: 'popularity',
-    sortOrder: 'desc'
-  };
-  
-  constructor(private router: Router) {}
+  // Définition des onglets avec leurs routes
+  tabs = [
+    { label: "Favorites", route: "favorites" },
+    { label: "Watchlist", route: "watchlist" },
+    { label: "Your Ratings", route: "user-ratings" },
+    { label: "Your Custom Lists", route: "user-lists" }
+  ];
 
+  activeIndex = 0;
+  sliderPosition = 0;
+  sliderWidth = 0;
 
-  goToRoute(route: string): void {
-    this.router.navigate([route]);
+  constructor(private router: Router, private route: ActivatedRoute, private el: ElementRef) {}
+
+  ngAfterViewInit(): void {
+    this.setActiveTabByRoute();
   }
 
-  resetFilters() {
-    this.filters = {
-      genre: '',
-      minRating: '',
-      year: '',
-      vote_count: '',
-      revenue: '',
-      sortBy: 'popularity',
-      sortOrder: 'desc'
-    };
-    localStorage.removeItem('movieFilters'); // ✅ Clear saved filters
+  /**
+   * Met à jour l'onglet actif et la position du slider en fonction de l'URL actuelle
+   */
+  setActiveTabByRoute() {
+    const currentRoute = this.route.snapshot.firstChild?.url[0]?.path || "favorites"; // Par défaut : "favorites"
+    const tabIndex = this.tabs.findIndex(tab => tab.route === currentRoute);
+
+    if (tabIndex !== -1) {
+      this.activeIndex = tabIndex;
+      this.updateSliderPosition();
+    }
   }
 
-  isActive(route: string): boolean {
-    return this.router.url.includes(route);
-  }
-  
+  /**
+   * Change l'onglet actif et met à jour le slider
+   */
+  setActiveTab(index: number, route: string, event: MouseEvent) {
+    this.activeIndex = index;
+    this.router.navigate([route], { relativeTo: this.route });
 
+    // Met à jour la position et la taille du slider
+    this.updateSliderPosition(event);
+  }
+
+  /**
+   * Met à jour la position et la largeur du slider
+   */
+  updateSliderPosition(event?: MouseEvent) {
+    setTimeout(() => {
+      let buttonElement: HTMLElement;
+
+      if (event) {
+        buttonElement = event.target as HTMLElement;
+      } else {
+        buttonElement = this.el.nativeElement.querySelector(".account-btn.active");
+      }
+
+      if (buttonElement) {
+        this.sliderPosition = buttonElement.offsetLeft;
+        this.sliderWidth = buttonElement.offsetWidth;
+      }
+    });
+  }
 }

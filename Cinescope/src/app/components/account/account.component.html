@@ -1,16 +1,14 @@
 <div class="account-container">
-  <div class="account-header">
-    <h1>Welcome to Your Account</h1>
-    <p class="subtitle">Manage your favorites, watchlist, and ratings here.</p>
-  </div>
-
   <div class="account-nav">
-    <button class="account-btn" [class.active]="isActive('favorites')" routerLink="favorites">Favorites</button>
-    <button class="account-btn" [class.active]="isActive('watchlist')" routerLink="watchlist">Watchlist</button>
-    <button class="account-btn" [class.active]="isActive('user-ratings')" routerLink="user-ratings">Your Ratings</button>
-    <button class="account-btn" [class.active]="isActive('user-lists')" routerLink="user-lists">Your Custom Lists</button>
-  </div>
+    <!-- Slider qui se déplace entre les boutons -->
+    <div class="account-slider" [style.left.px]="sliderPosition" [style.width.px]="sliderWidth"></div>
 
+    <button class="account-btn" 
+      *ngFor="let tab of tabs; let i = index" 
+      [class.active]="activeIndex === i"
+      (click)="setActiveTab(i, tab.route, $event)">
+      {{ tab.label }}
+    </button>
+  </div>
 </div>
 <router-outlet></router-outlet>
-
