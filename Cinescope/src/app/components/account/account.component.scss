@@ -7,27 +7,12 @@
   background-color: var(--background);
 }
 
-.account-header {
-  text-align: center;
-  margin-bottom: 30px;
-
-  h1 {
-    font-size: 2rem;
-    color: var(--text);
-    margin-bottom: 10px;
-  }
-
-  .subtitle {
-    font-size: 1rem;
-    color: var(--grey2);
-  }
-}
-
 .account-nav {
+  position: relative;
   display: flex;
-  padding: 12px;
-  border: 1px solid var(--secondary);
-  border-radius: var(--border-radius);
+  border: 1px solid var(--primary);
+  border-radius: 27px;
+  overflow: hidden;
 }
 
 .account-btn {
@@ -36,20 +21,28 @@
   font-size: 1rem;
   font-weight: 600;
   border: none;
-  padding: 12px 24px;
+  padding: 14px 26px;
   cursor: pointer;
-  border-radius: var(--border-radius);
-  transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  border-radius: 20px;
+  transition: color 0.3s ease;
+  position: relative;
+  z-index: 2; // Met les boutons au-dessus du slider
+  transition: 0.1s;
 
   &:hover {
-    background: var(--grey);
-    color: var(--text-inverse);
-    transform: scale(1.05);
+    transform: scale(1.02);
   }
 
   &.active {
-    background: var(--primary);
-    color: var(--text-inverse);
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    color: var(--text-secondary);
   }
+}
+
+.account-slider {
+  position: absolute;
+  height: calc(100%);
+  background: var(--primary);
+  border-radius: 25px;
+  transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
+  z-index: 1; // Slider sous les boutons
 }

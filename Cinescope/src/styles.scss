@@ -2,10 +2,11 @@
   /* Light Mode */
   --background-light: #ffffff;
   --secondary-background-light: #EEEEEE;
-  --primary-light: #00ADB5;
-  --secondary-light: #0d949b;
+  --primary-light: #363635;
+  --secondary-light: #4a4a4a;
   --text-light: #222831;
-  --text-secondary-light: #414141;
+  --text-secondary-light: #EEEEEE;
+  --sub-text-light: #8a8c8f;
   --border-light: #e2e8f0;
 
 
@@ -17,9 +18,10 @@
   --primary-dark: #00ADB5;
   --secondary-dark: #0d949b;
   --text-dark: #EEEEEE;
-  --text-secondary-dark: #bdbdbd;
+  --text-secondary-dark: #1a2938;
+  --sub-text-dark: #b0aeae;
+
   --border-dark: #414141;
-  --secondary-dark: #0d949b;
 
   --border-radius: 16px;
 }
@@ -37,6 +39,7 @@ html {
   --secondary: var(--secondary-light);
   --text: var(--text-light);
   --text-secondary: var(--text-secondary-light);
+  --sub-text: var(--sub-text-light);
   --border: var(--border-light);
 }
 
@@ -47,6 +50,7 @@ html {
   --secondary: var(--secondary-dark);
   --text: var(--text-dark);
   --text-secondary: var(--text-secondary-dark);
+  --sub-text: var(--sub-text-dark);
   --border: var(--border-dark);
 }
 
