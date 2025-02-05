@@ -104,4 +104,4 @@
 <app-star-rating *ngIf="showRatingPopup" [initialRating]="userRating" [movieId]="movie.id"
   (ratingChange)="rateMovie($event)" (close)="closeRatingPopup()"></app-star-rating>
 
-  <app-list-form *ngIf="isModalOpen" [listData]="" (close)="onModalClose($event)"></app-list-form>
+  <app-list-form *ngIf="isModalOpen && this.isUserLoggedIn()" [listData]="" (close)="onModalClose($event)"></app-list-form>

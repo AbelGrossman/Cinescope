@@ -50,6 +50,12 @@ export class FavoritesComponent implements OnInit {
       });
     }
 
+  // Load favorite movies and add new movies to the list after new ones are loaded on scroll
+
+  // Filters are applied before movies are loaded, then the new movies are loaded on scroll,
+  // then filters are applied again.
+  // so the displayed movies won't be the same as the one after the scroll is done in the AllMoviesComponent
+  // It works the same way in WatchlistComponent, UserRatingsComponent, ListComponent and ResultsComponent
   loadFavorites(): void {
       if (this.isLoading || this.currentPage > this.totalPages) return;
       this.isLoading = true;
@@ -80,42 +86,41 @@ export class FavoritesComponent implements OnInit {
       });
     }
 
-    applyFilters(): void {
-      this.filteredMovies = this.favoriteMovies
-        .filter(movie => 
-          (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
-          (!this.filters.year || movie.release_date?.startsWith(this.filters.year)) &&
-          (!this.filters.minVoteCount || movie.vote_count >= this.filters.minVoteCount)
-        )
-        .sort((a, b) => {
-          let key = this.filters.sortBy;
-          let order = this.filters.sortOrder === 'asc' ? 1 : -1;
-  
-          if (key === 'release_date') {
-            return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
-          } else if (key === 'vote_average' || key === 'popularity') {
-            return ((a[key] || 0) - (b[key] || 0)) * order;
-          } else {
-            return 0;
-          }
-        });
-  
-      console.log("Filtered Movies:", this.filteredMovies);
-    }
+  applyFilters(): void {
+    this.filteredMovies = this.favoriteMovies
+      .filter(movie => 
+        (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
+        (!this.filters.year || movie.release_date?.startsWith(this.filters.year)) &&
+        (!this.filters.minVoteCount || movie.vote_count >= this.filters.minVoteCount)
+      )
+      .sort((a, b) => {
+        let key = this.filters.sortBy;
+        let order = this.filters.sortOrder === 'asc' ? 1 : -1;
 
-    onFiltersChanged(newFilters: any): void {
-      this.filters = newFilters;
-      localStorage.setItem('accountFilters', JSON.stringify(this.filters));
-      this.applyFilters();
-    }
+        if (key === 'release_date') {
+          return ((a.release_date || '') > (b.release_date || '') ? 1 : -1) * order;
+        } else if (key === 'vote_average' || key === 'popularity') {
+          return ((a[key] || 0) - (b[key] || 0)) * order;
+        } else {
+          return 0;
+        }
+      });
+  }
 
-    @HostListener('window:scroll', [])
-    onScroll(): void {
-      if (this.isLoading || this.currentPage > this.totalPages) return;
-    
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-        this.loadFavorites();
-      }
+  onFiltersChanged(newFilters: any): void {
+    this.filters = newFilters;
+    localStorage.setItem('accountFilters', JSON.stringify(this.filters));
+    this.applyFilters();
+  }
+
+  // Load more movies when user scrolls to the bottom of the page
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.isLoading || this.currentPage > this.totalPages) return;
+  
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+      this.loadFavorites();
     }
+  }
   
 }

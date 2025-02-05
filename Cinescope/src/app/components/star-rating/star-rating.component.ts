@@ -22,7 +22,6 @@ export class StarRatingComponent implements OnInit {
   rating = 0;
   hoverRating = 0;
 
-  constructor() {}
 
   ngOnInit(): void {
     this.rating = this.initialRating;

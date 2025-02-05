@@ -51,6 +51,7 @@ export class UserRatingsComponent implements OnInit {
        });
      }
  
+   // Load user rated movies and add new movies to the list after new ones are loaded on scroll
    loadUserRatings(): void {
        if (this.isLoading || this.currentPage > this.totalPages) return;
        this.isLoading = true;

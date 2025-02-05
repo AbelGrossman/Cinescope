@@ -41,8 +41,6 @@ export class MovieCardComponent implements OnInit {
   isScrolling = false;
   scrollDistance = 0;
 
-  constructor() {}
-
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
       this.fetchUserLists();
@@ -83,6 +81,7 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
 
   fetchUserLists(): void {
     this.listService.getUserLists().subscribe({
@@ -142,6 +141,7 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+  // error pop-up if user isn't logged in
   openActionModal(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -152,6 +152,7 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+  // open the quick action menu
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -24,7 +24,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private routerSubscription!: Subscription;
 
-  constructor(private router: Router, public authService: AuthService) {}
+  private router = inject(Router);
+
+  public authService = inject(AuthService);
+
 
   goToRoute(route: string): void {
     this.router.navigate([route]);

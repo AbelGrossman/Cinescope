@@ -36,11 +36,7 @@ export class MovieDetailsComponent implements OnInit {
   newListName = ""
   newListDescription = ""
   showRatingPopup = false
-  isModalOpen = false;
-
-
-  constructor(  ) {}
-  
+  isModalOpen = false;  
   
 
   ngOnInit(): void {
@@ -182,17 +178,18 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   openModal(modalId: string): void {
-    this.isModalOpen = true;
-    const modalElement = document.getElementById(modalId)
+    const modalElement = document.getElementById(modalId);
     if (modalElement) {
-      
-      console.log("dfefdg");
-
-      modalElement.style.display = "block"
-      modalElement.classList.add("show")
-      modalElement.setAttribute("aria-hidden", "false")
+      modalElement.style.display = 'block';
+      modalElement.classList.add('show');
+      modalElement.setAttribute('aria-hidden', 'false');
+      modalElement.style.opacity = '1';
+  
+      modalElement.focus();
+      document.body.classList.add('modal-open');
     }
   }
+  
 
   closeModal(modalId: string): void {
     const modalElement = document.getElementById(modalId)
@@ -203,6 +200,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
+  // error pop-up if user isn't logged in
   openActionModal(action: string, extra?: any): void {
     if (!this.isUserLoggedIn()) {
       this.openModal("loginModal")

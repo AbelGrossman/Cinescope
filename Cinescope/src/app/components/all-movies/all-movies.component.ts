@@ -27,10 +27,10 @@ export class AllMoviesComponent {
   currentPage: number = 1;
   isLoading: boolean = false;
   lastNavigationId: number | null = null;
+  private router = inject(Router);
 
-  constructor(private router: Router) { }
-
-
+  // loads movies with filter options automatically
+  // only component that does that thanks to how the API works
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
@@ -52,6 +52,8 @@ export class AllMoviesComponent {
     }
   }
 
+
+  // Load movies without any filters
   loadMoviesUpToCurrentPage(): void {
     this.isLoading = true;
 
@@ -74,6 +76,7 @@ export class AllMoviesComponent {
     });
   }
 
+  // Load movies with filters
   loadFilteredMoviesUpToCurrentPage(): void {
     this.isLoading = true;
 
@@ -97,7 +100,7 @@ export class AllMoviesComponent {
   }
 
 
-
+  // Add new movies to already existing list without filters
   fetchMovies(): void {
     if (this.isLoading) return;
     this.isLoading = true;
@@ -116,6 +119,7 @@ export class AllMoviesComponent {
     });
   }
 
+  // Add new movies to already existing list with filters
   filterMovies(): void {
     if (this.isLoading) return;
     this.isLoading = true;
@@ -145,7 +149,7 @@ export class AllMoviesComponent {
   }
 
 
-
+  // Load more movies when user scrolls to the bottom of the page
   @HostListener('window:scroll', [])
   onScroll(): void {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MovieService } from '../../services/movie/movie.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,12 +20,7 @@ export class HomeComponent implements OnInit {
 
   activeMovieId: number | null = null;
 
-
-  constructor(private movieService: MovieService) {}
-
-
-
-
+  private movieService = inject(MovieService);
  
   ngOnInit(): void {
     this.fetchTrendingMovies();
