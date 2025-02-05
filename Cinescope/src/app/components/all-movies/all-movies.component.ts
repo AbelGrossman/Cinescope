@@ -10,7 +10,6 @@ import { NavigationStart, Router } from '@angular/router';
   selector: 'app-all-movies',
   standalone: true,
   imports: [CommonModule, ListMovieCardComponent, FilterComponent],
-  providers: [MovieService],
   templateUrl: './all-movies.component.html',
   styleUrl: './all-movies.component.scss'
 })

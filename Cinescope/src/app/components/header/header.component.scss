@@ -24,6 +24,8 @@
   cursor: pointer;
   border-radius: var(--border-radius);
   transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  padding-right: 24px !important;
+  padding-left: 24px !important;
 
   &:hover {
     background: var(--grey);

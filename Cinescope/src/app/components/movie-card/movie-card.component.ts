@@ -5,23 +5,30 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { MovieService } from '../../services/movie/movie.service';
 import { ListService } from '../../services/list/list.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { ListformComponent } from '../list-form/list-form.component';
+
 
 @Component({
   selector: 'app-movie-card',
   standalone: true,
-  imports: [CommonModule, RouterModule, StarRatingComponent],
+  imports: [CommonModule, RouterModule, StarRatingComponent, ListformComponent],
   providers: [AuthService],
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
 export class MovieCardComponent implements OnInit {
+
+
   private movieService = inject(MovieService);
   private listService = inject(ListService);
+
   @Input() movie: any;
   @Input() activeMovieId: number | null = null;
   @Input() listId: number | null = null;
   @Output() toggleMovie = new EventEmitter<number | null>();
   @Output() openMenu = new EventEmitter<any>();
+
+
   userLists: any[] = [];
   isFavorite = false;
   isInWatchlist = false;
@@ -33,7 +40,9 @@ export class MovieCardComponent implements OnInit {
   @ViewChild('titleWrapper') titleWrapper!: ElementRef;
   isScrolling = false;
   scrollDistance = 0;
-  constructor(public authService: AuthService) {}
+
+  constructor() {}
+
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
       this.fetchUserLists();
@@ -45,6 +54,8 @@ export class MovieCardComponent implements OnInit {
   setDefaultImage(event: Event) {
     (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
   }
+
+  // pour le défilement du titre si le titre est trop long
   ngAfterViewInit(): void {
     setTimeout(() => {
       const titleEl = this.movieTitle.nativeElement as HTMLElement;

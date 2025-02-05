@@ -16,6 +16,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+
+
   getRequestToken(): Observable<any> {
     return this.http.get(`${this.apiUrl}/authentication/token/new?api_key=${this.apiKey}`);
   }
@@ -30,6 +32,7 @@ export class AuthService {
     });
   }
 
+  // On récupère ici le session_id pour faire la connextion avec un compte utilisateur et faire des actions sur son compte.
   createSession(requestToken: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/authentication/session/new?api_key=${this.apiKey}`, {
       request_token: requestToken

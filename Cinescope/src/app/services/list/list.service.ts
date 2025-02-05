@@ -66,6 +66,9 @@ export class ListService {
     );
   }
 
+  
+  // Il est pas encore possible d'update un list via l'API TMDB v3 pour un utilisateur (avec le session_id).
+  // On a donc été obligé de faire ça (sauvegardr la liste initiale, la supprimer, puis recréer une nouvelle liste avec les mêmes films).
   updateList(listId: number, newName: string, newDescription: string): void {
     this.getListMovies(listId).subscribe(oldList => {
       const movies = oldList.items ? oldList.items.map((m: any) => m.id) : [];
