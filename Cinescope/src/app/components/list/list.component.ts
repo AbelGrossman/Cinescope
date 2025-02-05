@@ -39,7 +39,7 @@ export class ListComponent implements OnInit {
     sortOrder: 'desc'
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         localStorage.setItem('lastPageUrl', event.url);
@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
     });
   }
 
-  loadListMovies() {
+  loadListMovies(): void {
     if (this.isLoading || this.currentPage > this.totalPages) return;
     this.isLoading = true;
     this.listService.getListMovies(this.listId, this.currentPage).subscribe(response => {
@@ -85,7 +85,7 @@ export class ListComponent implements OnInit {
     });
   }
   
-  applyFilters() {
+  applyFilters(): void {
     this.filteredMovies = this.listMovies
       .filter(movie => 
         (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
@@ -106,24 +106,12 @@ export class ListComponent implements OnInit {
     console.log("Filtered Movies:", this.filteredMovies);
   }
 
-  onFiltersChanged(newFilters: any) {
+  onFiltersChanged(newFilters: any): void {
     this.filters = newFilters;
     localStorage.setItem('accountFilters', JSON.stringify(this.filters));
     this.applyFilters();
   }
 
-  resetFilters() {
-    this.filters = {
-      minRating: '',
-      year: '',
-      minVoteCount: '',
-      sortBy: 'popularity',
-      sortOrder: 'desc'
-    };
-    localStorage.removeItem('accountFilters');
-    this.applyFilters();
-  }
-  
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (this.isLoading || this.currentPage > this.totalPages) return;
@@ -132,7 +120,7 @@ export class ListComponent implements OnInit {
     }
   }
 
-  goBack() {
+  goBack(): void {
     const lastPage = localStorage.getItem('lastPageUrl');
     if (lastPage) {
       window.history.back();

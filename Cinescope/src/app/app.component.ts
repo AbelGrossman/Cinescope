@@ -40,11 +40,11 @@ export class AppComponent implements OnInit {
     this.authService.handleAuthCallback();
   }
 
-  login() {
+  login(): void {
     this.authService.redirectToAuth()
   }  
 
-  openModal(modalId: string) {
+  openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
       modalElement.style.display = 'block';
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  closeModal(modalId: string) {
+  closeModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
       modalElement.style.display = 'none';

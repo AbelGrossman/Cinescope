@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 
 
  
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchTrendingMovies();
     this.fetchNowPlayingMovies();
     this.fetchTopRatedMovies();
@@ -38,25 +38,25 @@ export class HomeComponent implements OnInit {
     this.activeMovieId = movieId;
   }
 
-  fetchTrendingMovies() {
+  fetchTrendingMovies(): void {
     this.movieService.getTrendingMovies().subscribe((response) => {
       this.trendingMovies = response.results;
     });
   }
 
-  fetchNowPlayingMovies() {
+  fetchNowPlayingMovies(): void {
     this.movieService.getNowPlayingMovies().subscribe((response) => {
       this.nowPlayingMovies = response.results;
     });
   }
 
-  fetchTopRatedMovies() {
+  fetchTopRatedMovies(): void {
     this.movieService.getTopRatedMovies().subscribe((response) => {
       this.topRatedMovies = response.results;
     });
   }
 
-  fetchPopularMovies() {
+  fetchPopularMovies(): void {
     this.movieService.getPopularMovies().subscribe((response) => {
       this.popularMovies = response.results;
     });

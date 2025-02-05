@@ -31,7 +31,7 @@ export class AccountComponent implements AfterViewInit {
     this.setActiveTabByRoute();
   }
 
-  setActiveTabByRoute() {
+  setActiveTabByRoute(): void {
     const currentRoute = this.route.snapshot.firstChild?.url[0]?.path || 'favorites';
     const tabIndex = this.tabs.findIndex(tab => tab.route === currentRoute);
     if (tabIndex !== -1) {
@@ -40,15 +40,14 @@ export class AccountComponent implements AfterViewInit {
     }
   }
 
-  setActiveTab(index: number, route: string, event: MouseEvent) {
+  setActiveTab(index: number, route: string, event: MouseEvent): void {
     this.activeIndex = index;
     this.router.navigate([route], { relativeTo: this.route });
     localStorage.removeItem('accountFilters');
-    // Met à jour la position et la taille du slider
     this.updateSliderPosition(event);
   }
 
-  updateSliderPosition(event?: MouseEvent) {
+  updateSliderPosition(event?: MouseEvent): void {
     setTimeout(() => {
       let buttonElement: HTMLElement;
       if (event) {

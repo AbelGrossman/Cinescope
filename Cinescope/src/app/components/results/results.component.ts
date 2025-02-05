@@ -38,7 +38,7 @@ export class ResultsComponent implements OnInit {
 
   constructor(private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentPage = 1;
     this.totalPages = 1;
   
@@ -72,23 +72,7 @@ export class ResultsComponent implements OnInit {
   }
   
 
-  fetchSearchResults() {
-    this.route.paramMap.subscribe(params => {
-      const newSearchQuery = params.get('query') || '';
-
-
-      if (newSearchQuery !== this.searchQuery) {
-        this.searchQuery = newSearchQuery;
-        this.resetFilters();
-      }
-
-      if (this.searchQuery) {
-        this.searchMovies(this.searchQuery);
-      }
-    });
-  }
-
-  searchMovies(query: string, page: number = 1) {
+  searchMovies(query: string, page: number = 1): void {
     if (!query.trim() || this.currentPage > this.totalPages || this.isLoading) return;
     
     this.isLoading = true;
@@ -142,14 +126,14 @@ onScroll(): void {
 }
 
 
-  onFiltersChanged(newFilters: any) {
+  onFiltersChanged(newFilters: any): void {
     this.filters = newFilters;
     localStorage.setItem('movieFilters', JSON.stringify(this.filters));
     this.applyFilters();
   }
 
 
-  applyFilters() {
+  applyFilters(): void {
     this.filteredResults = this.searchResults
       .filter(movie => 
         (!this.filters.genre || movie.genre_ids?.includes(Number(this.filters.genre))) &&
@@ -170,19 +154,5 @@ onScroll(): void {
           return 0;
         }
       });
-
-    console.log("Filtered Results:", this.filteredResults);
-  }
-
-  resetFilters() {
-    this.filters = {
-      genre: '',
-      minRating: '',
-      year: '',
-      minVoteCount: '',
-      sortBy: 'popularity',
-      sortOrder: 'desc'
-    };
-    localStorage.removeItem('movieFilters');
   }
 }

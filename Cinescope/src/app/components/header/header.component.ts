@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.updateActiveButton(this.router.url);
   }
 
-  updateActiveButton(url: string) {
+  updateActiveButton(url: string): void {
     if (url.includes('/app-all-movies')) {
       this.activeButton = 'all-movies';
     } else if (url.includes('/login')) {
@@ -62,17 +62,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  setActive(button: string) {
+  setActive(button: string): void {
     this.activeButton = button;
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
     this.updateTheme();
   }
 
-  updateTheme() {
+  updateTheme(): void {
     const htmlElement = document.documentElement;
     if (this.isDarkMode) {
       htmlElement.classList.remove('light-mode');
@@ -83,7 +83,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  logout() {
+  logout(): void {
     this.authService.logout();
     this.router.navigate(['/']);
   }
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetFiltersAndSearchMovies() {
+  resetFiltersAndSearchMovies(): void {
     console.log("searchQuery", this.searchQuery);
     localStorage.removeItem('movieFilters');
     localStorage.removeItem('searchResults');
@@ -106,17 +106,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetFiltersAndGoHome() {
+  resetFiltersAndGoHome(): void {
     localStorage.removeItem('movieFilters');
     this.router.navigate(['/']);
   }
 
-  resetFiltersAndGoToAllMovies() {
+  resetFiltersAndGoToAllMovies(): void {
     localStorage.removeItem('movieFilters');
     this.router.navigate(['/app-all-movies']);
   }
 
-  login() {
+  login(): void {
     this.authService.redirectToAuth();
   }
 }

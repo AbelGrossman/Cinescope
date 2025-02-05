@@ -18,11 +18,11 @@ export class UserListsComponent implements OnInit {
   isModalOpen = false;
   selectedList: any = null;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadUserLists();
   }
 
-  loadUserLists() {
+  loadUserLists(): void {
     this.listService.getUserLists().subscribe({
       next: (response) => {
         this.userLists = response.results || [];
@@ -33,18 +33,18 @@ export class UserListsComponent implements OnInit {
     });
   }
 
-  openCreateModal() {
+  openCreateModal(): void {
     this.selectedList = null;
     this.isModalOpen = true;
     console.log("f,")
   }
 
-  openEditModal(list: any) {
+  openEditModal(list: any): void {
     this.selectedList = list;
     this.isModalOpen = true;
   }
 
-  onModalClose(refreshNeeded: boolean) {
+  onModalClose(refreshNeeded: boolean): void {
     this.isModalOpen = false;
     console.log("erererere");
       this.loadUserLists();
@@ -52,7 +52,7 @@ export class UserListsComponent implements OnInit {
   }
   
 
-  deleteList(list: any) {
+  deleteList(list: any): void {
     this.listService.deleteList(list.id).subscribe({
       next: () => this.loadUserLists(),
       error: (err) => console.error('Erreur lors de la suppression :', err)

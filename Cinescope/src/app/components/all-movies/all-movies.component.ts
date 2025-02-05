@@ -31,7 +31,7 @@ export class AllMoviesComponent {
   constructor(private router: Router) { }
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         localStorage.setItem('lastPageUrl', event.url);
@@ -52,7 +52,7 @@ export class AllMoviesComponent {
     }
   }
 
-  loadMoviesUpToCurrentPage() {
+  loadMoviesUpToCurrentPage(): void {
     this.isLoading = true;
 
     let movieRequests = [];
@@ -74,7 +74,7 @@ export class AllMoviesComponent {
     });
   }
 
-  loadFilteredMoviesUpToCurrentPage() {
+  loadFilteredMoviesUpToCurrentPage(): void {
     this.isLoading = true;
 
     let movieRequests = [];
@@ -98,7 +98,7 @@ export class AllMoviesComponent {
 
 
 
-  fetchMovies() {
+  fetchMovies(): void {
     if (this.isLoading) return;
     this.isLoading = true;
 
@@ -116,7 +116,7 @@ export class AllMoviesComponent {
     });
   }
 
-  filterMovies() {
+  filterMovies(): void {
     if (this.isLoading) return;
     this.isLoading = true;
 
@@ -135,7 +135,7 @@ export class AllMoviesComponent {
   }
 
 
-  onFiltersChanged(newFilters: any) {
+  onFiltersChanged(newFilters: any): void {
     this.filters = newFilters;
     this.currentPage = 1;
     this.allMovies = [];
@@ -161,21 +161,5 @@ export class AllMoviesComponent {
       }
     }
   }
-
-
-  resetFilters() {
-    this.filters = {
-      genre: '',
-      minRating: '',
-      year: '',
-      minVoteCount: '',
-      sortBy: 'popularity',
-      sortOrder: 'desc'
-    };
-    localStorage.removeItem('movieFilters');
-    localStorage.removeItem('moviePage');
-
-  }
-
 
 }

@@ -27,7 +27,7 @@ export class ListformComponent implements OnInit {
     }
   }
 
-  async onSave() {
+  async onSave(): Promise<void> {
     if (!this.name.trim()) {
       return;
     }
@@ -46,7 +46,7 @@ export class ListformComponent implements OnInit {
     }
   }
   
-  delay(ms: number) {
+  delay(ms: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   
