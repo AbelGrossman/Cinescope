@@ -8,12 +8,13 @@ import { MovieService } from "../../services/movie/movie.service"
 import { ListService } from "../../services/list/list.service"
 import { AuthService } from "../../services/auth/auth.service"
 import { StarRatingComponent } from "../star-rating/star-rating.component"
+import { ListformComponent } from "../list-form/list-form.component"
 
 
 @Component({
   selector: "app-movie-details",
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, StarRatingComponent],
+  imports: [CommonModule, FormsModule, RouterModule, StarRatingComponent, ListformComponent],
   templateUrl: "./movie-details.component.html",
   styleUrls: ["./movie-details.component.scss"],
 })
@@ -35,6 +36,8 @@ export class MovieDetailsComponent implements OnInit {
   newListName = ""
   newListDescription = ""
   showRatingPopup = false
+  isModalOpen = false;
+
 
   constructor(  ) {}
   
@@ -179,8 +182,12 @@ export class MovieDetailsComponent implements OnInit {
   }
 
   openModal(modalId: string): void {
+    this.isModalOpen = true;
     const modalElement = document.getElementById(modalId)
     if (modalElement) {
+      
+      console.log("dfefdg");
+
       modalElement.style.display = "block"
       modalElement.classList.add("show")
       modalElement.setAttribute("aria-hidden", "false")
@@ -217,7 +224,14 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  openListCreationModal(): void {
+  onModalClose(refreshNeeded: boolean) {
+    this.isModalOpen = false;
+    console.log("erererere");
+      this.fetchUserLists();
+
+  }
+
+  openListCreationModal() {
     if (this.isUserLoggedIn()) {
       this.openModal("listCreationModal")
     } else {
