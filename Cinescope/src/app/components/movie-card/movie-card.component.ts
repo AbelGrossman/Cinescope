@@ -91,6 +91,7 @@ export class MovieCardComponent implements OnInit {
     });
   }
 
+
   fetchUserLists(): void {
     this.listService.getUserLists().subscribe({
       next: (data) => {
@@ -149,6 +150,7 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+  // error pop-up if user isn't logged in
   openActionModal(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -159,6 +161,7 @@ export class MovieCardComponent implements OnInit {
     }
   }
 
+  // open the quick action menu
   openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {

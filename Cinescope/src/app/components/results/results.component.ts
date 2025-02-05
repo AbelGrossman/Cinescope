@@ -35,8 +35,8 @@ export class ResultsComponent implements OnInit {
   lastNavigationId: number | null = null;
   isLoading: boolean = false;
 
+  private router = inject(Router);
 
-  constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.currentPage = 1;
@@ -53,6 +53,7 @@ export class ResultsComponent implements OnInit {
   
       if (newSearchQuery !== this.searchQuery) {
         this.searchQuery = newSearchQuery;
+        this.currentPage = 1;
         localStorage.removeItem('searchResults');
         this.searchResults = [];
         this.searchMovies(this.searchQuery, this.currentPage);
@@ -71,7 +72,7 @@ export class ResultsComponent implements OnInit {
     }
   }
   
-
+  // Load search query movies and add new movies to the list after new ones are loaded on scroll
   searchMovies(query: string, page: number = 1): void {
     if (!query.trim() || this.currentPage > this.totalPages || this.isLoading) return;
     
@@ -95,10 +96,13 @@ export class ResultsComponent implements OnInit {
             revenue: movie.revenue || 0
           }));
   
-          const existingMovieIds = new Set(this.searchResults.map(m => m.id));
-          const uniqueMovies = newMovies.filter((movie:any) => !existingMovieIds.has(movie.id));
-  
-          this.searchResults = [...this.searchResults, ...uniqueMovies];
+          if (page === 1) {
+            this.searchResults = newMovies;
+          } else {
+            const existingMovieIds = new Set(this.searchResults.map(m => m.id));
+            const uniqueMovies = newMovies.filter((movie:any) => !existingMovieIds.has(movie.id));
+            this.searchResults = [...this.searchResults, ...uniqueMovies];
+          }
   
           localStorage.setItem('searchResults', JSON.stringify(this.searchResults));
           this.applyFilters();
@@ -115,7 +119,7 @@ export class ResultsComponent implements OnInit {
   }
   
 
-
+  // Load more movies when user scrolls to the bottom of the page
   @HostListener('window:scroll', [])
 onScroll(): void {
   if (this.isLoading) return;

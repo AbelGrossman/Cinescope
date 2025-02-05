@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ChangeDetectorRef, inject } from '@angular/core';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
@@ -16,17 +16,13 @@ export class AccountComponent implements AfterViewInit {
     { label: 'Your Ratings', route: 'user-ratings' },
     { label: 'Your Custom Lists', route: 'user-lists' }
   ];
-
-  activeIndex = 0; // tab active
-  sliderPosition = 0; // position slider
-  sliderWidth = 0; // largeur slider (car il doit s'adapter à la largeur du texte)
-
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private el: ElementRef,
-    private cd: ChangeDetectorRef
-  ) {}
+  activeIndex = 0;
+  sliderPosition = 0;
+  sliderWidth = 0;
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private el = inject(ElementRef);
+  private cd = inject(ChangeDetectorRef);
 
   ngAfterViewInit(): void {
     this.setActiveTabByRoute();

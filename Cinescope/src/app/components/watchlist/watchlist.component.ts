@@ -17,7 +17,7 @@ import { FilterComponent } from '../filter/filter.component';
 export class WatchlistComponent implements OnInit {
   private movieService = inject(MovieService);
   private route = inject(ActivatedRoute);
-    private router = inject(Router);
+  private router = inject(Router);
   watchlistMovies: any[] = [];
   filteredMovies: any[] = [];
   currentPage: number = 1;
@@ -51,6 +51,7 @@ export class WatchlistComponent implements OnInit {
        });
      }
 
+  // Load watchlist movies and add new movies to the list after new ones are loaded on scroll
   loadWatchlist(): void {
         if (this.isLoading || this.currentPage > this.totalPages) return;
         this.isLoading = true;

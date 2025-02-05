@@ -57,6 +57,7 @@ export class ListComponent implements OnInit {
     });
   }
 
+  // Load movies from the list and add new movies to the list after new ones are loaded on scroll
   loadListMovies(): void {
     if (this.isLoading || this.currentPage > this.totalPages) return;
     this.isLoading = true;
@@ -112,6 +113,7 @@ export class ListComponent implements OnInit {
     this.applyFilters();
   }
 
+  // Load more movies when user scrolls to the bottom of the page
   @HostListener('window:scroll', [])
   onScroll(): void {
     if (this.isLoading || this.currentPage > this.totalPages) return;

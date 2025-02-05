@@ -51,6 +51,8 @@ export class AppComponent implements OnInit {
       modalElement.classList.add('show');
       modalElement.setAttribute('aria-hidden', 'false');
       modalElement.style.opacity = '1';
+      modalElement.focus();
+    document.body.classList.add('modal-open');
     }
   }
 
@@ -61,6 +63,14 @@ export class AppComponent implements OnInit {
       modalElement.classList.remove('show');
       modalElement.setAttribute('aria-hidden', 'true');
       modalElement.style.opacity = '0';
+      modalElement.blur();
+      document.body.classList.remove('modal-open');
+      setTimeout(() => {
+        const interactiveElements = document.querySelectorAll("button, a");
+        interactiveElements.forEach(el => {
+          el.removeAttribute("disabled");
+        });
+      }, 100);
     }
   }
   
