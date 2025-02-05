@@ -28,6 +28,9 @@ export class MovieCardComponent implements OnInit {
   @Output() toggleMovie = new EventEmitter<number | null>();
   @Output() openMenu = new EventEmitter<any>();
 
+  @ViewChild('movieTitle') movieTitle!: ElementRef;
+  @ViewChild('titleWrapper') titleWrapper!: ElementRef;
+
 
   userLists: any[] = [];
   isFavorite = false;
@@ -36,11 +39,17 @@ export class MovieCardComponent implements OnInit {
   isListDropdownOpen = false;
   userRating: number = 0;
   showRatingPopup: boolean = false;
-  @ViewChild('movieTitle') movieTitle!: ElementRef;
-  @ViewChild('titleWrapper') titleWrapper!: ElementRef;
   isScrolling = false;
   scrollDistance = 0;
 
+  constructor() {}
+
+
+  // à chaque movie card instanciée, on doit vérifier sur le film est dans les favoris, watchlist, et les listes perso de l'utilisateur ou noté. 
+  // Cela génére beaucoup de requêtes à chaque fois qu'on ouvre une card, ce qui n'est pas optimal quand on affiche des lists de card
+  // On aura du faire la requete en amont pour tous les films et passer en Input ici les données isFavorite, isInWatchlist, userRating, movieInLists, etc.
+  // On a été confronté au soucis à la fin du projet et on avait pas forcément le temps de tout refactoriser
+  // Ceci explique pourquoi c'est assez long pour afficher les toggle de favoris, watchlist, etc. sur les cards
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
       this.fetchUserLists();
