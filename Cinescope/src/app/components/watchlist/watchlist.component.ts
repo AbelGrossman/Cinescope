@@ -102,7 +102,6 @@ export class WatchlistComponent implements OnInit {
             }
           });
     
-        console.log("Filtered Movies:", this.watchlistMovies);
       }
   
       onFiltersChanged(newFilters: any): void {

@@ -102,7 +102,6 @@ export class UserRatingsComponent implements OnInit {
            }
          });
    
-       console.log("Filtered Movies:", this.filteredMovies);
      }
  
      onFiltersChanged(newFilters: any): void {

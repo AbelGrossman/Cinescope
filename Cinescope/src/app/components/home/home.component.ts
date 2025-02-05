@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
   }
   
   onToggleMovie(movieId: number | null): void {
-    console.log("toggle");
     this.activeMovieId = movieId;
   }
 

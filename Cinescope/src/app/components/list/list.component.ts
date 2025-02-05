@@ -104,7 +104,6 @@ export class ListComponent implements OnInit {
           return 0;
         }
       });
-    console.log("Filtered Movies:", this.filteredMovies);
   }
 
   onFiltersChanged(newFilters: any): void {

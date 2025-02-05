@@ -35,7 +35,6 @@ export class ListformComponent implements OnInit {
     }
   
     if (this.listData) {
-      console.log(this.listData);
       this.listService.updateList(this.listData.id, this.name, this.description);
       await this.delay(1000);
       this.close.emit(true);

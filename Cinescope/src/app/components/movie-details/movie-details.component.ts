@@ -118,7 +118,6 @@ export class MovieDetailsComponent implements OnInit {
   rateMovie(rating: number): void {
     this.userRating = rating
     this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
-      console.log(`Rated ${this.movie.title} with ${rating} stars.`)
       this.closeRatingPopup()
     })
   }
@@ -224,7 +223,6 @@ export class MovieDetailsComponent implements OnInit {
 
   onModalClose(refreshNeeded: boolean) {
     this.isModalOpen = false;
-    console.log("erererere");
       this.fetchUserLists();
 
   }

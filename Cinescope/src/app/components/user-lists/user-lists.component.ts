@@ -36,7 +36,6 @@ export class UserListsComponent implements OnInit {
   openCreateModal(): void {
     this.selectedList = null;
     this.isModalOpen = true;
-    console.log("f,")
   }
 
   openEditModal(list: any): void {
@@ -46,7 +45,6 @@ export class UserListsComponent implements OnInit {
 
   onModalClose(refreshNeeded: boolean): void {
     this.isModalOpen = false;
-    console.log("erererere");
       this.loadUserLists();
 
   }

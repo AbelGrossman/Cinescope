@@ -101,7 +101,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   resetFiltersAndSearchMovies(): void {
-    console.log("searchQuery", this.searchQuery);
     localStorage.removeItem('movieFilters');
     localStorage.removeItem('searchResults');
     if (this.searchQuery.trim()) {
