@@ -20,6 +20,7 @@ export class ListformComponent implements OnInit {
   name = '';
   description = '';
 
+  // Si modification d'une liste, on pré-remplit les champs
   ngOnInit(): void {
     if (this.listData) {
       this.name = this.listData.name;
@@ -27,6 +28,7 @@ export class ListformComponent implements OnInit {
     }
   }
 
+  //  J'ai ajouté un delay ici car sinon on récupèrait pas la liste màj ou la liste créée
   async onSave(): Promise<void> {
     if (!this.name.trim()) {
       return;
@@ -35,7 +37,7 @@ export class ListformComponent implements OnInit {
     if (this.listData) {
       console.log(this.listData);
       this.listService.updateList(this.listData.id, this.name, this.description);
-      await this.delay(500);
+      await this.delay(1000);
       this.close.emit(true);
     } else {
       this.listService.createList(this.name, this.description)

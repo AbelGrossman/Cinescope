@@ -15,8 +15,8 @@ export class ListMovieCardComponent {
   activeMovieId: number | null = null;
 
 
+  // Permet de stocker l'id du film actif, notamment utlilisé pour l'affichage du menu rapide sur les cards
 onToggleMovie(movieId: number | null): void {
-  console.log("toggle");
   this.activeMovieId = movieId;
 }
 

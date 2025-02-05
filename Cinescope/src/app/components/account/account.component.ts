@@ -16,9 +16,10 @@ export class AccountComponent implements AfterViewInit {
     { label: 'Your Ratings', route: 'user-ratings' },
     { label: 'Your Custom Lists', route: 'user-lists' }
   ];
-  activeIndex = 0;
-  sliderPosition = 0;
-  sliderWidth = 0;
+
+  activeIndex = 0; // tab active
+  sliderPosition = 0; // position slider
+  sliderWidth = 0; // largeur slider (car il doit s'adapter à la largeur du texte)
 
   constructor(
     private router: Router,
@@ -31,8 +32,9 @@ export class AccountComponent implements AfterViewInit {
     this.setActiveTabByRoute();
   }
 
+  // Initialise et définit l'onglet actif en fonction de la route
   setActiveTabByRoute(): void {
-    const currentRoute = this.route.snapshot.firstChild?.url[0]?.path || 'favorites';
+    const currentRoute = this.route.snapshot.firstChild?.url[0]?.path;
     const tabIndex = this.tabs.findIndex(tab => tab.route === currentRoute);
     if (tabIndex !== -1) {
       this.activeIndex = tabIndex;
@@ -40,6 +42,7 @@ export class AccountComponent implements AfterViewInit {
     }
   }
 
+  // Définit l'onglet actif et met à jour la navigation (au clic)
   setActiveTab(index: number, route: string, event: MouseEvent): void {
     this.activeIndex = index;
     this.router.navigate([route], { relativeTo: this.route });
@@ -47,6 +50,7 @@ export class AccountComponent implements AfterViewInit {
     this.updateSliderPosition(event);
   }
 
+  // Met à jour la position du slider sous l'onglet actif
   updateSliderPosition(event?: MouseEvent): void {
     setTimeout(() => {
       let buttonElement: HTMLElement;

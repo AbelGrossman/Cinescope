@@ -33,17 +33,17 @@ h2 {
 }
 
 .btn-secondary {
-  background-color: var(--background);
-  color: var(--text);
+  background-color: var(--primary);
+  color: var(--text-secondary);
 
   &:hover {
-    background-color: var(--primary);
+    background-color: var(--secondary);
   }
 }
 
 .btn-danger {
-  background-color: rgb(172, 12, 12);
-  color: var(--text);
+  background-color: rgb(170, 0, 0);
+  color: var(--text-secondary);
 
   &:hover {
     background-color: rgb(129, 10, 10);

@@ -4,98 +4,100 @@
   </button>
 
   <div class="movie-showcase" *ngIf="movie">
-    <div class="movie-backdrop" [style.background-image]="'url(https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')'">
+    <div class="movie-backdrop"
+      [style.background-image]="'url(https://image.tmdb.org/t/p/original' + movie.backdrop_path + ')'">
       <div class="backdrop-overlay"></div>
     </div>
 
-  <div class="movie-content">
-    <div class="poster-container">
-      <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
+    <div class="movie-content">
+      <div class="poster-container">
+        <img class="poster" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+          (error)="setDefaultImage($event)" alt="{{ movie.title }}" />
 
 
-      <div class="rating-container poster-ratings">
-        <div class="rating-item">
-          <i class="fas fa-star"></i>
-          <span class="rating-value">{{
-            movie.vote_average | number : "1.1-1"
-            }}</span>
-          <span class="vote-count">({{ formatNumberWithSpaces(movie.vote_count) }} votes)</span>
-        </div>
-        <div class="rating-item">
-          <i class="fas fa-dollar-sign"></i>
-          <span class="rating-value">{{
-            formatNumberWithSpaces(movie.revenue)
-            }}</span>
-          <span class="vote-count">Box Office</span>
+        <div class="rating-container poster-ratings">
+          <div class="rating-item">
+            <i class="fas fa-star"></i>
+            <span class="rating-value">{{
+              movie.vote_average | number : "1.1-1"
+              }}</span>
+            <span class="vote-count">({{ formatNumberWithSpaces(movie.vote_count) }} votes)</span>
+          </div>
+          <div class="rating-item">
+            <i class="fas fa-dollar-sign"></i>
+            <span class="rating-value">{{
+              formatNumberWithSpaces(movie.revenue)
+              }}</span>
+            <span class="vote-count">Box Office</span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="movie-details">
-      <h1 class="movie-title">{{ movie.title }}</h1>
-      <div class="movie-meta">
-        <span class="meta-item"><i class="fas fa-calendar-alt"></i>
-          {{ movie.release_date | date : "yyyy" }}</span>
-        <span class="meta-item"><i class="fas fa-clock"></i> {{ movie.runtime }} min</span>
-        <span class="meta-item"><i class="fas fa-film"></i> {{ getGenres() }}</span>
-      </div>
+      <div class="movie-details">
+        <h1 class="movie-title">{{ movie.title }}</h1>
+        <div class="movie-meta">
+          <span class="meta-item"><i class="fas fa-calendar-alt"></i>
+            {{ movie.release_date | date : "yyyy" }}</span>
+          <span class="meta-item"><i class="fas fa-clock"></i> {{ movie.runtime }} min</span>
+          <span class="meta-item"><i class="fas fa-film"></i> {{ getGenres() }}</span>
+        </div>
 
-      <p class="movie-overview">{{ movie.overview }}</p>
+        <p class="movie-overview">{{ movie.overview }}</p>
 
-      <div class="action-buttons">
-        <button class="btn-action favorite" (click)="openActionModal('favorites')">
-          <i class="fas" [ngClass]="{
+        <div class="action-buttons">
+          <button class="btn-action favorite" (click)="openActionModal('favorites')">
+            <i class="fas" [ngClass]="{
               'fa-heart': isFavorite,
               'fa-heart-broken': !isFavorite
             }"></i>
-          {{ isFavorite ? "In Favorites" : "Add to Favorites" }}
-        </button>
-        <button class="btn-action watchlist" (click)="openActionModal('watchlist')">
-          <i class="fas" [ngClass]="{
+            {{ isFavorite ? "In Favorites" : "Add to Favorites" }}
+          </button>
+          <button class="btn-action watchlist" (click)="openActionModal('watchlist')">
+            <i class="fas" [ngClass]="{
               'fa-check-circle': isInWatchlist,
               'fa-plus-circle': !isInWatchlist
             }"></i>
-          {{ isInWatchlist ? "In Watchlist" : "Add to Watchlist" }}
-        </button>
-        <div class="dropdown">
-          <button class="btn-action dropdown-toggle" type="button" id="listDropdown" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <i class="fas fa-list"></i> Add to List
+            {{ isInWatchlist ? "In Watchlist" : "Add to Watchlist" }}
           </button>
-          <ul class="dropdown-menu" aria-labelledby="listDropdown">
-            <li *ngFor="let list of userLists">
-              <a class="dropdown-item" (click)="openActionModal('customList', list.id)">
-                <i class="fas" [ngClass]="{
+          <div class="dropdown">
+            <button class="btn-action dropdown-toggle" type="button" id="listDropdown" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <i class="fas fa-list"></i> Add to List
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="listDropdown">
+              <li *ngFor="let list of userLists">
+                <a class="dropdown-item" (click)="openActionModal('customList', list.id)">
+                  <i class="fas" [ngClass]="{
                     'fa-minus-circle': movieInLists[list.id],
                     'fa-plus-circle': !movieInLists[list.id]
                   }"></i>
-                {{ list.name }}
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li>
-              <a class="dropdown-item create-list" (click)="openListCreationModal()">
-                <i class="fas fa-plus"></i> Create New List
-              </a>
-            </li>
-          </ul>
-        </div>
-        <a class="btn-action showtimes" [href]="
+                  {{ list.name }}
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <a class="dropdown-item create-list" (click)="openListCreationModal()">
+                  <i class="fas fa-plus"></i> Create New List
+                </a>
+              </li>
+            </ul>
+          </div>
+          <a class="btn-action showtimes" [href]="
             'https://www.google.com/search?q=' + movie.title + ' showtimes'
           " target="_blank">
-          <i class="fas fa-ticket-alt"></i> Find Showtimes
-        </a>
-        <button class="btn-action favorite" (click)="openRatingPopup()">Rate Movie <span *ngIf="userRating"
-            class="user-rating-display">({{ userRating }}/10)</span>
-        </button>
+            <i class="fas fa-ticket-alt"></i> Find Showtimes
+          </a>
+          <button class="btn-action favorite" (click)="openRatingPopup()">Rate Movie <span *ngIf="userRating"
+              class="user-rating-display">({{ userRating }}/10)</span>
+          </button>
 
 
+        </div>
       </div>
     </div>
   </div>
-</div>
 </div>
 
 

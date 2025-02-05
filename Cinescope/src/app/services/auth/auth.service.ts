@@ -16,26 +16,30 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  // Étape 1 : Génère un token de requête pour démarrer le processus d'authentification utilisateur
   getRequestToken(): Observable<any> {
     return this.http.get(`${this.apiUrl}/authentication/token/new?api_key=${this.apiKey}`);
   }
 
+  // Étape 2 : Redirige l'utilisateur vers TMDB pour autoriser le token
   redirectToAuth(): void {
     this.getRequestToken().subscribe(response => {
       if (response.success) {
         const requestToken = response.request_token;
         localStorage.setItem('request_token', requestToken);
-        window.location.href = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:4200/auth/callback`;
+        window.location.href = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:4200`;
       }
     });
   }
 
+  // Étape 3 : Crée une session après validation du token par l'utilisateur
   createSession(requestToken: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/authentication/session/new?api_key=${this.apiKey}`, {
       request_token: requestToken
     });
   }
 
+  // Étape 4 : Gère le retour de l'authentification et crée la session utilisateur
   handleAuthCallback(): void {
     const urlParams = new URLSearchParams(window.location.search);
     const requestToken = urlParams.get('request_token');
@@ -54,6 +58,7 @@ export class AuthService {
     }
   }
 
+  // Récupère l'ID du compte utilisateur via l'API TMDB
   getAccountId(): Observable<any> {
     return this.http.get(`${this.apiUrl}/account?api_key=${this.apiKey}&session_id=${localStorage.getItem('session_id')}`);
   }
