@@ -40,7 +40,7 @@ export class MovieDetailsComponent implements OnInit {
   
   
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       const movieId = Number(params.get("id"))
       if (movieId) {
@@ -67,7 +67,7 @@ export class MovieDetailsComponent implements OnInit {
     });
   }
 
-  fetchMovieDetails(movieId: number) {
+  fetchMovieDetails(movieId: number): void {
     this.movieService.getMovieDetails(movieId).subscribe((data) => {
       this.movie = data
     })
@@ -77,14 +77,14 @@ export class MovieDetailsComponent implements OnInit {
     return this.movie.genres?.map((g: { name: string }) => g.name).join(", ") || ""
   }
 
-  fetchUserLists() {
+  fetchUserLists(): void {
     this.listService.getUserLists().subscribe((data) => {
       this.userLists = data.results || []
       this.checkMovieInLists()
     })
   }
 
-  checkMovieInLists() {
+  checkMovieInLists(): void {
     this.userLists.forEach((list) => {
       this.listService.getListMovies(list.id).subscribe((listData) => {
         this.movieInLists[list.id] = listData.items.some((item: any) => item.id === this.movie.id)
@@ -92,7 +92,7 @@ export class MovieDetailsComponent implements OnInit {
     })
   }
 
-  toggleMovieInList(listId: number) {
+  toggleMovieInList(listId: number): void {
     if (this.movieInLists[listId]) {
       this.listService.removeFromCustomList(listId, this.movie.id).subscribe(() => {
         this.movieInLists[listId] = false
@@ -104,7 +104,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  openRatingPopup() {
+  openRatingPopup(): void {
     if (this.isUserLoggedIn()) {
       this.showRatingPopup = true
     } else {
@@ -112,11 +112,11 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  closeRatingPopup() {
+  closeRatingPopup(): void {
     this.showRatingPopup = false
   }
 
-  rateMovie(rating: number) {
+  rateMovie(rating: number): void {
     this.userRating = rating
     this.movieService.rateMovie(this.movie.id, rating).subscribe(() => {
       console.log(`Rated ${this.movie.title} with ${rating} stars.`)
@@ -124,31 +124,31 @@ export class MovieDetailsComponent implements OnInit {
     })
   }
 
-  fetchFavorites() {
+  fetchFavorites(): void {
     this.movieService.getFavorites().subscribe((data) => {
       this.isFavorite = data.results.some((fav: any) => fav.id === this.movie.id)
     })
   }
 
-  fetchWatchlist() {
+  fetchWatchlist(): void {
     this.movieService.getWatchlist().subscribe((data) => {
       this.isInWatchlist = data.results.some((watch: any) => watch.id === this.movie.id)
     })
   }
 
-  toggleFavorite() {
+  toggleFavorite(): void {
     this.movieService.addToFavorites(this.movie.id).subscribe(() => {
       this.isFavorite = !this.isFavorite
     })
   }
 
-  toggleWatchlist() {
+  toggleWatchlist(): void {
     this.movieService.addToWatchlist(this.movie.id).subscribe(() => {
       this.isInWatchlist = !this.isInWatchlist
     })
   }
 
-  createList() {
+  createList(): void {
     this.listService.createList(this.newListName, this.newListDescription).subscribe(() => {
       this.newListName = ""
       this.newListDescription = ""
@@ -161,7 +161,7 @@ export class MovieDetailsComponent implements OnInit {
     return num.toLocaleString("en-US")
   }
 
-  goBack() {
+  goBack(): void {
     const lastPage = localStorage.getItem('lastPageUrl');
     if (lastPage) {
       window.history.back();
@@ -170,7 +170,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  login() {
+  login(): void {
     this.authService.redirectToAuth()
   }
 
@@ -178,7 +178,7 @@ export class MovieDetailsComponent implements OnInit {
     return !!localStorage.getItem("session_id")
   }
 
-  openModal(modalId: string) {
+  openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId)
     if (modalElement) {
       modalElement.style.display = "block"
@@ -187,7 +187,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  closeModal(modalId: string) {
+  closeModal(modalId: string): void {
     const modalElement = document.getElementById(modalId)
     if (modalElement) {
       modalElement.style.display = "none"
@@ -196,7 +196,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  openActionModal(action: string, extra?: any) {
+  openActionModal(action: string, extra?: any): void {
     if (!this.isUserLoggedIn()) {
       this.openModal("loginModal")
     } else {
@@ -217,7 +217,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  openListCreationModal() {
+  openListCreationModal(): void {
     if (this.isUserLoggedIn()) {
       this.openModal("listCreationModal")
     } else {
@@ -225,7 +225,7 @@ export class MovieDetailsComponent implements OnInit {
     }
   }
 
-  setDefaultImage(event: Event) {
+  setDefaultImage(event: Event): void {
     (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
   }
 }

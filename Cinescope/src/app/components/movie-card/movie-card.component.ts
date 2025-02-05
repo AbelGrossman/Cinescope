@@ -33,7 +33,9 @@ export class MovieCardComponent implements OnInit {
   @ViewChild('titleWrapper') titleWrapper!: ElementRef;
   isScrolling = false;
   scrollDistance = 0;
+
   constructor(public authService: AuthService) {}
+
   ngOnInit(): void {
     if (this.movie && this.movie.id) {
       this.fetchUserLists();
@@ -42,9 +44,11 @@ export class MovieCardComponent implements OnInit {
       this.checkUserRating();
     }
   }
-  setDefaultImage(event: Event) {
+
+  setDefaultImage(event: Event): void {
     (event.target as HTMLImageElement).src = 'assets/images/default-movie.jpg';
   }
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       const titleEl = this.movieTitle.nativeElement as HTMLElement;
@@ -57,6 +61,7 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
   checkUserRating(): void {
     this.movieService.getUserRatings().subscribe({
       next: (data) => {
@@ -70,6 +75,7 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
   fetchUserLists(): void {
     this.listService.getUserLists().subscribe({
       next: (data) => {
@@ -85,6 +91,7 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
   fetchFavorites(): void {
     this.movieService.getFavorites().subscribe({
       next: (data) => {
@@ -95,6 +102,7 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
   fetchWatchlist(): void {
     this.movieService.getWatchlist().subscribe({
       next: (data) => {
@@ -105,9 +113,11 @@ export class MovieCardComponent implements OnInit {
       }
     });
   }
+
   isActive(): boolean {
     return this.activeMovieId === this.movie?.id;
   }
+
   toggleActions(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -117,12 +127,14 @@ export class MovieCardComponent implements OnInit {
       this.toggleMovie.emit(this.movie?.id);
     }
   }
+
   hideActions(): void {
     if (this.isActive()) {
       this.toggleMovie.emit(null);
     }
   }
-  openActionModal(event: Event) {
+
+  openActionModal(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     if (!this.isUserLoggedIn()) {
@@ -131,7 +143,8 @@ export class MovieCardComponent implements OnInit {
       this.toggleActions(event);
     }
   }
-  openModal(modalId: string) {
+
+  openModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
       modalElement.style.display = 'block';
@@ -140,7 +153,8 @@ export class MovieCardComponent implements OnInit {
       modalElement.style.opacity = '1';
     }
   }
-  closeModal(modalId: string) {
+
+  closeModal(modalId: string): void {
     const modalElement = document.getElementById(modalId);
     if (modalElement) {
       modalElement.style.display = 'none';
@@ -149,14 +163,17 @@ export class MovieCardComponent implements OnInit {
       modalElement.style.opacity = '0';
     }
   }
+
   isUserLoggedIn(): boolean {
     return !!localStorage.getItem('session_id');
   }
+
   toggleListDropdown(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.isListDropdownOpen = !this.isListDropdownOpen;
   }
+
   toggleFavorite(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -171,6 +188,7 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
+
   toggleWatchlist(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
@@ -185,6 +203,7 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
+
   toggleCustomList(event: Event, listId: number): void {
     event.preventDefault();
     event.stopPropagation();
@@ -199,15 +218,18 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
+
   getListName(listId: number): string {
     const list = this.userLists.find(l => l.id === listId);
     return list ? list.name : '';
   }
+
   toggleRate(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     this.showRatingPopup = true;
   }
+
   updateRating(newRating: number): void {
     if (newRating > 0) {
       this.movieService.rateMovie(this.movie.id, newRating).subscribe(() => {
@@ -219,7 +241,9 @@ export class MovieCardComponent implements OnInit {
       });
     }
   }
+
   closeRatingPopup(): void {
     this.showRatingPopup = false;
   }
+
 }

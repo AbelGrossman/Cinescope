@@ -27,7 +27,7 @@ export class FilterComponent {
 
   voteCountOptions: number[] = [100, 500, 1000, 5000, 10000, 50000];
 
-  ngOnInit() {
+  ngOnInit(): void {
     const savedFilters = localStorage.getItem('movieFilters');
     if (savedFilters) {
       this.filters = JSON.parse(savedFilters);
@@ -35,7 +35,7 @@ export class FilterComponent {
     }
   }
 
-  applyFilters() {
+  applyFilters(): void {
   if (!this.filters.genre && !this.filters.minRating && !this.filters.year) {
     localStorage.removeItem('movieFilters');
   } else {
@@ -44,7 +44,7 @@ export class FilterComponent {
   this.filtersChanged.emit(this.filters);
 }
 
-  toggleSortOrder() {
+  toggleSortOrder(): void {
     this.isAscending = !this.isAscending;
     this.filters.sortOrder = this.filters.sortOrder === 'desc' ? 'asc' : 'desc';
     this.applyFilters();  

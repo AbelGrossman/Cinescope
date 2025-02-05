@@ -33,7 +33,7 @@ export class FavoritesComponent implements OnInit {
   };
 
 
-  ngOnInit() {
+  ngOnInit(): void {
       this.router.events.subscribe(event => {
         if (event instanceof NavigationStart) {
           localStorage.setItem('lastPageUrl', event.url);
@@ -50,7 +50,7 @@ export class FavoritesComponent implements OnInit {
       });
     }
 
-  loadFavorites() {
+  loadFavorites(): void {
       if (this.isLoading || this.currentPage > this.totalPages) return;
       this.isLoading = true;
     
@@ -80,7 +80,7 @@ export class FavoritesComponent implements OnInit {
       });
     }
 
-    applyFilters() {
+    applyFilters(): void {
       this.filteredMovies = this.favoriteMovies
         .filter(movie => 
           (!this.filters.minRating || movie.vote_average >= this.filters.minRating) &&
@@ -103,21 +103,9 @@ export class FavoritesComponent implements OnInit {
       console.log("Filtered Movies:", this.filteredMovies);
     }
 
-    onFiltersChanged(newFilters: any) {
+    onFiltersChanged(newFilters: any): void {
       this.filters = newFilters;
       localStorage.setItem('accountFilters', JSON.stringify(this.filters));
-      this.applyFilters();
-    }
-  
-    resetFilters() {
-      this.filters = {
-        minRating: '',
-        year: '',
-        minVoteCount: '',
-        sortBy: 'popularity',
-        sortOrder: 'desc'
-      };
-      localStorage.removeItem('accountFilters');
       this.applyFilters();
     }
 

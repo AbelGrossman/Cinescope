@@ -20,7 +20,7 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/authentication/token/new?api_key=${this.apiKey}`);
   }
 
-  redirectToAuth() {
+  redirectToAuth(): void {
     this.getRequestToken().subscribe(response => {
       if (response.success) {
         const requestToken = response.request_token;
